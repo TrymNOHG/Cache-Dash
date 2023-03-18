@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2105.g6.backend.authentication;
+package edu.ntnu.idatt2105.g6.backend.security;
 
-import edu.ntnu.idatt2105.g6.backend.services.JwtService;
+import edu.ntnu.idatt2105.g6.backend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2105.g6.backend.authentication;
+package edu.ntnu.idatt2105.g6.backend.security;
 
 import edu.ntnu.idatt2105.g6.backend.repo.UserRepository;
 import org.springframework.context.annotation.Bean;

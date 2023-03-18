@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2105.g6.backend.services;
+package edu.ntnu.idatt2105.g6.backend.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

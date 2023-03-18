@@ -1,8 +1,8 @@
-package edu.ntnu.idatt2105.g6.backend.services;
+package edu.ntnu.idatt2105.g6.backend.service;
 
-import edu.ntnu.idatt2105.g6.backend.authentication.AuthenticationRequest;
-import edu.ntnu.idatt2105.g6.backend.authentication.AuthenticationResponse;
-import edu.ntnu.idatt2105.g6.backend.authentication.RegisterRequest;
+import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
+import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
+import edu.ntnu.idatt2105.g6.backend.security.RegisterRequest;
 import edu.ntnu.idatt2105.g6.backend.model.Role;
 import edu.ntnu.idatt2105.g6.backend.model.User;
 import edu.ntnu.idatt2105.g6.backend.repo.UserRepository;

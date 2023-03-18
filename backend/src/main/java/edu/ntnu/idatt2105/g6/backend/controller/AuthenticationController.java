@@ -1,9 +1,9 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
-import edu.ntnu.idatt2105.g6.backend.authentication.AuthenticationRequest;
-import edu.ntnu.idatt2105.g6.backend.authentication.AuthenticationResponse;
-import edu.ntnu.idatt2105.g6.backend.authentication.RegisterRequest;
-import edu.ntnu.idatt2105.g6.backend.services.AuthenticationService;
+import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
+import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
+import edu.ntnu.idatt2105.g6.backend.security.RegisterRequest;
+import edu.ntnu.idatt2105.g6.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

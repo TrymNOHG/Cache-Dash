@@ -1,30 +1,21 @@
 package edu.ntnu.idatt2105.g6.backend.model;
 
-import java.util.Collection;
-import java.util.List;
-
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
-import lombok.NonNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -45,7 +36,7 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     @NonNull
     private Role role;
-
+    //TODO: can User have multiple Role?
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,5 +67,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return Objects.equals(getUsername(), user.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
