@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2105.g6.backend.security;
+package edu.ntnu.idatt2105.g6.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class UserCreationDTO {
 
     private String username;
-
     private String password;
+
 }
