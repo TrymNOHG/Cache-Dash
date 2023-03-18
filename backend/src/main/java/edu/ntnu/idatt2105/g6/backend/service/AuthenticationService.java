@@ -1,8 +1,8 @@
 package edu.ntnu.idatt2105.g6.backend.service;
 
+import edu.ntnu.idatt2105.g6.backend.dto.UserCreationDTO;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
-import edu.ntnu.idatt2105.g6.backend.security.RegisterRequest;
 import edu.ntnu.idatt2105.g6.backend.model.Role;
 import edu.ntnu.idatt2105.g6.backend.model.User;
 import edu.ntnu.idatt2105.g6.backend.repo.UserRepository;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService{
 
     private final UserRepository userRepository;
 
@@ -27,14 +27,14 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(UserCreationDTO userDTO) {
         User user = User
                 .builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .username(userDTO.getUsername())
+                .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role(Role.USER)
                 .build();
-        if (userRepository.findByUsername(request.getUsername()).isPresent())
+        if (userRepository.findByUsername(userDTO.getUsername()).isPresent())
             throw new IllegalStateException("Username already exists");
         userRepository.save(user);
 
@@ -53,7 +53,7 @@ public class AuthenticationService {
                 )
         );
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("UgaBoga username not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
         String jwtToken = jwtService.generateToken(user);
 

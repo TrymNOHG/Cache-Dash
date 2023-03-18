@@ -32,6 +32,10 @@ public class User implements UserDetails {
     @NonNull
     private String password;
 
+    @Column(name = "email", nullable = false)
+    @NonNull
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     @NonNull
