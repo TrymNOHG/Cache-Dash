@@ -58,9 +58,19 @@ public class User implements UserDetails {
     @ToString.Exclude
     private List<Item> listedItems = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Item> bookmarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user1")
+    @ToString.Exclude
+    private List<Conversation> conversations1 = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user2")
+    @ToString.Exclude
+    private List<Conversation> conversations2 = new ArrayList<>();
+
+    //TODO: improve Two-To-Many relationship
 
 
     @Override

@@ -15,6 +15,7 @@ import lombok.*;
 public class PictureGallery {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "picture_id", nullable = false)
     @NonNull
     private Long pictureGalleryId;

@@ -15,6 +15,7 @@ import lombok.*;
 public class KeyInfo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "key_info_id", nullable = false)
     @NonNull
     private Long keyInfoId;

@@ -18,6 +18,7 @@ import java.util.List;
 public class Item {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
     @NonNull
     private Long itemId;
@@ -63,6 +64,6 @@ public class Item {
 
     @OneToMany
     @ToString.Exclude
-    private List<User> bookmarkers = new ArrayList<>();
+    private List<User> bookmarkerList = new ArrayList<>();
 
 }
