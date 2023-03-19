@@ -3,6 +3,9 @@ package edu.ntnu.idatt2105.g6.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -16,7 +19,8 @@ public class Item {
 
     @Id
     @Column(name = "item_id", nullable = false)
-    private long id;
+    @NonNull
+    private Long itemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
@@ -52,5 +56,9 @@ public class Item {
 
     @Column(name = "thumbnail")
     private byte[] thumbnail;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<KeyInfo> keyInfoList = new ArrayList<>();
 
 }
