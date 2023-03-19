@@ -56,7 +56,11 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Item> bookmarkedItems = new ArrayList<>();
+    private List<Item> listedItems = new ArrayList<>();
+
+    @OneToMany
+    @ToString.Exclude
+    private List<Item> bookmarks = new ArrayList<>();
 
 
     @Override

@@ -61,4 +61,8 @@ public class Item {
     @ToString.Exclude
     private List<KeyInfo> keyInfoList = new ArrayList<>();
 
+    @OneToMany
+    @ToString.Exclude
+    private List<User> bookmarkers = new ArrayList<>();
+
 }
