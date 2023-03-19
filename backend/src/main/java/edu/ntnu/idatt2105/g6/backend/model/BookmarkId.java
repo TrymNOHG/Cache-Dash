@@ -6,14 +6,14 @@ import java.util.Objects;
 public class BookmarkId implements Serializable {
 
     private Long itemId;
-    private Long userId;
+    private String username;
 
     public BookmarkId() {
     }
 
-    public BookmarkId(Long itemId, Long userId) {
+    public BookmarkId(Long itemId, String username) {
         this.itemId = itemId;
-        this.userId = userId;
+        this.username = username;
     }
 
     @Override
@@ -22,13 +22,13 @@ public class BookmarkId implements Serializable {
         if (!(o instanceof BookmarkId that)) return false;
 
         if (!Objects.equals(itemId, that.itemId)) return false;
-        return Objects.equals(userId, that.userId);
+        return Objects.equals(username, that.username);
     }
 
     @Override
     public int hashCode() {
         int result = itemId != null ? itemId.hashCode() : 0;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
         return result;
     }
 }

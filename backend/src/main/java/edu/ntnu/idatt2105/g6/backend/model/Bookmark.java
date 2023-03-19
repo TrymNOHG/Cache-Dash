@@ -16,16 +16,18 @@ import lombok.*;
 public class Bookmark {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("itemId")
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private Item item;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @MapsId("username")
+    @JoinColumn(name = "username", nullable = false)
+    @NonNull
     @ToString.Exclude
     private User user;
 }
