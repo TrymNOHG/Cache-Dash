@@ -8,11 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Blob;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -51,6 +47,10 @@ public class User implements UserDetails {
     @Column(name = "profile_picture")
     @Lob
     private byte[] picture;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Item> bookmarkedItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
