@@ -8,7 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Blob;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +22,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -32,9 +34,23 @@ public class User implements UserDetails {
     @NonNull
     private String password;
 
+    @Column(name = "full_name", nullable = false)
+    @NonNull
+    private String fullName;
+
     @Column(name = "email", nullable = false)
     @NonNull
     private String email;
+
+    @Column(name = "birth_date")
+    private Date birthDate;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "profile_picture")
+    @Lob
+    private byte[] picture;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
