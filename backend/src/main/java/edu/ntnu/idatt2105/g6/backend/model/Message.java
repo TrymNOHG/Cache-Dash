@@ -3,8 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -14,29 +13,33 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @Entity
-@Table(name = "conversations")
-public class Conversation {
+@Table(name = "messages")
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conversation_id", nullable = false)
+    @Column(name = "message_id", nullable = false)
     @NonNull
-    private Long conversationId;
+    private Long messageId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conversation_id")
+    @NonNull
+    @ToString.Exclude
+    private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
     @NonNull
     @ToString.Exclude
-    private User user1;
+    private User sender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username")
+    @Column(name = "message", nullable = false)
     @NonNull
-    @ToString.Exclude
-    private User user2;
+    private String message;
 
-    @OneToMany(mappedBy = "conversation")
-    @ToString.Exclude
-    private List<Message> messages = new ArrayList<>();
+    @Column(name = "time_sent", nullable = false)
+    @NonNull
+    private Timestamp timestamp;
 
 }

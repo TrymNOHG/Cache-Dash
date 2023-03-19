@@ -70,6 +70,10 @@ public class User implements UserDetails {
     @ToString.Exclude
     private List<Conversation> conversations2 = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sender")
+    @ToString.Exclude
+    private List<Message> messages = new ArrayList<>();
+
     //TODO: improve Two-To-Many relationship
 
 
