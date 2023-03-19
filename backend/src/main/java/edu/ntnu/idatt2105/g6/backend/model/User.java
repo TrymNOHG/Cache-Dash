@@ -48,15 +48,16 @@ public class User implements UserDetails {
     @Lob
     private byte[] picture;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private List<Item> bookmarkedItems = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     @NonNull
     private Role role;
     //TODO: can User have multiple Role?
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Item> bookmarkedItems = new ArrayList<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
