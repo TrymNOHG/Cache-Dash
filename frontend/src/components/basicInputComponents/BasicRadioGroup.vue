@@ -7,7 +7,7 @@
       'horizontal': !vertical
     }"
   >
-    <BaseRadio
+    <BasicRadio
         :label="option.label"
         :value="option.value"
         :modelValue="modelValue"
@@ -18,7 +18,10 @@
 </template>
 
 <script>
+import BasicRadio from "@/components/basicInputComponents/BasicRadio.vue";
+
 export default {
+  components: {BasicRadio},
   props: {
     options: {
       type: Array,

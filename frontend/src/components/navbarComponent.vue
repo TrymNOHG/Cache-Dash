@@ -1,34 +1,22 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/Logo.svg" width="140" height="205" />
-
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/simpleForm">simpleForm</RouterLink>
-        <RouterLink to="/notFound">NotFound</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <RouterView/>
-  </main>
+  <div class="wrapper">
+    <nav>
+      <RouterLink to="/">About</RouterLink>
+      <RouterLink to="/signeUp">Feedback</RouterLink>
+    </nav>
+  </div>
+  <RouterView />
 </template>
+
+<script>
+
+</script>
 
 <style scoped>
 header {
   display: flex;
   text-align: center;
   background-color: white;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 nav {
@@ -38,13 +26,6 @@ nav {
   margin-top: 2rem;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
 
 nav a {
   display: inline-block;
@@ -63,11 +44,7 @@ nav a:first-of-type {
     padding-right: calc(var(--section-gap) / 2);
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
+  .wrapper, header{
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
