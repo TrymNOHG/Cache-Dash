@@ -16,7 +16,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
 @NoArgsConstructor
 @Entity
@@ -35,6 +34,10 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false)
     @NonNull
     private String email;
+
+    @Column(name = "full_name", nullable = false)
+    @NonNull
+    private String fullName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
