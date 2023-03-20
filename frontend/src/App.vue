@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import i18n from "@/locales/i18n";
 </script>
 
 <template>
@@ -8,9 +9,13 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <div class="wrapper">
       <ul>
-        <RouterLink to="/simpleForm">Chat</RouterLink>
-        <RouterLink to="/notFound">New Item</RouterLink>
-        <RouterLink to="/notFound">Auction</RouterLink>
+        <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
+        <RouterLink to="/notFound">{{ $t ("newItem") }}</RouterLink>
+        <RouterLink to="/notFound">{{ $t ("auctions") }}</RouterLink>
+        <div class="language" @click="changeLanguage()">{{language}}</div>
+        <router-link to="/profile" class="profile-link">
+          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+        </router-link>
       </ul>
     </div>
   </header>
@@ -20,63 +25,128 @@ import { RouterLink, RouterView } from 'vue-router'
   </main>
 </template>
 
+<script>
+export default {
+  data(){
+    return{
+      language: "NO",
+    }
+  },
+  methods: {
+    changeLanguage() {
+      if (this.language === "NO"){
+        i18n.global.locale = "no"
+        this.language = "EN";
+      } else {
+        i18n.global.locale = "en"
+        this.language = "NO"
+
+      }
+    }
+  }
+}
+</script>
+
+
 <style>
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #475B5A;
+  padding: 1rem;
+}
+
+.logo {
+  display: block;
+  margin-right: 2rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
 ul {
-  list-style-type: none;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-right: 1rem;
+}
+
+a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #D9D9D9;
+  color: black;
+  margin: 5px;
+  min-width: 2rem;
+  text-align: center;
+  border-radius: 0.25rem;
+}
+
+.language {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #D9D9D9;
+  color: black;
+  min-width: 2rem;
+  text-align: center;
+  border-radius: 0.25rem;
+  margin-right: 1rem;
+}
+
+.language:hover {
+  background-color: rgba(18, 33, 34, 0.81);
+  color: #818b96;
+}
+
+.profile-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  color: #fff;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-left: 1rem;
 }
 
 main{
   text-align: center;
 }
 
-header {
-  display: flex;
-  align-items: end;
-  text-align: end;
-  background-color: #475B5A;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-a {
-  width: 30px;
-  padding: 10px;
-  margin: 5px;
-  background-color: #D9D9D9;
-  color: black;
-}
-
-
-@media (min-width: 1024px) {
+@media (max-width: 768px) {
   header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-    flex-direction: row-reverse;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    text-align: center;
   }
 
   .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    margin: 0 0 1rem 0;
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
     margin-top: 1rem;
+  }
+
+  ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  li {
+    margin: 0.5rem;
   }
 }
 </style>
