@@ -24,6 +24,10 @@ ul {
   list-style-type: none;
 }
 
+main{
+  text-align: center;
+}
+
 header {
   display: flex;
   text-align: center;
