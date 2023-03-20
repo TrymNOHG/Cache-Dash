@@ -5,23 +5,8 @@ import lombok.*;
 import java.sql.Timestamp;
 
 @Data
-@Builder
-@Getter
-@Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
-public class MessageDTO {
+@EqualsAndHashCode(callSuper = true)
+public record MessageDTO(@NonNull Long conversationId,  @NonNull String username,
+                         @NonNull String message, Timestamp timestamp) {
 
-    @NonNull
-    private Long conversationId;
-
-    @NonNull
-    private String username;
-
-    @NonNull
-    private String message;
-
-    @NonNull
-    private Timestamp timestamp;
 }
