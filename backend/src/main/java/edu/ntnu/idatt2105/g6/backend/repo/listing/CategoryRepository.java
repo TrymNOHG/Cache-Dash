@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2105.g6.backend.repo;
+package edu.ntnu.idatt2105.g6.backend.repo.listing;
 
-import edu.ntnu.idatt2105.g6.backend.model.Category;
+import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

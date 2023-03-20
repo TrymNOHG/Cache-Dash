@@ -1,5 +1,8 @@
-package edu.ntnu.idatt2105.g6.backend.model;
+package edu.ntnu.idatt2105.g6.backend.model.users;
 
+import edu.ntnu.idatt2105.g6.backend.model.chat.Conversation;
+import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
+import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;

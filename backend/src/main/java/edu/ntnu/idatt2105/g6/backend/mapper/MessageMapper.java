@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.mapper;
 
-import edu.ntnu.idatt2105.g6.backend.dto.MessageDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageDTO;
 
 import java.sql.Timestamp;
 import java.util.Date;

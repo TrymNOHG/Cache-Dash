@@ -1,5 +1,6 @@
-package edu.ntnu.idatt2105.g6.backend.model;
+package edu.ntnu.idatt2105.g6.backend.model.listing;
 
+import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,5 +1,6 @@
-package edu.ntnu.idatt2105.g6.backend.model;
+package edu.ntnu.idatt2105.g6.backend.model.chat;
 
+import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 

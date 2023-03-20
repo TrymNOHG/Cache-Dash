@@ -1,6 +1,5 @@
-package edu.ntnu.idatt2105.g6.backend.dto;
+package edu.ntnu.idatt2105.g6.backend.dto.listing;
 
-import edu.ntnu.idatt2105.g6.backend.model.User;
 import lombok.*;
 
 @Data
@@ -13,7 +12,7 @@ import lombok.*;
 public class ListingDTO {
 
     @NonNull
-    private User user;
+    private String username;
 
     @NonNull
     private String briefDesc;

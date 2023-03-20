@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.model;
 
+import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2105.g6.backend.dto;
+package edu.ntnu.idatt2105.g6.backend.dto.chat;
 
-import edu.ntnu.idatt2105.g6.backend.model.Message;
+import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
 import lombok.*;
 
 import java.util.List;

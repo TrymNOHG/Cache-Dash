@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2105.g6.backend.dto;
+package edu.ntnu.idatt2105.g6.backend.dto.users;
 
-import edu.ntnu.idatt2105.g6.backend.model.Role;
+import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import lombok.*;
 
 import java.util.Date;

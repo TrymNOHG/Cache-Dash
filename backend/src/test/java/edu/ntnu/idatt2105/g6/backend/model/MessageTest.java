@@ -1,9 +1,11 @@
 package edu.ntnu.idatt2105.g6.backend.model;
 
+import edu.ntnu.idatt2105.g6.backend.model.chat.Conversation;
+import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
+import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 

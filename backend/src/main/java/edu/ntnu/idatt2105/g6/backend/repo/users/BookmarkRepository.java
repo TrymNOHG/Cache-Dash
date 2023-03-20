@@ -1,7 +1,7 @@
-package edu.ntnu.idatt2105.g6.backend.repo;
+package edu.ntnu.idatt2105.g6.backend.repo.users;
 
-import edu.ntnu.idatt2105.g6.backend.model.Bookmark;
-import edu.ntnu.idatt2105.g6.backend.model.BookmarkId;
+import edu.ntnu.idatt2105.g6.backend.model.users.Bookmark;
+import edu.ntnu.idatt2105.g6.backend.model.users.BookmarkId;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
