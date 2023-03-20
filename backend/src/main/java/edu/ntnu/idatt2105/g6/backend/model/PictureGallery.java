@@ -26,7 +26,6 @@ public class PictureGallery {
     private Item item;
 
     @Column(name = "picture", nullable = false)
-    @NonNull
     @Lob
     private byte @NonNull [] picture;
 
