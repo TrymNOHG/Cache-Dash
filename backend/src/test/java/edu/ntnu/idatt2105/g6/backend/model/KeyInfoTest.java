@@ -3,9 +3,6 @@ package edu.ntnu.idatt2105.g6.backend.model;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class KeyInfoTest {
