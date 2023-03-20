@@ -55,6 +55,7 @@ public class Item {
     private Category category;
 
     @Column(name = "price", nullable = false)
+    @NonNull
     private double price;
 
     @Column(name = "thumbnail")

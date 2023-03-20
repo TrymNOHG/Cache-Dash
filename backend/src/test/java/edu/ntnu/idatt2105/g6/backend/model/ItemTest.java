@@ -19,7 +19,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(null, user, "test",  71.1655, 25.7992, "Troms og Finnmark",new Category("Mercedes", "Cars"));
+                Item item = new Item(null, user, "test",  71.1655, 25.7992, "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
             });
         }
 
@@ -28,7 +28,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, null, "test",  71.1655, 25.7992, "Troms og Finnmark",new Category("Mercedes", "Cars"));
+                Item item = new Item(1L, null, "test",  71.1655, 25.7992, "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
             });
         }
 
@@ -37,7 +37,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, null,  71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"));
+                Item item = new Item(1L, user, null,  71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
             });
         }
 
@@ -46,7 +46,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, "test",  71.1655, 25.7992, null, new Category("Mercedes", "Cars"));
+                Item item = new Item(1L, user, "test",  71.1655, 25.7992, null, new Category("Mercedes", "Cars"),  200000);
             });
         }
 
@@ -55,7 +55,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", null);
+                Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", null ,200000);
             });
         }
 
@@ -68,7 +68,7 @@ class ItemTest {
         void item_id_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category);
+            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setItemId(null);
             });
@@ -78,7 +78,7 @@ class ItemTest {
         void user_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category);
+            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setUser(null);
             });
@@ -88,7 +88,7 @@ class ItemTest {
         void brief_description_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category);
+            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setBriefDesc(null);
             });
@@ -98,7 +98,7 @@ class ItemTest {
         void county_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category);
+            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setCounty(null);
             });
@@ -108,7 +108,7 @@ class ItemTest {
         void category_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category);
+            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setCategory(null);
             });
