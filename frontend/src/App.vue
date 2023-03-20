@@ -4,12 +4,13 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/Logo.svg" width="140" height="205" />
+    <img alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
 
     <div class="wrapper">
       <ul>
-        <RouterLink to="/simpleForm">simpleForm</RouterLink>
-        <RouterLink to="/notFound">NotFound</RouterLink>
+        <RouterLink to="/simpleForm">Chat</RouterLink>
+        <RouterLink to="/notFound">New Item</RouterLink>
+        <RouterLink to="/notFound">Auction</RouterLink>
       </ul>
     </div>
   </header>
@@ -30,49 +31,33 @@ main{
 
 header {
   display: flex;
-  text-align: center;
-  background-color: white;
+  align-items: end;
+  text-align: end;
+  background-color: #475B5A;
 }
 
 .logo {
   display: block;
   margin: 0 auto 2rem;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  border-left: 1px solid var(--color-border);
-  padding: 10px;
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
 a {
+  width: 30px;
   padding: 10px;
+  margin: 5px;
+  background-color: #D9D9D9;
+  color: black;
 }
+
 
 @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .logo {
