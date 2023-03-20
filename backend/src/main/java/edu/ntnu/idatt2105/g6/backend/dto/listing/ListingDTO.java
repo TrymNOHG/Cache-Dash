@@ -1,6 +1,9 @@
 package edu.ntnu.idatt2105.g6.backend.dto.listing;
 
+import edu.ntnu.idatt2105.g6.backend.model.listing.KeyInfo;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -33,4 +36,5 @@ public class ListingDTO {
     @NonNull
     private double price;
     private byte[] thumbnail;
+    private List<KeyInfo> keyInfoList;
 }

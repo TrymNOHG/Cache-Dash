@@ -64,7 +64,7 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<KeyInfo> keyInfoList = new ArrayList<>();
+    private List<KeyInfo> keyInfoList;
 
     @OneToMany
     @ToString.Exclude
