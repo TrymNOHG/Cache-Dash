@@ -4,6 +4,7 @@ import notFound from "@/components/NotFoundComponent.vue";
 import SignUp from "@/views/SignUp.vue";
 import simpleForm from "@/views/simpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
+import mainpageView from "@/views/mainpageView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +30,12 @@ const router = createRouter({
             name: '404Resource',
             component: NotFound,
             props: true
-        }
+        },
+        {
+            path: '/',
+            name: 'mainpage',
+            component: mainpageView,
+        },
 
     ]
 })
