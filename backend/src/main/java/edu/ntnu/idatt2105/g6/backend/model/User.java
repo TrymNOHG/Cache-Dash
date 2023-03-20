@@ -38,6 +38,12 @@ public class User implements UserDetails {
     @NonNull
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    @NonNull
+    private Role role;
+    //TODO: can User have multiple Role?
+
     @Column(name = "birth_date")
     private Date birthDate;
 
@@ -48,11 +54,7 @@ public class User implements UserDetails {
     @Lob
     private byte[] picture;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    @NonNull
-    private Role role;
-    //TODO: can User have multiple Role?
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
