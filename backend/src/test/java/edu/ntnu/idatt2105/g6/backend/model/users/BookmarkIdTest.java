@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2105.g6.backend.model;
+package edu.ntnu.idatt2105.g6.backend.model.users;
 
 import edu.ntnu.idatt2105.g6.backend.model.users.BookmarkId;
 import org.junit.jupiter.api.Nested;

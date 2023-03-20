@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2105.g6.backend.model;
+package edu.ntnu.idatt2105.g6.backend.model.users;
 
 import edu.ntnu.idatt2105.g6.backend.model.chat.Conversation;
 import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
