@@ -24,7 +24,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(null, user, "test",  71.1655, 25.7992, "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
+                Item item = new Item(null, user, "test",  "Nordkapp", "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
             });
         }
 
@@ -33,7 +33,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, null, "test",  71.1655, 25.7992, "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
+                Item item = new Item(1L, null, "test",  "Nordkapp", "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
             });
         }
 
@@ -42,7 +42,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, null,  71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
+                Item item = new Item(1L, user, null,  "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
             });
         }
 
@@ -51,7 +51,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, "test",  71.1655, 25.7992, null, new Category("Mercedes", "Cars"),  200000);
+                Item item = new Item(1L, user, "test",  "Nordkapp", null, new Category("Mercedes", "Cars"),  200000);
             });
         }
 
@@ -60,7 +60,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", null ,200000);
+                Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", null ,200000);
             });
         }
 
@@ -73,7 +73,7 @@ class ItemTest {
         void item_id_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
+            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setItemId(null);
             });
@@ -83,7 +83,7 @@ class ItemTest {
         void user_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
+            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setUser(null);
             });
@@ -93,7 +93,7 @@ class ItemTest {
         void brief_description_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
+            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setBriefDesc(null);
             });
@@ -103,7 +103,7 @@ class ItemTest {
         void county_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
+            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setCounty(null);
             });
@@ -113,7 +113,7 @@ class ItemTest {
         void category_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  71.1655, 25.7992, "Troms og Finnmark", category, 200000);
+            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setCategory(null);
             });
@@ -130,7 +130,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(1L, item.getItemId());
         }
 
@@ -141,7 +141,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(user, item.getUser());
         }
 
@@ -152,7 +152,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("test", item.getBriefDesc());
         }
 
@@ -163,31 +163,21 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("test1", item.getFullDesc());
         }
 
         @Test
-        void latitude_getter_returns_correct_value(){
+        void address_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             Category category = new Category("Mercedes", "Cars");
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
-            assertEquals(71.1655, item.getLatitude());
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            assertEquals("Nordkapp", item.getAddress());
         }
 
-        @Test
-        void longitude_getter_returns_correct_value(){
-            User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
-            byte[] thumbnail = new byte[5];
-            List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
-            assertEquals(25.7992, item.getLongitude());
-        }
 
         @Test
         void county_getter_returns_correct_value(){
@@ -196,7 +186,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("Troms og Finnmark", item.getCounty());
         }
 
@@ -207,7 +197,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(category, item.getCategory());
         }
 
@@ -218,7 +208,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(200000, item.getPrice());
         }
 
@@ -229,7 +219,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(thumbnail, item.getThumbnail());
         }
 
@@ -240,7 +230,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(keyInfoList, item.getKeyInfoList());
         }
 
@@ -251,7 +241,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", 71.1655, 25.7992, "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(bookmarkerList, item.getBookmarkerList());
         }
     }

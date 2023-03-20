@@ -5,6 +5,6 @@ import lombok.*;
 import java.sql.Timestamp;
 
 public record MessageDTO(@NonNull Long conversationId,  @NonNull String username,
-                         @NonNull String message, Timestamp timestamp) {
+                         @NonNull String message) {
 
 }

@@ -28,7 +28,7 @@ class BookmarkTest {
         void user_id_cannot_be_null(){
             //TODO does not throw error for empty constructor
             assertThrows(NullPointerException.class, () -> {
-                Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", 71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), null);
+                Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), null);
             });
         }
 
@@ -39,7 +39,7 @@ class BookmarkTest {
 
         @Test
         void item_id_cannot_be_set_to_null(){
-            Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", 71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+            Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             assertThrows(NullPointerException.class, () -> {
                 bookmark.setUser(null);
             });
@@ -47,7 +47,7 @@ class BookmarkTest {
 
         @Test
         void user_id_cannot_be_set_to_null(){
-            Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", 71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+            Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             assertThrows(NullPointerException.class, () -> {
                 bookmark.setItem(null);
             });
@@ -61,7 +61,7 @@ class BookmarkTest {
         void item_id_getter_returns_correct_value(){
 
             User user = new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER);
-            Item item = new Item(1L, user, "test", 71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
+            Item item = new Item(1L, user, "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
             Bookmark bookmark = new Bookmark(item, user);
             assertEquals(item, bookmark.getItem());
         }
@@ -69,7 +69,7 @@ class BookmarkTest {
         @Test
         void user_id_getter_returns_correct_value(){
             User user = new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER);
-            Item item = new Item(1L, user, "test", 71.1655, 25.7992, "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
+            Item item = new Item(1L, user, "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
             Bookmark bookmark = new Bookmark(item, user);
             assertEquals(user, bookmark.getUser());
         }

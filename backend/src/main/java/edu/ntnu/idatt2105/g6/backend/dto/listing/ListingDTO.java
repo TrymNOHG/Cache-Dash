@@ -21,10 +21,8 @@ public class ListingDTO {
     private String briefDesc;
     private String fullDesc;
 
-    private double latitude;
-
     @NonNull
-    private double longitude;
+    private String address;
 
     @NonNull
     private String county;
