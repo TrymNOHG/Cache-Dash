@@ -7,10 +7,10 @@ import { RouterLink, RouterView } from 'vue-router'
     <img alt="Vue logo" class="logo" src="@/assets/Logo.svg" width="140" height="205" />
 
     <div class="wrapper">
-      <nav>
+      <ul>
         <RouterLink to="/simpleForm">simpleForm</RouterLink>
         <RouterLink to="/notFound">NotFound</RouterLink>
-      </nav>
+      </ul>
     </div>
   </header>
 
@@ -19,7 +19,11 @@ import { RouterLink, RouterView } from 'vue-router'
   </main>
 </template>
 
-<style scoped>
+<style>
+ul {
+  list-style-type: none;
+}
+
 header {
   display: flex;
   text-align: center;
@@ -48,12 +52,16 @@ nav a.router-link-exact-active:hover {
 
 nav a {
   display: inline-block;
-  padding: 0 1rem;
   border-left: 1px solid var(--color-border);
+  padding: 10px;
 }
 
 nav a:first-of-type {
   border: 0;
+}
+
+a {
+  padding: 10px;
 }
 
 @media (min-width: 1024px) {
