@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -22,6 +21,7 @@ public class KeyInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
+    @NonNull
     @ToString.Exclude
     private Item item;
 

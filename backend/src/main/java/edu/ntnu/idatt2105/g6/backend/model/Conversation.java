@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -36,6 +35,7 @@ public class Conversation {
     private User user2;
 
     @OneToMany(mappedBy = "conversation")
+    @NonNull
     @ToString.Exclude
     private List<Message> messages = new ArrayList<>();
 

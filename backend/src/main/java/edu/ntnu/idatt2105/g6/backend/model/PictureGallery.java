@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -22,10 +21,12 @@ public class PictureGallery {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
+    @NonNull
     @ToString.Exclude
     private Item item;
 
     @Column(name = "picture", nullable = false)
+    @NonNull
     @Lob
     private byte @NonNull [] picture;
 
