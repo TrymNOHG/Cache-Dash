@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConversationDTO {
+public class ConversationLoadDTO {
 
     //TODO: test that messages are sorted by timestamp;
     @NonNull

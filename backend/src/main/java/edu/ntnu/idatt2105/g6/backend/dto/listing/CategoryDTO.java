@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryCreationDTO {
+public class CategoryDTO {
 
     @NonNull
     private String subCategory;

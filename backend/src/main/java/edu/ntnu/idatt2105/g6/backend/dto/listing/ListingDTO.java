@@ -18,7 +18,6 @@ public class ListingDTO {
     private String briefDesc;
     private String fullDesc;
 
-    @NonNull
     private double latitude;
 
     @NonNull

@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.service;
 
-import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreationDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
@@ -27,7 +27,7 @@ public class AuthenticationService implements IAuthenticationService{
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(UserCreationDTO userDTO) {
+    public AuthenticationResponse register(UserDTO userDTO) {
         User user = User
                 .builder()
                 .username(userDTO.getUsername())
