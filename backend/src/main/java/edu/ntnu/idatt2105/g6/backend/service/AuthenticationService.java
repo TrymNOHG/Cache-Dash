@@ -33,6 +33,8 @@ public class AuthenticationService implements IAuthenticationService{
                 .username(userDTO.getUsername())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role(Role.USER)
+                .fullName(userDTO.getFullName())
+                .email(userDTO.getEmail())
                 .build();
         if (userRepository.findByUsername(userDTO.getUsername()).isPresent())
             throw new IllegalStateException("Username already exists");
