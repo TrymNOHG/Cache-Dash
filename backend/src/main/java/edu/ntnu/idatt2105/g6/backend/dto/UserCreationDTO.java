@@ -16,4 +16,5 @@ public class UserCreationDTO {
     private String fullName;
     private String email;
 
+
 }

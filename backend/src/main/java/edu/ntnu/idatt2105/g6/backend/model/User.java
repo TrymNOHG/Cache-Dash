@@ -8,18 +8,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -31,19 +30,52 @@ public class User implements UserDetails {
     @NonNull
     private String password;
 
+    @Column(name = "full_name", nullable = false)
+    @NonNull
+    private String fullName;
+
     @Column(name = "email", nullable = false)
     @NonNull
     private String email;
 
-    @Column(name = "full_name", nullable = false)
-    @NonNull
-    private String fullName;
+    @Column(name = "birth_date")
+    private Date birthDate;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "profile_picture")
+    @Lob
+    private byte[] picture;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     @NonNull
     private Role role;
     //TODO: can User have multiple Role?
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Item> listedItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Item> bookmarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user1")
+    @ToString.Exclude
+    private List<Conversation> conversations1 = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user2")
+    @ToString.Exclude
+    private List<Conversation> conversations2 = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender")
+    @ToString.Exclude
+    private List<Message> messages = new ArrayList<>();
+
+    //TODO: improve Two-To-Many relationship
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
