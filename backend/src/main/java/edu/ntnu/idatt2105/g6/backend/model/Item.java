@@ -37,9 +37,11 @@ public class Item {
     private String fullDesc;
 
     @Column(name = "latitude", nullable = false)
+    @NonNull
     private double latitude;
 
     @Column(name = "longitude", nullable = false)
+    @NonNull
     private double longitude;
 
     @Column(name = "county", nullable = false)

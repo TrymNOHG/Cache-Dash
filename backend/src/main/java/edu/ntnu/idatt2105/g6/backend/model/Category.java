@@ -9,9 +9,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@NoArgsConstructor
 @Entity
 @Table(name = "categories")
 public class Category {
