@@ -1,5 +1,8 @@
 <template>
-  <register-component/>
+  <div class="grid">
+    <div></div>
+    <register-component/>
+  </div>
 </template>
 
 <script>
@@ -12,5 +15,10 @@ export default {
 </script>
 
 <style scoped>
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="userSite-window">
-    <my-items></my-items>
-    <personal-information></personal-information>
+    <my-items/>
+    <personal-information/>
   </div>
 </template>
 

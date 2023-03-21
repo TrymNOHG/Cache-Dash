@@ -2,95 +2,201 @@
   <form name="login-form" role="form" @submit="submit">
     <fieldset>
       <legend>{{$t('register')}}</legend>
-      <div class="form-group">
-        <label for="itemnameInput">{{$t('itemname')}}</label>
-        <BasicInput
-            id="itemnameInput"
-            type="text"
-            v-model="itemname"
-            :error="errors.itemname"
-            autocomplete="username"
-        />
-        <label for="priceInput">{{$t('price')}}</label>
-        <BasicInput
-            id="lastnameInput"
-            type="double"
-            v-model="price"
-            :error="errors.price"
-            autocomplete="username"
-        />
-        <label for="categoryInput">{{$t('category')}}</label>
-        <BasicInput
-            id="categoryInput"
-            type="username"
-            v-model="category"
-            :error="errors.category"
-            autocomplete="username"
-        />
-        <label for="passwordInput">{{$t('password')}}</label>
-        <BasicInput
-            id="passwordInput"
-            type="password"
-            v-model="password"
-            :error="errors.password"
-        />
-        <label for="emailInput">Email</label>
-        <BasicInput
-            id="emailInput"
-            type="email"
-            v-model="email"
-            :error="errors.email"
-            autocomplete="username"
-        />
-        <label for="dateInput">{{$t('dateOfBirth')}}</label>
-        <Dateinput
-            id="dateInput"
-            v-model="dateOfBirth"
-            :error="errors.dateOfBirth"
-            required
-        />
-        <label for="phoneNumber">{{$t('phoneNumber')}}</label>
-        <PhoneInput
-            id="phoneNumber"
-            v-model="phonenumber"
-            :error="errors.phoneNumber"
-            required
-            name="phoneNumber"
-        />
-        <div>
-          <BasicCheckbox
-              v-model="termOfService"
-          />
-          <label id="termsInput" for="termsInput" @click="$router.push('/terms')">{{ $t('termsOfService') }}</label>
-        </div>
-      </div>
-      <div class="button-group">
-        <button
-            id="submit_button"
-            :disabled="hasErrors"
-            type="submit"
-            class="-fill-gradient"
-        >
-          {{$t('register')}}
-        </button>
-        <button @click="$router.push('/login')">{{$t('login')}}</button>
-      </div>
+      <label for="itemnameInput">{{$t('itemname')}}</label>
+      <BasicInput
+          id="itemnameInput"
+          type="text"
+          v-model="itemname"
+          :error="errors.itemname"
+          autocomplete="itemanme"
+      />
+      <label for="priceInput">{{$t('price')}}</label>
+      <BasicInput
+          id="lastnameInput"
+          type="double"
+          v-model="price"
+          :error="errors.price"
+          autocomplete="price"
+      />
+      <label for="categoryInput">{{$t('category')}}</label>
+      <BasicInput
+          id="categoryInput"
+          type="username"
+          v-model="category"
+          :error="errors.category"
+          autocomplete="category"
+      />
+      <label for="briefInput">{{$t('briefdescription')}}</label>
+      <BasicTextArea
+          v-model="brief"
+          :error="errors.brief"
+      />
+      <label for="fullInput">{{$t('fulldescription')}}</label>
+      <BasicTextArea
+          v-model="full"
+          :error="errors.full"
+      />
+      <button
+          id="submit_button"
+          :disabled="hasErrors"
+          type="submit"
+          class="-fill-gradient"
+      >
+        {{$t('register')}}
+      </button>
     </fieldset>
   </form>
 </template>
 
 <script>
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
-import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
-import PhoneInput from "@/components/basicInputComponents/PhoneInput.vue";
-import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
+
+import BasicTextArea from "@/components/basicInputComponents/BasicTextArea.vue";
+import {ref} from "vue";
+import {useStorage} from "vue3-storage";
+import {useLoggedInStore} from "@/store/store";
+import * as yup from "yup";
+import {useField, useForm} from "vee-validate";
+import {loginUser} from "@/services/Authenticator";
+import router from "@/router/router";
 
 export default {
-  name: "newItemView",
-  components: {BasicCheckbox, PhoneInput, Dateinput, BasicInput}
+  name: "newItemComponent",
+  components: {BasicTextArea, BasicInput},
+
+  data(){
+
+  },
+
+  setup () {
+    const submitMessage = ref('');
+
+    const validationSchema = yup.object({
+      itemname: yup.string()
+          .required('Item name is Required'),
+      price: yup.string()
+          .required('Price required'),
+      brief: yup.string()
+          .required('Brief description is required')
+          .min(10),
+      full: yup.string()
+          .required('Full description is Required')
+          .min(100),
+
+    });
+
+    const { handleSubmit, errors } = useForm({ validationSchema });
+    const { value: itemname } = useField('itemname');
+    const { value: price } = useField('price')
+    const { value: brief } = useField('brief')
+    const { value: full } = useField('full')
+    const { value: category } = useField('category')
+
+
+
+    const submit = handleSubmit(async () => {
+
+    });
+
+    return {
+      itemname,
+      price,
+      brief,
+      full,
+      errors,
+      category,
+      submit,
+      validationSchema,
+      submitMessage,
+    }
+  },
+  computed: {
+    hasErrors() {
+      return !this.validationSchema.isValidSync({
+        username: this.username,
+        password: this.password,
+        itemname: this.itemname,
+        price: this.price,
+        brief: this.brief,
+        full: this.full,
+      });
+    },
+  },
 }
+
+
 </script>
 
 <style scoped>
+
+* {
+  box-sizing: border-box;
+}
+
+form {
+  padding: 20px 0;
+  grid-column: 2;
+  background-color: #7EB09B;
+}
+
+input,
+textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+h1,
+h2,
+h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+h1 {
+  padding: 10px;
+}
+
+label{
+  padding: 10px;
+}
+
+/* Common styles for button elements */
+button {
+  border-width: 2px;
+  border-color: black;
+  padding: 10px 20px;
+  background-color: #FFD700;
+  color: black;
+  margin: 10px;
+}
+
+button:active {
+  background-color: white;
+  color: #1E293B;
+}
+
+button:hover {
+  color: #1E293B !important;
+  background-color: white !important;
+}
+
+/* Style for error messages */
+h5 {
+  color: red;
+  border: 1px solid red;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+fieldset {
+  margin: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
 
 </style>
