@@ -3,7 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
-import edu.ntnu.idatt2105.g6.backend.service.AuthenticationService;
+import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

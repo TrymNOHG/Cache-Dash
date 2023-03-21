@@ -1,9 +1,11 @@
-package edu.ntnu.idatt2105.g6.backend.service;
+package edu.ntnu.idatt2105.g6.backend.service.users;
 
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UserExistsException;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import edu.ntnu.idatt2105.g6.backend.service.users.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
+    @Override
     public void updateUser(UserUpdateDTO userUpdateDTO){
 
             User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow();
@@ -36,6 +39,16 @@ public class UserService {
 
             userRepository.save(user);
 
+
+    }
+
+    @Override
+    public void deleteUser(UserDeletionDTO userDeletionDTO) {
+
+    }
+
+    @Override
+    public void banUser(UserDeletionDTO userDeletionDTO) {
 
     }
 }
