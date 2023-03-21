@@ -4,17 +4,17 @@
       <fieldset>
         <legend>{{$t('register')}}</legend>
         <div class="form-group">
-          <label for="nameInput">{{$t('firstname')}}</label>
+          <label for="firstnameInput">{{$t('firstname')}}</label>
           <BasicInput
-              id="nameInput"
+              id="firstnameInput"
               type="name"
               v-model="firstname"
               :error="errors.firstname"
               autocomplete="username"
           />
-          <label for="nameInput">{{$t('lastname')}}</label>
+          <label for="lastnameInput">{{$t('lastname')}}</label>
           <BasicInput
-              id="nameInput"
+              id="lastnameInput"
               type="name"
               v-model="lastname"
               :error="errors.lastname"
@@ -37,7 +37,7 @@
           />
           <label for="emailInput">Email</label>
           <BasicInput
-              id="nameInput"
+              id="emailInput"
               type="email"
               v-model="email"
               :error="errors.email"
@@ -58,7 +58,12 @@
               required
               name="phoneNumber"
           />
-
+          <div>
+            <BasicCheckbox
+                v-model="termOfService"
+            />
+            <label id="termsInput" for="termsInput" @click="$router.push('/terms')">{{ $t('termsOfService') }}</label>
+          </div>
         </div>
         <div class="button-group">
           <button
@@ -89,10 +94,12 @@ import {loginUser} from "@/services/Authenticator";
 import { useStorage } from 'vue3-storage';
 import PhoneInput from "@/components/basicInputComponents/PhoneInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
+import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 
 export default {
   name: "RegisterComponent",
   components: {
+    BasicCheckbox,
     BasicInput,
     Dateinput,
     PhoneInput
@@ -117,8 +124,8 @@ export default {
           .required('Last name is required'),
       dateOfBirth: yup.date()
           .required('Date of Birth required'),
-      phonenumber: yup.date()
-          .required('Phone Number required')
+      phonenumber: yup.string()
+          .required('Phone Number required'),
     })
 
     const { handleSubmit, errors } = useForm({ validationSchema });
@@ -129,12 +136,10 @@ export default {
     const { value: lastname } = useField('lastname')
     const { value: dateOfBirth } = useField('dateOfBirth')
     const { value: phonenumber } = useField('phonenumber')
+    const { value: termOfService } = useField('termOfService')
 
 
-
-
-
-    const submit = handleSubmit(async values => {
+    const submit = handleSubmit(async () => {
       const token = await loginUser(username.value, password.value)
       if (token !== undefined) {
         console.log(token)
@@ -161,6 +166,7 @@ export default {
       lastname,
       password,
       username,
+      termOfService,
       email,
       phonenumber,
       errors,
@@ -206,6 +212,14 @@ form {
   padding: 20px 0;
   grid-column: 2;
   background-color: #7EB09B;
+}
+
+#termsInput {
+  text-decoration: underline black;
+}
+
+#termsInput:hover{
+  color: white;
 }
 
 input,
