@@ -4,20 +4,12 @@
       <fieldset>
         <legend>{{$t('register')}}</legend>
         <div class="form-group">
-          <label for="firstnameInput">{{$t('firstname')}}</label>
+          <label for="nameInput">{{$t('name')}}</label>
           <BasicInput
-              id="firstnameInput"
+              id="nameInput"
               type="name"
-              v-model="firstname"
-              :error="errors.firstname"
-              autocomplete="username"
-          />
-          <label for="lastnameInput">{{$t('lastname')}}</label>
-          <BasicInput
-              id="lastnameInput"
-              type="name"
-              v-model="lastname"
-              :error="errors.lastname"
+              v-model="name"
+              :error="errors.name"
               autocomplete="username"
           />
           <label for="nameInput">{{$t('username')}}</label>
@@ -175,22 +167,18 @@ export default {
       submitMessage,
     }
   },
-  methods: {
-    validatePhoneNumber() {
-      if (!this.phonenumber) {
-        this.errors.phonenumber = 'Phone number is required.';
-      } else if (!this.$refs.phoneNumber.isValid) {
-        this.errors.phonenumber = 'Please enter a valid Norwegian phone number.';
-      } else {
-        this.errors.phonenumber = null;
-      }
-    },
-  },
   computed: {
     hasErrors() {
       return !this.validationSchema.isValidSync({
         username: this.username,
         password: this.password,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        dateOfBirth: this.dateOfBirth,
+        termOfService: this.termOfService,
+        email: this.email,
+        phonenumber: this.phonenumber,
+
       });
     },
   },
