@@ -58,7 +58,13 @@
               required
               name="phoneNumber"
           />
-
+          <div>
+            <BasicCheckbox
+                id="termsInput"
+                v-model="termOfService"
+            />
+            <label id="termsInput" for="termsInput" @click="$router.push('/terms')">{{ $t('termsOfService') }}</label>
+          </div>
         </div>
         <div class="button-group">
           <button
@@ -89,10 +95,12 @@ import {loginUser} from "@/services/Authenticator";
 import { useStorage } from 'vue3-storage';
 import PhoneInput from "@/components/basicInputComponents/PhoneInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
+import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 
 export default {
   name: "RegisterComponent",
   components: {
+    BasicCheckbox,
     BasicInput,
     Dateinput,
     PhoneInput
@@ -117,8 +125,8 @@ export default {
           .required('Last name is required'),
       dateOfBirth: yup.date()
           .required('Date of Birth required'),
-      phonenumber: yup.date()
-          .required('Phone Number required')
+      phonenumber: yup.string()
+          .required('Phone Number required'),
     })
 
     const { handleSubmit, errors } = useForm({ validationSchema });
@@ -129,9 +137,7 @@ export default {
     const { value: lastname } = useField('lastname')
     const { value: dateOfBirth } = useField('dateOfBirth')
     const { value: phonenumber } = useField('phonenumber')
-
-
-
+    const { value: termOfService } = useField('termOfService')
 
 
     const submit = handleSubmit(async values => {
@@ -161,6 +167,7 @@ export default {
       lastname,
       password,
       username,
+      termOfService,
       email,
       phonenumber,
       errors,
@@ -206,6 +213,14 @@ form {
   padding: 20px 0;
   grid-column: 2;
   background-color: #7EB09B;
+}
+
+#termsInput {
+  text-decoration: underline black;
+}
+
+#termsInput:hover{
+  color: white;
 }
 
 input,

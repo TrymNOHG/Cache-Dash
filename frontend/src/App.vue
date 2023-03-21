@@ -4,32 +4,34 @@ import i18n from "@/locales/i18n";
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
+  <div class="grid">
+    <header>
+      <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
+      <div class="wrapper">
+        <ul>
+          <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
+          <RouterLink to="/notFound">{{ $t ("newItem") }}</RouterLink>
+          <RouterLink to="/notFound">{{ $t ("auctions") }}</RouterLink>
+          <div class="language" @click="changeLanguage()">{{language}}</div>
+          <RouterLink v-if="store.isLoggedIn" :to="'/'">
+            <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+          </RouterLink>
+          <RouterLink v-else :to="'/login'">
+            <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+          </RouterLink>
 
-    <div class="wrapper">
-      <ul>
-        <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
-        <RouterLink to="/notFound">{{ $t ("newItem") }}</RouterLink>
-        <RouterLink to="/notFound">{{ $t ("auctions") }}</RouterLink>
-        <div class="language" @click="changeLanguage()">{{language}}</div>
-        <RouterLink v-if="store.isLoggedIn" :to="'/'">
-          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
-        </RouterLink>
-        <RouterLink v-else :to="'/login'">
-          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
-        </RouterLink>
+        </ul>
+      </div>
+    </header>
+    <main>
+      <RouterView/>
+    </main>
+    <footer>
 
-      </ul>
-    </div>
-  </header>
-  <main>
-    <RouterView/>
-  </main>
-  <footer>
-
-  </footer>
+    </footer>
+  </div>
 </template>
+
 
 <script>
 import {useLoggedInStore} from "@/store/store";
@@ -58,6 +60,7 @@ export default {
 
 
 <style>
+
 header, footer{
   display: flex;
   justify-content: space-between;
@@ -69,6 +72,10 @@ header, footer{
 .logo {
   display: block;
   margin-right: 2rem;
+}
+
+.logo:hover{
+  background-color: #D9D9D9;
 }
 
 nav {

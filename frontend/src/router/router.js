@@ -8,6 +8,7 @@ import RegisterView from "@/views/RegisterView.vue";
 
 
 import mainpageView from "@/views/mainpageView.vue";
+import TermsView from "@/views/TermsView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,11 @@ const router = createRouter({
             path: '/simpleForm',
             name: 'simpleForm',
             component: simpleForm,
+        },
+        {
+            path: '/terms',
+            name: 'TermsOfService',
+            component: TermsView
         },
         {
             path: '/login',
