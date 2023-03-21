@@ -25,8 +25,8 @@ public class Bookmark {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("username")
-    @JoinColumn(name = "username", nullable = false)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id", nullable = false)
     @NonNull
     @ToString.Exclude
     private User user;

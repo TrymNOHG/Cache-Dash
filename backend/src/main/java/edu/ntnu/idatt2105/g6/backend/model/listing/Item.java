@@ -25,7 +25,7 @@ public class Item {
     private Long itemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "user_id")
     @NonNull
     @ToString.Exclude
     private User user;

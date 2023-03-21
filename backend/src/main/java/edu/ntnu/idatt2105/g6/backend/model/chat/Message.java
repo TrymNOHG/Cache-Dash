@@ -29,7 +29,7 @@ public class Message {
     private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "user_id")
     @NonNull
     @ToString.Exclude
     private User sender;

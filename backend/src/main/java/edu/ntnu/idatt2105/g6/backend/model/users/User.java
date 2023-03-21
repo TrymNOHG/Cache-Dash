@@ -25,6 +25,9 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+
     @Column(name = "username", length = 64, nullable = false)
     @NonNull
     private String username;
