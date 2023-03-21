@@ -4,32 +4,29 @@ import i18n from "@/locales/i18n";
 </script>
 
 <template>
-  <div class="grid">
-    <header>
-      <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
-      <div class="wrapper">
-        <ul>
-          <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
-          <RouterLink to="/notFound">{{ $t ("newItem") }}</RouterLink>
-          <RouterLink to="/notFound">{{ $t ("auctions") }}</RouterLink>
-          <div class="language" @click="changeLanguage()">{{language}}</div>
-          <RouterLink v-if="store.isLoggedIn" :to="'/'">
-            <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
-          </RouterLink>
-          <RouterLink v-else :to="'/login'">
-            <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
-          </RouterLink>
+  <header>
+    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
+    <div class="wrapper">
+      <ul>
+        <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
+        <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
+        <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
+        <div class="language" @click="changeLanguage()">{{language}}</div>
+        <RouterLink v-if="store.isLoggedIn" :to="'/'">
+          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+        </RouterLink>
+        <RouterLink v-else :to="'/login'">
+          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+        </RouterLink>
 
-        </ul>
-      </div>
-    </header>
-    <main>
-      <RouterView/>
-    </main>
-    <footer>
-
-    </footer>
-  </div>
+      </ul>
+    </div>
+  </header>
+  <main>
+    <RouterView/>
+  </main>
+  <footer>
+  </footer>
 </template>
 
 

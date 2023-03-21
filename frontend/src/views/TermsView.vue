@@ -25,6 +25,7 @@ export default {
 .grid{
   display: grid;
   grid-template-rows: 1fr 0fr 5fr;
+  background-color: #7EB09B;
 }
 
 .colums{

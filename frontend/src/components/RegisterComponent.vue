@@ -4,17 +4,17 @@
       <fieldset>
         <legend>{{$t('register')}}</legend>
         <div class="form-group">
-          <label for="nameInput">{{$t('firstname')}}</label>
+          <label for="firstnameInput">{{$t('firstname')}}</label>
           <BasicInput
-              id="nameInput"
+              id="firstnameInput"
               type="name"
               v-model="firstname"
               :error="errors.firstname"
               autocomplete="username"
           />
-          <label for="nameInput">{{$t('lastname')}}</label>
+          <label for="lastnameInput">{{$t('lastname')}}</label>
           <BasicInput
-              id="nameInput"
+              id="lastnameInput"
               type="name"
               v-model="lastname"
               :error="errors.lastname"
@@ -37,7 +37,7 @@
           />
           <label for="emailInput">Email</label>
           <BasicInput
-              id="nameInput"
+              id="emailInput"
               type="email"
               v-model="email"
               :error="errors.email"
@@ -60,7 +60,6 @@
           />
           <div>
             <BasicCheckbox
-                id="termsInput"
                 v-model="termOfService"
             />
             <label id="termsInput" for="termsInput" @click="$router.push('/terms')">{{ $t('termsOfService') }}</label>
@@ -140,7 +139,7 @@ export default {
     const { value: termOfService } = useField('termOfService')
 
 
-    const submit = handleSubmit(async values => {
+    const submit = handleSubmit(async () => {
       const token = await loginUser(username.value, password.value)
       if (token !== undefined) {
         console.log(token)
