@@ -1,6 +1,23 @@
 {
-"chat": "Chat",
-"newItem": "New Item",
-"auctions": "Auctions",
-  "notFound": "The page you are looking for doesn't exist!"
+  "chat": "Chat",
+  "newItem": "New Item",
+  "auctions": "Auctions",
+  "notFound": "The page you are looking for doesn't exist!",
+  "login": "Login",
+  "register": "Register",
+  "username": "Username",
+  "password": "Password",
+  "pictures": "Pictures",
+  "firstname": "First Name",
+  "lastname": "Last Name",
+  "phoneNumber": "Phone Number",
+  "dateOfBirth": "Date of Birth",
+  "briefdescription": "Brief Description",
+  "fulldescription": "Full Description",
+  "usererror": "Username is required",
+  "passworderror": "Password is required",
+  "passwordlenght": "Must be at least 8 digits",
+  "emailerror": "Email is required",
+  "briefdescriptionerror": "Brief description is required",
+  "descriptionerror": "Full description is required"
 }

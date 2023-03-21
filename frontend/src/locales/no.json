@@ -1,6 +1,23 @@
 {
-"chat": "Meldinger",
-"newItem": "Ny Annonse",
-"auctions": "Auksjon",
-  "notFound": "Siden du leter etter finnes ikke!"
+  "chat": "Meldinger",
+  "newItem": "Ny Annonse",
+  "auctions": "Auksjon",
+  "notFound": "Siden du leter etter finnes ikke!",
+  "login": "Login",
+  "register": "Registrer",
+  "username": "Brukernavn",
+  "password": "Passord",
+  "pictures": "Bilder",
+  "firstname": "Fornavn",
+  "lastname": "Etternavn",
+  "phoneNumber": "Telefon Nummer",
+  "dateOfBirth": "Fødselsdato",
+  "briefdescription": "Kort Beskrivelse",
+  "fulldescription": "Full Beskrivelse",
+  "usererror": "Brukernavn nødvendig",
+  "passworderror": "Passord nødvendig",
+  "passwordlenght": "minst 8 tegn lagt",
+  "emailerror": "Email nødvendig",
+  "briefdescriptionerror": "Kort beskrivelse er nødvendig",
+  "descriptionerror": "Full beskrivelse er nødvendig"
 }
