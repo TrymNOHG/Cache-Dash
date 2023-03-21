@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
-import edu.ntnu.idatt2105.g6.backend.dto.UserCreationDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.service.AuthenticationService;
@@ -26,7 +26,7 @@ public class AuthenticationController {
     private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserCreationDTO user) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDTO user) {
         try {
             logger.info("User " + user.getUsername() + " is being registered!");
             return ResponseEntity.ok(service.register(user));
