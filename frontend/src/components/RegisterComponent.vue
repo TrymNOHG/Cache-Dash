@@ -10,7 +10,7 @@
               type="name"
               v-model="name"
               :error="errors.name"
-              autocomplete="username"
+              autocomplete="name"
           />
           <label for="nameInput">{{$t('username')}}</label>
           <BasicInput
@@ -33,7 +33,7 @@
               type="email"
               v-model="email"
               :error="errors.email"
-              autocomplete="username"
+              autocomplete="email"
           />
           <label for="dateInput">{{$t('dateOfBirth')}}</label>
           <Dateinput
@@ -118,7 +118,7 @@ export default {
           .required('Date of Birth required'),
       phonenumber: yup.string()
           .required('Phone Number required'),
-    })
+    });
 
     const { handleSubmit, errors } = useForm({ validationSchema });
     const { value: username } = useField('username');
@@ -191,11 +191,6 @@ export default {
   box-sizing: border-box;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 2fr;
-}
-
 form {
   padding: 20px 0;
   grid-column: 2;
@@ -264,11 +259,13 @@ h5 {
 }
 
 .form-group {
+  margin: 25px;
   display: flex;
   flex-direction: column;
 }
 
 .button-group {
+  margin: 25px;
   display: flex;
   justify-content: center;
 }

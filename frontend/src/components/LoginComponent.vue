@@ -121,8 +121,9 @@ export default {
 
 .grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-columns: 40% 20% 40%;
   margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 form {
@@ -192,6 +193,11 @@ h5 {
 .button-group {
   display: flex;
   justify-content: center;
+}
+
+fieldset{
+  margin: 25px;
+
 }
 
 </style>
