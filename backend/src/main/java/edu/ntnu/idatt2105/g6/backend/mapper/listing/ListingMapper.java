@@ -24,5 +24,20 @@ public class ListingMapper {
         return item;
     }
 
+    public static ListingDTO toListing(Item item) {
+        return ListingDTO
+                .builder()
+                .username(item.getUser().getUsername())
+                .briefDesc(item.getBriefDesc())
+                .fullDesc(item.getFullDesc())
+                .address(item.getAddress())
+                .county(item.getCounty())
+                .category(item.getCategory().getSubCategory())
+                .price(item.getPrice())
+                .thumbnail(item.getThumbnail())
+                .keyInfoList(item.getKeyInfoList())
+                .build();
+    }
+
 
 }

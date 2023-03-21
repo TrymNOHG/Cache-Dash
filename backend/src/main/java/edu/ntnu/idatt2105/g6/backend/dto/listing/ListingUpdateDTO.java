@@ -11,11 +11,10 @@ public record ListingUpdateDTO(@NonNull String username,
                                @NonNull Long itemId,
                                @Nullable String briefDesc,
                                @Nullable String fullDesc,
-                               @Nullable double latitude,
-                               @Nullable double longitude,
+                               @Nullable String address,
                                @Nullable String county,
                                @Nullable String category,
-                               @Nullable double price,
+                               @Nullable Double price,
                                @Nullable byte[] thumbnail,
                                @Nullable List<KeyInfo> keyInfoList
                             ) {
