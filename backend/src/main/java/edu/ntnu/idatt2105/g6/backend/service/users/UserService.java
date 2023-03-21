@@ -9,6 +9,7 @@ import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
+
 
     private final UserRepository userRepository;
 
@@ -30,6 +32,7 @@ public class UserService implements IUserService {
             user = User
                     .builder()
                     .userId(user.getUserId())
+                    .password(user.getPassword())
                     .username(userUpdateDTO.newUsername() != null ? userUpdateDTO.username() : user.getUsername())
                     .fullName(userUpdateDTO.fullName() != null ? userUpdateDTO.fullName() : user.getFullName())
                     .email(userUpdateDTO.email() != null ? userUpdateDTO.email() : user.getEmail())
@@ -37,6 +40,8 @@ public class UserService implements IUserService {
                     .phone(userUpdateDTO.phone() != null ? userUpdateDTO.phone() : user.getPhone())
                     .picture(userUpdateDTO.picture() != null ? userUpdateDTO.picture() : user.getPicture())
                     .role(userUpdateDTO.role() != null ? userUpdateDTO.role() : user.getRole())
+                    .bookmarks(user.getBookmarks())
+                    .listedItems(user.getListedItems())
                     .build();
 
             userRepository.save(user);
