@@ -36,6 +36,7 @@
           v-model="full"
           :error="errors.full"
       />
+      <picture-upload-component/>
       <button
           id="submit_button"
           :disabled="hasErrors"
@@ -59,10 +60,11 @@ import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
 import {loginUser} from "@/services/Authenticator";
 import router from "@/router/router";
+import PictureUploadComponent from "@/components/basicInputComponents/pictureUploadComponent.vue";
 
 export default {
   name: "newItemComponent",
-  components: {BasicTextArea, BasicInput},
+  components: {PictureUploadComponent, BasicTextArea, BasicInput},
 
   data(){
 
