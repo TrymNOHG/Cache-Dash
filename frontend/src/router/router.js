@@ -9,6 +9,7 @@ import mainpageView from "@/views/mainpageView.vue";
 import TermsView from "@/views/TermsView.vue";
 import userSite from "@/views/userSite.vue";
 import newItemView from "@/views/newItemView.vue";
+import categoryCard from "@/components/CategoryCard.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,11 @@ const router = createRouter({
             path: '/my-profile',
             name: 'myProfile',
             component: userSite
+        },
+        {
+            path: '/category/:id',
+            name: 'category',
+            component: categoryCard
         },
 
     ]

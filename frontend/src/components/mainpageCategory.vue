@@ -1,19 +1,46 @@
 <template>
   <div class="catergory-window">
     <div class="label">
-      <label>Category</label>
+      <h2>Category</h2>
     </div>
-    <div class="category-list">
-      <ul>
-        <li v-for="category in categories">{{ category.name }}</li>
-      </ul>
+    <div class="category-container">
+      <div v-for="category in categories" :category="category" key="category.id" class="category-list">
+        <router-link :to="`/category/${category.id}`" class="link">
+          <CategoryCard :category="category.categoryName"/>
+        </router-link>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
+import CategoryCard from "@/components/CategoryCard.vue";
 export default {
-  name: "mainpageCategory"
+  name: "mainpageCategory",
+  components: {
+    CategoryCard
+  },
+  data(){
+    return{
+      category: {},
+      categories: [{
+        id:1,
+        categoryName:"Cars",
+
+      },
+      {
+      id:2,
+      categoryName: "Guns",
+      },
+        {
+          id:3,
+          categoryName: "Humans",
+        },
+
+      ]
+    }
+  }
 }
 </script>
 
@@ -25,8 +52,23 @@ export default {
   }
 
   .category-list{
+    display: inline-block;
+    justify-content: space-between;
+  }
+
+  .category-container {
     background-color: #7EB09B;
     opacity: 70%;
+    text-align: left;
+  }
+
+  .link{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background: #FFD700;
+    align-content: center;
+    justify-content: center;
   }
   .label{
     background-color: white;
