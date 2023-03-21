@@ -3,9 +3,10 @@ package edu.ntnu.idatt2105.g6.backend.service.listing;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
-import edu.ntnu.idatt2105.g6.backend.exception.CategoryNotFound;
-import edu.ntnu.idatt2105.g6.backend.exception.ItemNotFoundException;
-import edu.ntnu.idatt2105.g6.backend.exception.UserExistsException;
+import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
+import edu.ntnu.idatt2105.g6.backend.exception.not_found.CategoryNotFound;
+import edu.ntnu.idatt2105.g6.backend.exception.not_found.ItemNotFoundException;
+import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.mapper.listing.ListingMapper;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -70,18 +72,27 @@ public class ItemService implements IItemService{
                 .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
                 .build();
+
+        itemRepository.save(item);
     }
 
     @Override
     public void deleteListing(ListingDeletionDTO listingDeletionDTO) {
-        //TODO: Check authorization
+        /* Check authorization */
+        Item item = itemRepository.findById(listingDeletionDTO.itemId())
+                .orElseThrow(() -> new ItemNotFoundException(listingDeletionDTO.itemId()));
+        User user = userRepository.findByUsername(listingDeletionDTO.username())
+                .orElseThrow(() -> new UserNotFoundException(listingDeletionDTO.username()));
+        if(!userAuthorized(user, item)) throw new UnauthorizedException(user.getUsername());
 
         /* Delete Listing */
+        itemRepository.delete(item);
 
     }
 
-//    public boolean userAuthorized(Long userId, Long itemId) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new UserExistsException());
-//        return user.getRole() == Role.ADMIN ||
-//    }
+    public boolean userAuthorized(User user, Item item) {
+        return user.getRole() == Role.ADMIN || Objects.equals(item.getUser().getUserId(), user.getUserId());
+    }
+
+
 }
