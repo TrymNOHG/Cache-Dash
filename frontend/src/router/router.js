@@ -5,10 +5,9 @@ import simpleForm from "@/views/simpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
-
-
 import mainpageView from "@/views/mainpageView.vue";
 import TermsView from "@/views/TermsView.vue";
+import newItemView from "@/views/newItemView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +21,11 @@ const router = createRouter({
             path: '/terms',
             name: 'TermsOfService',
             component: TermsView
+        },
+        {
+            path: '/newItem',
+            name: 'NewItem',
+            component: newItemView
         },
         {
             path: '/login',

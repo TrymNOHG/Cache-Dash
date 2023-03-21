@@ -71,7 +71,7 @@ export default {
     const { value: password } = useField('password')
 
 
-    const submit = handleSubmit(async values => {
+    const submit = handleSubmit(async () => {
       const token = await loginUser(username.value, password.value)
       if (token !== undefined) {
         console.log(token)
