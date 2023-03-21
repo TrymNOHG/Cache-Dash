@@ -8,6 +8,7 @@ import RegisterView from "@/views/RegisterView.vue";
 
 
 import mainpageView from "@/views/mainpageView.vue";
+import userSite from "@/views/userSite.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,6 +49,11 @@ const router = createRouter({
             path: '/',
             name: 'mainpage',
             component: mainpageView,
+        },
+        {
+            path: '/my-profile',
+            name: 'myProfile',
+            component: userSite
         },
 
     ]

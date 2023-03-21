@@ -13,7 +13,7 @@ import i18n from "@/locales/i18n";
         <RouterLink to="/notFound">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/notFound">{{ $t ("auctions") }}</RouterLink>
         <div class="language" @click="changeLanguage()">{{language}}</div>
-        <RouterLink v-if="store.isLoggedIn" :to="'/'">
+        <RouterLink v-if="store.isLoggedIn" :to="'/my-profile'">
           <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
         </RouterLink>
         <RouterLink v-else :to="'/login'">
