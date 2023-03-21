@@ -5,7 +5,7 @@ import edu.ntnu.idatt2105.g6.backend.model.users.User;
 
 public class UserMapper {
 
-    public User toUser(UserDTO userDTO) { //TODO: check with AuthenticationService
+    public static User toUser(UserDTO userDTO) { //TODO: check with AuthenticationService
         User user = User.builder()
                 .username(userDTO.getUsername())
                 .password(userDTO.getPassword())

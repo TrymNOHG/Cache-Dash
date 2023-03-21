@@ -8,7 +8,7 @@ import edu.ntnu.idatt2105.g6.backend.model.users.User;
 
 public class ListingMapper {
 
-    public Item toItem(User user, Category category, ListingDTO listingDTO){
+    public static Item toItem(User user, Category category, ListingDTO listingDTO){
         Item item = Item
                 .builder()
                 .user(user)

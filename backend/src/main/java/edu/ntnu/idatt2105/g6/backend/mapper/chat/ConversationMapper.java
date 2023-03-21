@@ -8,7 +8,7 @@ import edu.ntnu.idatt2105.g6.backend.model.users.User;
 
 public class ConversationMapper {
 
-    public Conversation toConversation(User user1, User user2){
+    public static Conversation toConversation(User user1, User user2){
         Conversation conversation = Conversation
                 .builder()
                 .user1(user1)
@@ -17,7 +17,7 @@ public class ConversationMapper {
         return conversation;
     }
 
-    public ConversationLoadDTO loadConversation(Conversation conversation){
+    public static ConversationLoadDTO loadConversation(Conversation conversation){
         ConversationLoadDTO conversationLoadDTO = ConversationLoadDTO
                 .builder()
                 .messages(conversation.getMessages())
