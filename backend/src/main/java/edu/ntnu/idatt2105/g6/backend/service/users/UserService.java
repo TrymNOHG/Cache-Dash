@@ -2,7 +2,9 @@ package edu.ntnu.idatt2105.g6.backend.service.users;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
+import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.UserExistsException;
+import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import edu.ntnu.idatt2105.g6.backend.service.users.IUserService;
@@ -44,11 +46,12 @@ public class UserService implements IUserService {
 
     @Override
     public void deleteUser(UserDeletionDTO userDeletionDTO) {
-
-    }
-
-    @Override
-    public void banUser(UserDeletionDTO userDeletionDTO) {
+        User user = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow();
+        User userToDelete = userRepository.findByUsername(userDeletionDTO.userToDelete()).orElseThrow();
+        if(user.getRole() == Role.ADMIN || user.getUsername().equals(userToDelete.getUsername())){
+            userRepository.delete(userToDelete);
+        }
+        else throw new UnauthorizedException(user.getUsername());
 
     }
 }

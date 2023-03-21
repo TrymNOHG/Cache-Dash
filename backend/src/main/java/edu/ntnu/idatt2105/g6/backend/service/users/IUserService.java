@@ -7,7 +7,7 @@ public interface IUserService {
 
     void updateUser(UserUpdateDTO userUpdateDTO);
     void deleteUser(UserDeletionDTO userDeletionDTO);
-    void banUser(UserDeletionDTO userDeletionDTO);
+
 
 
 }

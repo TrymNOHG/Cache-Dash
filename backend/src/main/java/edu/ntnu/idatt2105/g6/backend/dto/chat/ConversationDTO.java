@@ -15,12 +15,13 @@ public class ConversationDTO {
 
     //TODO: test that messages are sorted by timestamp;
     @NonNull
-    private Message message;
+    private String message;
 
     @NonNull
     private String username1;
 
     @NonNull
     private String username2;
+
 
 }

@@ -12,7 +12,7 @@ public interface IChatService {
 
     void startConversation(ConversationDTO conversationDTO);
     ConversationLoadDTO loadConversation(Long conversationId);
-    List<ConversationLoadDTO> loadAllConversations();
+    List<ConversationLoadDTO> loadAllConversations(String username);
     void addMessage(MessageDTO messageDTO);
 
 }

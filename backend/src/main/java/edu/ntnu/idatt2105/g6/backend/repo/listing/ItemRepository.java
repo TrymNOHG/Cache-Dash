@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
+    Optional<Item> findByItemId(Long itemId);
     Optional<List<Item>> findItemsByCategory_MainCategory(String mainCategory);
     Optional<List<Item>> findItemsByCategory_SubCategory(String subCategory);
     Optional<List<Item>> findItemsByBriefDescContainingIgnoreCase(String phrase);
