@@ -4,6 +4,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.UserExistsException;
+import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
@@ -22,7 +23,7 @@ public class UserService implements IUserService {
     @Override
     public void updateUser(UserUpdateDTO userUpdateDTO){
 
-            User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow();
+            User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow(() -> new UserNotFoundException(userUpdateDTO.username()));
 
             Optional<User> newUser = userRepository.findByUsername(userUpdateDTO.newUsername());
             if (newUser.isPresent()) throw new UserExistsException(userUpdateDTO.newUsername());
@@ -46,8 +47,8 @@ public class UserService implements IUserService {
 
     @Override
     public void deleteUser(UserDeletionDTO userDeletionDTO) {
-        User user = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow();
-        User userToDelete = userRepository.findByUsername(userDeletionDTO.userToDelete()).orElseThrow();
+        User user = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.username()));
+        User userToDelete = userRepository.findByUsername(userDeletionDTO.userToDelete()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.userToDelete()));
         if(user.getRole() == Role.ADMIN || user.getUsername().equals(userToDelete.getUsername())){
             userRepository.delete(userToDelete);
         }
