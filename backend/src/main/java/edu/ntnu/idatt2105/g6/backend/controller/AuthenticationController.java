@@ -28,7 +28,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDTO user) {
         try {
-            logger.info("User " + user.getUsername() + " is being registered!");
+            logger.info("User " + user.username() + " is being registered!");
             return ResponseEntity.ok(service.register(user));
         }catch (Exception e) {
             logger.warn("Internal error has occurred: " + e.getMessage());

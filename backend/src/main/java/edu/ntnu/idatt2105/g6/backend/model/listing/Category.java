@@ -1,11 +1,17 @@
 package edu.ntnu.idatt2105.g6.backend.model.listing;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * This class uses an adjacency list model in order to store the data of categories. Intrinsically, categories follow
+ * a tree structure/hierarchical structure, where each node stores a pointer to their parent node.
+ *
+ * In order to simplify and speed up queries, a nested set model could be implemented instead.
+ */
 @Getter
 @Setter
 @ToString
@@ -17,12 +23,21 @@ import lombok.*;
 public class Category {
 
     @Id
-    @Column(name = "sub_category", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @Column(name = "sub_category")
     @NonNull
     private String subCategory;
 
-    @Column(name = "main_category", nullable = false)
-    @NonNull
-    private String mainCategory;
+    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Category> subCategories = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_category_id", referencedColumnName = "category_id",nullable = false)
+    @ToString.Exclude
+    private Category mainCategory;
 
 }

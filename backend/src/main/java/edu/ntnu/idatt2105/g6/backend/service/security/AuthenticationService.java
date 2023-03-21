@@ -30,13 +30,13 @@ public class AuthenticationService implements IAuthenticationService {
     public AuthenticationResponse register(UserDTO userDTO) {
         User user = User
                 .builder()
-                .username(userDTO.getUsername())
-                .password(passwordEncoder.encode(userDTO.getPassword()))
+                .username(userDTO.username())
+                .password(passwordEncoder.encode(userDTO.password()))
                 .role(Role.USER)
-                .fullName(userDTO.getFullName())
-                .email(userDTO.getEmail())
+                .fullName(userDTO.fullName())
+                .email(userDTO.email())
                 .build();
-        if (userRepository.findByUsername(userDTO.getUsername()).isPresent())
+        if (userRepository.findByUsername(userDTO.username()).isPresent())
             throw new IllegalStateException("Username already exists");
         userRepository.save(user);
 
