@@ -10,7 +10,7 @@ public interface IBookmarkService {
     void addBookmark(BookmarkDTO bookmarkDTO);
     void deleteBookmark(BookmarkDeletionDTO bookmarkDeletionDTO);
     void deleteAllBookmarks(UserDeletionDTO userDeletionDTO);
-    void loadBookmarks(BookmarkLoadDTO bookmarkLoadDTO);
+    BookmarkLoadDTO loadBookmarks(UserDeletionDTO UserDeletionDTO);
 
 
 }

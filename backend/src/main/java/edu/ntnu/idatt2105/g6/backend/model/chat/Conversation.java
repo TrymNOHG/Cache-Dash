@@ -24,13 +24,13 @@ public class Conversation {
     private Long conversationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id1")
     @NonNull
     @ToString.Exclude
     private User user1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id2")
     @NonNull
     @ToString.Exclude
     private User user2;

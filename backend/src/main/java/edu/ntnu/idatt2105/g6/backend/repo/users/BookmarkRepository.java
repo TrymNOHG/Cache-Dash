@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, BookmarkId>, JpaSpecificationExecutor<Bookmark> {
-    Optional<List<Bookmark>> findBookmarksByUser_Username(@NonNull String username);
+    Optional<List<Bookmark>> findAllByUser(@NonNull User user);
     Optional<Bookmark> findByItemAndUser(Item item, User user);
 
 }

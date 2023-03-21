@@ -20,9 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatService implements IChatService{
 
-    private ConversationRepository conversationRepository;
-    private MessageRepository messageRepository;
-    private UserRepository userRepository;
+    private final ConversationRepository conversationRepository;
+    private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void startConversation(ConversationDTO conversationDTO) {
@@ -46,7 +46,7 @@ public class ChatService implements IChatService{
     @Override
     public List<ConversationLoadDTO> loadAllConversations(String username) {
         User user = userRepository.findByUsername(username).orElseThrow();
-        List<Conversation> conversationList = conversationRepository.findAllByUser1OrUser2(user).orElseThrow();
+        List<Conversation> conversationList = conversationRepository.findAllByUser1OrUser2(user, user).orElseThrow();
         return conversationList.stream().map(ConversationMapper::loadConversation).toList();
     }
 

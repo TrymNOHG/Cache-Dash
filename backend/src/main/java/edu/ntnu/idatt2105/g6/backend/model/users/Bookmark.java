@@ -17,7 +17,7 @@ public class Bookmark {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("itemId")
+    @MapsId("item")
     @JoinColumn(name = "item_id", nullable = false)
     @NonNull
     @ToString.Exclude
@@ -25,7 +25,7 @@ public class Bookmark {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
+    @MapsId("user")
     @JoinColumn(name = "user_id", nullable = false)
     @NonNull
     @ToString.Exclude
