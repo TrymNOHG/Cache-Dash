@@ -13,22 +13,31 @@ import i18n from "@/locales/i18n";
         <RouterLink to="/notFound">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/notFound">{{ $t ("auctions") }}</RouterLink>
         <div class="language" @click="changeLanguage()">{{language}}</div>
-        <router-link to="/profile" class="profile-link">
+        <RouterLink v-if="store.isLoggedIn" :to="'/'">
           <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
-        </router-link>
+        </RouterLink>
+        <RouterLink v-else :to="'/login'">
+          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+        </RouterLink>
+
       </ul>
     </div>
   </header>
-
   <main>
     <RouterView/>
   </main>
+  <footer>
+
+  </footer>
 </template>
 
 <script>
+import {useLoggedInStore} from "@/store/store";
+
 export default {
   data(){
     return{
+      store: useLoggedInStore(),
       language: "NO",
     }
   },
@@ -49,7 +58,7 @@ export default {
 
 
 <style>
-header {
+header, footer{
   display: flex;
   justify-content: space-between;
   align-items: center;
