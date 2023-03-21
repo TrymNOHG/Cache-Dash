@@ -61,15 +61,15 @@
 
         </div>
         <div class="button-group">
-          <button @click="$router.push('/register')">{{$t('register')}}</button>
           <button
               id="submit_button"
               :disabled="hasErrors"
               type="submit"
               class="-fill-gradient"
           >
-            {{$t('login')}}
+            {{$t('register')}}
           </button>
+          <button @click="$router.push('/login')">{{$t('login')}}</button>
         </div>
       </fieldset>
     </form>

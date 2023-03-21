@@ -6,7 +6,8 @@
         v-model="formattedPhoneNumber"
         type="tel"
         :placeholder="'Phone Number'"
-        @input="$emit('update:modelValue', formattedPhoneNumber)"        class="field"
+        @input="$emit('update:modelValue', formattedPhoneNumber)"
+        class="field"
         :style="{ borderColor: error ? 'red' : ''}"
         aria-invalid='error ? true : null'
     >
@@ -47,21 +48,11 @@ export default {
   },
   methods: {
     formatPhoneNumber(phoneNumber) {
-      // Strip out non-digit characters
       phoneNumber = phoneNumber.replace(/\D/g, '');
-
-      // If the phone number starts with '0047', replace it with '0'
-      if (phoneNumber.startsWith('0047')) {
-        phoneNumber = phoneNumber.replace(/^0047/, '0');
+      if (phoneNumber.startsWith('47')) {
+        phoneNumber = phoneNumber.replace(/^47/, '');
       }
-
-      // If the phone number starts with '+47', replace it with '0'
-      if (phoneNumber.startsWith('+47')) {
-        phoneNumber = phoneNumber.replace(/^\+47/, '0');
-      }
-
-      // Format the phone number as XXX XX XXX
-      return `${phoneNumber.slice(0, 3)} ${phoneNumber.slice(3, 5)} ${phoneNumber.slice(5, 8)}`;
+      return `${phoneNumber.slice(0, 2)} ${phoneNumber.slice(2, 4)} ${phoneNumber.slice(4, 6)} ${phoneNumber.slice(6, 8)}`;
     }
   },
   computed: {

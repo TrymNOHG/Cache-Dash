@@ -26,6 +26,9 @@ import i18n from "@/locales/i18n";
   <main>
     <RouterView/>
   </main>
+  <footer>
+
+  </footer>
 </template>
 
 <script>
@@ -55,7 +58,7 @@ export default {
 
 
 <style>
-header {
+header, footer{
   display: flex;
   justify-content: space-between;
   align-items: center;
