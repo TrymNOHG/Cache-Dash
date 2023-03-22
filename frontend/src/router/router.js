@@ -9,7 +9,7 @@ import mainpageView from "@/views/mainpageView.vue";
 import TermsView from "@/views/TermsView.vue";
 import userSite from "@/views/userSite.vue";
 import newItemView from "@/views/newItemView.vue";
-import categoryCard from "@/components/CategoryCard.vue";
+import categoryCard from "@/components/pagesComponents/MainPage/CategoryCard.vue";
 import itemsView from "@/views/itemsView.vue";
 
 const router = createRouter({

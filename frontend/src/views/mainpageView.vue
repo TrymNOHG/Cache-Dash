@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import MainpageRecentlyAdded from "@/components/mainpageRecentlyAdded.vue";
+import MainpageRecentlyAdded from "@/components/pagesComponents/MainPage/mainpageRecentlyAdded.vue";
 import MainpageSearchBar from "@/components/basicInputComponents/mainpageSearchBar.vue";
-import MainpageCategory from "@/components/mainpageCategory.vue";
+import MainpageCategory from "@/components/pagesComponents/MainPage/mainpageCategory.vue";
 export default {
   name: "mainpageView",
   components: {MainpageCategory, MainpageSearchBar, MainpageRecentlyAdded}

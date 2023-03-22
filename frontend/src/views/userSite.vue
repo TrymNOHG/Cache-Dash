@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import PersonalInformation from "@/components/personalInformation.vue";
-import MyItems from "@/components/myItems.vue";
+import PersonalInformation from "@/components/pagesComponents/UserPage/personalInformation.vue";
+import MyItems from "@/components/pagesComponents/UserPage/myItems.vue";
 
 export default {
   name: "userSite",

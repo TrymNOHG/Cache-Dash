@@ -8,7 +8,7 @@ import i18n from "@/locales/i18n";
     <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
     <div class="wrapper">
       <ul>
-        <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
+        <RouterLink to="@p/simpleForm">{{ $t ("chat") }}</RouterLink>
         <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
         <div class="language" @click="changeLanguage()">{{language}}</div>
