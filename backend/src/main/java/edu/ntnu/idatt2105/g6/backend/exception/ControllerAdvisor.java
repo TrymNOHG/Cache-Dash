@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.exception;
 
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.NotFoundException;
+import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,8 +26,8 @@ public class ControllerAdvisor {
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Object> notFoundAction(NotFoundException e, WebRequest webRequest){
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> notFoundAction(UserNotFoundException e, WebRequest webRequest){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("Time of error: ", LocalDateTime.now());
         body.put("Message:", e.getMessage());

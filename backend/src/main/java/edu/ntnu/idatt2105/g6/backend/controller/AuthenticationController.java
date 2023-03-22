@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
+import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
@@ -10,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -26,6 +24,7 @@ public class AuthenticationController {
     private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
+    @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDTO user) {
         try {
             logger.info("User " + user.username() + " is being registered!");
