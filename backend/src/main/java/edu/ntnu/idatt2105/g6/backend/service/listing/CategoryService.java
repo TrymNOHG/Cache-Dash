@@ -73,7 +73,7 @@ public class CategoryService implements ICategoryService{
                     .orElseGet(() -> categoryRepository.save(Category
                             .builder()
                             .mainCategory(null)
-                            .subCategory(null)
+                            .subCategory("root")
                             .build()));
         }
 

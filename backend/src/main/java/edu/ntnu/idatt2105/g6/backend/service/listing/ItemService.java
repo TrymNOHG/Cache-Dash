@@ -51,7 +51,9 @@ public class ItemService implements IItemService{
                 .orElseThrow(() -> new UsernameNotFoundException(listing.getUsername()));
         Category category = categoryRepository.findBySubCategory(listing.getCategory())
                 .orElseThrow(() -> new CategoryNotFound(listing.getCategory()));
+        System.out.println("hei");
         Item item = ListingMapper.toItem(user, category, listing);
+        System.out.println(item);
         itemRepository.save(item);
     }
 

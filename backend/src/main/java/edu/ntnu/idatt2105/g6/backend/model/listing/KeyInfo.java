@@ -26,10 +26,6 @@ public class KeyInfo {
     @ToString.Exclude
     private Item item;
 
-    @Column(name = "title", nullable = false)
-    @NonNull
-    private String title;
-
     @Column(name = "description", nullable = false)
     @NonNull
     private String description;

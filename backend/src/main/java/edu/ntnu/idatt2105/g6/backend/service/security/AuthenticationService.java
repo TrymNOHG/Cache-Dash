@@ -35,7 +35,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .builder()
                 .username(userDTO.username())
                 .password(passwordEncoder.encode(userDTO.password()))
-                .role(Role.USER)
+                .role(userDTO.role())
                 .fullName(userDTO.fullName())
                 .email(userDTO.email())
                 .build();

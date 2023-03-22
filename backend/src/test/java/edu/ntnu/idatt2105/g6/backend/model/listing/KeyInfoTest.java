@@ -14,29 +14,22 @@ class KeyInfoTest {
         @Test
         public void id_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo(null, new Item(), "Brand", "Apple");
+                KeyInfo keyInfo = new KeyInfo(null, new Item(), "Apple");
             });
         }
         @Test
         public void item_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo(1L, null, "Brand", "Apple");
+                KeyInfo keyInfo = new KeyInfo(1L, null, "Apple");
 
             });
         }
 
-        @Test
-        public void title_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo(1L, new Item(), null, "Apple");
-
-            });
-        }
 
         @Test
         public void description_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo(1L, new Item(), "Brand", null);
+                KeyInfo keyInfo = new KeyInfo(1L, new Item(),null);
             });
         }
 
@@ -59,13 +52,6 @@ class KeyInfoTest {
             });
         }
 
-        @Test
-        public void title_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo();
-                keyInfo.setTitle(null);
-            });
-        }
 
         @Test
         public void description_throws_NullPointer_Exception_if_null() {
@@ -80,7 +66,7 @@ class KeyInfoTest {
     @Nested
     class Message_can_properly_get {
         KeyInfo getKeyInfo() {
-            return new KeyInfo(1L, new Item(), "Brand", "Apple");
+            return new KeyInfo(1L, new Item(),"Apple");
         }
 
         @Test
@@ -101,15 +87,6 @@ class KeyInfoTest {
             Item actualItem = keyInfo.getItem();
 
             assertEquals(expectedItem, actualItem);
-        }
-
-        @Test
-        void title() {
-            KeyInfo keyInfo = getKeyInfo();
-            String expectedTitle = "Brand";
-            String actualTitle = keyInfo.getTitle();
-
-            assertEquals(expectedTitle, actualTitle);
         }
 
         @Test
