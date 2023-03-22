@@ -12,6 +12,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//TODO: test that username cannot be same
+//TODO: test that changing to already existing username throws error
+//TODO: test other exceptions
+
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class UserRepoIntegrationTest {

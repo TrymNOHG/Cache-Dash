@@ -27,6 +27,7 @@ public class ListingMapper {
     public static ListingDTO toListing(Item item) {
         return ListingDTO
                 .builder()
+                .itemId(item.getItemId())
                 .username(item.getUser().getUsername())
                 .briefDesc(item.getBriefDesc())
                 .fullDesc(item.getFullDesc())

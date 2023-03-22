@@ -15,6 +15,9 @@ import java.util.List;
 public class ListingDTO {
 
     @NonNull
+    private Long itemId;
+
+    @NonNull
     private String username;
 
     @NonNull
