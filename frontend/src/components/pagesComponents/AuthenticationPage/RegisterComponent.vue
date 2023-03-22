@@ -82,7 +82,7 @@ import {useField, useForm } from "vee-validate";
 import {useLoggedInStore} from "@/store/store";
 import {ref} from "vue";
 import router from "@/router/router";
-import {loginUser} from "@/services/Authenticator";
+import {loginUser, registerUser} from "@/services/Authenticator";
 import { useStorage } from 'vue3-storage';
 import PhoneInput from "@/components/basicInputComponents/PhoneInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
@@ -132,7 +132,7 @@ export default {
 
 
     const submit = handleSubmit(async () => {
-      const token = await loginUser(username.value, password.value)
+      const token = await registerUser(username.value, password.value)
       if (token !== undefined) {
         console.log(token)
         storage.setStorageSync('token', token.token);

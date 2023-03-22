@@ -5,12 +5,12 @@ import simpleForm from "@/views/simpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
-import mainpageView from "@/views/mainpageView.vue";
+import mainpageView from "@/views/MainPageView.vue";
 import TermsView from "@/views/TermsView.vue";
-import userSite from "@/views/userSite.vue";
-import newItemView from "@/views/newItemView.vue";
+import userSite from "@/views/UserSite.vue";
+import newItemView from "@/views/NewItemView.vue";
 import categoryCard from "@/components/pagesComponents/MainPage/CategoryCard.vue";
-import itemsView from "@/views/itemsView.vue";
+import itemsView from "@/views/ItemsView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

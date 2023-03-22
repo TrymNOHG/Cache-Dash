@@ -25,9 +25,13 @@ export default {
   .itemsView-window{
     display: grid;
     grid-template-columns: 1fr 3fr;
+    grid-gap: 5px;
   }
 
-  .filter-section{
+
+  .filter{
+
+
   }
   .searchbar-itemlisting{
     width: inherit;
