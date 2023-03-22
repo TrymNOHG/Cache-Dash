@@ -1,7 +1,8 @@
 <template>
-  <main>
+  <div class="grid">
+    <div></div>
     <login-component/>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -14,7 +15,8 @@ export default {
 </script>
 
 <style scoped>
-main {
-  text-align: center;
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 </style>
