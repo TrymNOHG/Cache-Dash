@@ -8,7 +8,7 @@
 
 <script>
 import MainpageSearchBar from "@/components/basicInputComponents/mainpageSearchBar.vue";
-import ItemsListingComponent from "@/components/itemsListingComponent.vue";
+import ItemsListingComponent from "@/components/pagesComponents/ItemPage/itemsListingComponent.vue";
 
 export default {
   name: "itemsView",
