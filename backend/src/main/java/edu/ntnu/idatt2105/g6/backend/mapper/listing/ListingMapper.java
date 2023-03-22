@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.mapper.listing;
 
 
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
@@ -24,8 +25,8 @@ public class ListingMapper {
         return item;
     }
 
-    public static ListingDTO toListing(Item item) {
-        return ListingDTO
+    public static ListingLoadDTO toListing(Item item) {
+        return ListingLoadDTO
                 .builder()
                 .itemId(item.getItemId())
                 .username(item.getUser().getUsername())

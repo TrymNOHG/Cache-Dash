@@ -3,6 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.service;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryEditDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
@@ -151,30 +152,30 @@ public class ItemServiceIntegrationTest {
             categoryService.addCategory(categoryEditDTO);
 
 
-            ListingDTO expectedListingDTO = new ListingDTO(1L, "Test", "desc", "Nordkapp", "Troms og Finnmark", 1L, 100);
+            ListingDTO expectedListingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", 1L, 100);
             //when(userRepository.findByUsername("Test")).thenReturn(Optional.ofNullable(user));
             //when(categoryRepository.findBySubCategory("Mercedes")).thenReturn(Optional.ofNullable(category));
             assertDoesNotThrow(() -> {
                 itemService.addListing(expectedListingDTO);
             });
 
-            ListingDTO actualListingDTO = itemService.loadListing(1L);
+            ListingLoadDTO actualListingDTO = itemService.loadListing(1L);
 
             assertEquals(expectedListingDTO.getCategoryId(), actualListingDTO.getCategoryId());
             assertEquals(expectedListingDTO.getUsername(), actualListingDTO.getUsername());
-            assertEquals(expectedListingDTO.getItemId(), actualListingDTO.getItemId());
+            assertEquals(1L, actualListingDTO.getItemId());
 
         }
 
-        @Test
-        void added_to_database() {
+//        @Test
+//        void added_to_database() {
+//
+//        }
 
-        }
-
-        @Test
-        void removed_from_database() {
-
-        }
+//        @Test
+//        void removed_from_database() {
+//
+//        }
 
     }
 

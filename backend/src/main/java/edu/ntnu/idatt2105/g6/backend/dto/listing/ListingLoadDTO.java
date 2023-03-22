@@ -12,8 +12,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListingDTO {
+public class ListingLoadDTO {
 
+    @NonNull
+    private Long itemId;
 
     @NonNull
     private String username;

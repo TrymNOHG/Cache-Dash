@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.service.listing;
 
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.CategoryNotFound;
@@ -31,13 +32,13 @@ public class ItemService implements IItemService{
     private final CategoryRepository categoryRepository;
 
     @Override
-    public ListingDTO loadListing(Long itemId) {
+    public ListingLoadDTO loadListing(Long itemId) {
         return ListingMapper.toListing(itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemNotFoundException(itemId)));
     }
 
     @Override
-    public List<ListingDTO> loadAllListings(String username) {
+    public List<ListingLoadDTO> loadAllListings(String username) {
         List<Item> listings = itemRepository.findItemsByUser_Username(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
         return listings.stream()
