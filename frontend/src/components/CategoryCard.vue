@@ -22,7 +22,9 @@ export default {
     border-radius: 50%;
     width: 100px;
     height: 100px;
-    justify-content: center;
-    align-content: center;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
   }
 </style>
