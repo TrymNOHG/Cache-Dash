@@ -16,19 +16,14 @@ public class KeyInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "key_info_id", nullable = false)
-    @NonNull
+    @Column(name = "key_info_id")
     private Long keyInfoId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
     @NonNull
     @ToString.Exclude
     private Item item;
-
-    @Column(name = "title", nullable = false)
-    @NonNull
-    private String title;
 
     @Column(name = "description", nullable = false)
     @NonNull

@@ -16,17 +16,17 @@ import lombok.*;
 public class Bookmark {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("itemId")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @MapsId("item")
     @JoinColumn(name = "item_id", nullable = false)
     @NonNull
     @ToString.Exclude
     private Item item;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("username")
-    @JoinColumn(name = "username", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @MapsId("user")
+    @JoinColumn(name = "user_id", nullable = false)
     @NonNull
     @ToString.Exclude
     private User user;

@@ -180,7 +180,7 @@ class UserTest {
             List<Conversation> conversations1 = new ArrayList<>();
             List<Conversation> conversations2 = new ArrayList<>();
             List<Message> messages = new ArrayList<>();
-            User user = new User("Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], expectedItems, bookmarks, conversations1, conversations2, messages);
+            User user = new User(1L, "Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], expectedItems, bookmarks, conversations1, conversations2, messages);
 
             List<Item> actualItems = user.getListedItems();
             assertEquals(expectedItems, actualItems);
@@ -193,7 +193,7 @@ class UserTest {
             List<Conversation> conversations1 = new ArrayList<>();
             List<Conversation> conversations2 = new ArrayList<>();
             List<Message> messages = new ArrayList<>();
-            User user = new User("Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, expectedBookmarks, conversations1, conversations2, messages);
+            User user = new User(1L, "Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, expectedBookmarks, conversations1, conversations2, messages);
 
             List<Item> actualBookmarks = user.getBookmarks();
 
@@ -207,7 +207,7 @@ class UserTest {
             List<Conversation> expectedConversations1 = new ArrayList<>();
             List<Conversation> expectedConversations2 = new ArrayList<>();
             List<Message> messages = new ArrayList<>();
-            User user = new User("Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, bookmarks, expectedConversations1, expectedConversations2, messages);
+            User user = new User(1L, "Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, bookmarks, expectedConversations1, expectedConversations2, messages);
 
             List<Conversation> actualConversation1 = user.getConversations1();
             List<Conversation> actualConversation2 = user.getConversations2();
@@ -223,7 +223,7 @@ class UserTest {
             List<Conversation> conversations1 = new ArrayList<>();
             List<Conversation> conversations2 = new ArrayList<>();
             List<Message> expectedMessages = new ArrayList<>();
-            User user = new User("Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, bookmarks, conversations1, conversations2, expectedMessages);
+            User user = new User(1L, "Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, bookmarks, conversations1, conversations2, expectedMessages);
 
             List<Message> actualMessages = user.getMessages();
 

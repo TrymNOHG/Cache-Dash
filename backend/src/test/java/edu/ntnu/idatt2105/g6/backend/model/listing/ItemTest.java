@@ -19,21 +19,21 @@ class ItemTest {
     @Nested
     class Null_columns_constructors {
 
-        @Test
-        void item_id_cannot_be_null(){
-            //TODO does not throw error for empty constructor
-            User user = new User("test1", "123", "test1", "test1", Role.USER);
-            assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(null, user, "test",  "Nordkapp", "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
-            });
-        }
+//        @Test
+//        void item_id_cannot_be_null(){
+//            //TODO does not throw error for empty constructor
+//            User user = new User("test1", "123", "test1", "test1", Role.USER);
+//            assertThrows(NullPointerException.class, () -> {
+//                Item item = new Item(null, user, "test",  "Nordkapp", "Troms og Finnmark",new Category(), 200000);
+//            });
+//        }
 
         @Test
         void user_cannot_be_null(){
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, null, "test",  "Nordkapp", "Troms og Finnmark",new Category("Mercedes", "Cars"), 200000);
+                Item item = new Item(null, "test",  "Nordkapp", "Troms og Finnmark",new Category(), 200000);
             });
         }
 
@@ -42,7 +42,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, null,  "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
+                Item item = new Item(user, null,  "Nordkapp", "Troms og Finnmark", new Category(), 200000);
             });
         }
 
@@ -51,7 +51,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, "test",  "Nordkapp", null, new Category("Mercedes", "Cars"),  200000);
+                Item item = new Item(user, "test",  "Nordkapp", null, new Category(),  200000);
             });
         }
 
@@ -60,7 +60,7 @@ class ItemTest {
             //TODO does not throw error for empty constructor
             User user = new User("test1", "123", "test1", "test1", Role.USER);
             assertThrows(NullPointerException.class, () -> {
-                Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", null ,200000);
+                Item item = new Item(user, "test",  "Nordkapp", "Troms og Finnmark", null ,200000);
             });
         }
 
@@ -69,21 +69,21 @@ class ItemTest {
     @Nested
     class Null_variables{
 
-        @Test
-        void item_id_cannot_be_set_to_null(){
-            User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
-            assertThrows(NullPointerException.class, () -> {
-                item.setItemId(null);
-            });
-        }
+//        @Test
+//        void item_id_cannot_be_set_to_null(){
+//            User user = new User("test1", "123", "test1", "test1", Role.USER);
+//            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
+//            Item item = new Item(user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
+//            assertThrows(NullPointerException.class, () -> {
+//                item.setItemId(null);
+//            });
+//        }
 
         @Test
         void user_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
+            Item item = new Item(user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setUser(null);
             });
@@ -92,8 +92,8 @@ class ItemTest {
         @Test
         void brief_description_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
+            Item item = new Item(user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setBriefDesc(null);
             });
@@ -102,8 +102,8 @@ class ItemTest {
         @Test
         void county_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
+            Item item = new Item(user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setCounty(null);
             });
@@ -112,8 +112,8 @@ class ItemTest {
         @Test
         void category_cannot_be_set_to_null(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
-            Item item = new Item(1L, user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
+            Item item = new Item(user, "test",  "Nordkapp", "Troms og Finnmark", category, 200000);
             assertThrows(NullPointerException.class, () -> {
                 item.setCategory(null);
             });
@@ -126,7 +126,7 @@ class ItemTest {
         @Test
         void item_id_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -137,7 +137,7 @@ class ItemTest {
         @Test
         void user_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -148,7 +148,7 @@ class ItemTest {
         @Test
         void brief_description_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -159,7 +159,7 @@ class ItemTest {
         @Test
         void full_description_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -170,7 +170,7 @@ class ItemTest {
         @Test
         void address_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -182,7 +182,7 @@ class ItemTest {
         @Test
         void county_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -193,7 +193,7 @@ class ItemTest {
         @Test
         void category_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -204,7 +204,7 @@ class ItemTest {
         @Test
         void price_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -215,7 +215,7 @@ class ItemTest {
         @Test
         void thumbnail_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -226,7 +226,7 @@ class ItemTest {
         @Test
         void key_info_list_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();
@@ -237,7 +237,7 @@ class ItemTest {
         @Test
         void bookmarker_list_getter_returns_correct_value(){
             User user = new User("test1", "123", "test1", "test1", Role.USER);
-            Category category = new Category("Mercedes", "Cars");
+            Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<User> bookmarkerList = new ArrayList<>();

@@ -3,7 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
-import edu.ntnu.idatt2105.g6.backend.service.AuthenticationService;
+import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDTO user) {
         try {
-            logger.info("User " + user.getUsername() + " is being registered!");
+            logger.info("User " + user.username() + " is being registered!");
             return ResponseEntity.ok(service.register(user));
         }catch (Exception e) {
             logger.warn("Internal error has occurred: " + e.getMessage());
