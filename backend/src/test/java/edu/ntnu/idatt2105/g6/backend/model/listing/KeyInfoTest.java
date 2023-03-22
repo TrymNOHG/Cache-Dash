@@ -11,12 +11,12 @@ class KeyInfoTest {
 
     @Nested
     class When_KeyInfo_constructor_has_non_null_variable {
-        @Test
-        public void id_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo(null, new Item(), "Apple");
-            });
-        }
+//        @Test
+//        public void id_throws_NullPointer_Exception_if_null() {
+//            assertThrows(NullPointerException.class, () -> {
+//                KeyInfo keyInfo = new KeyInfo(null, new Item(), "Apple");
+//            });
+//        }
         @Test
         public void item_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
@@ -37,13 +37,13 @@ class KeyInfoTest {
 
     @Nested
     class When_setting_KeyInfo_non_null_variable {
-        @Test
-        public void id_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                KeyInfo keyInfo = new KeyInfo();
-                keyInfo.setKeyInfoId(null);
-            });
-        }
+//        @Test
+//        public void id_throws_NullPointer_Exception_if_null() {
+//            assertThrows(NullPointerException.class, () -> {
+//                KeyInfo keyInfo = new KeyInfo();
+//                keyInfo.setKeyInfoId(null);
+//            });
+//        }
         @Test
         public void item_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {

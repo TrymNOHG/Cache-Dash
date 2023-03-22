@@ -124,7 +124,7 @@ public class ChatServiceIntegrationTest {
 
     @Nested
     @SpringBootTest
-    class Nest2{
+    class LoadConversation{
 
 
 

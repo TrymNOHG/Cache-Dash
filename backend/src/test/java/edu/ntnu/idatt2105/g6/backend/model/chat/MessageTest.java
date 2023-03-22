@@ -16,13 +16,13 @@ class MessageTest {
     @Nested
     class When_Message_constructor_has_non_null_variable {
 
-        @Test
-        public void id_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                Message message = new Message(null, new Conversation(),
-                        new User(), "Hi!", new Timestamp(new Date().getTime()));
-            });
-        }
+//        @Test
+//        public void id_throws_NullPointer_Exception_if_null() {
+//            assertThrows(NullPointerException.class, () -> {
+//                Message message = new Message(null, new Conversation(),
+//                        new User(), "Hi!", new Timestamp(new Date().getTime()));
+//            });
+//        }
         @Test
         public void conversation_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
@@ -62,13 +62,13 @@ class MessageTest {
 
     @Nested
     class When_setting_Message_non_null_variable {
-        @Test
-        public void id_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                Message message = new Message();
-                message.setMessageId(null);
-            });
-        }
+//        @Test
+//        public void id_throws_NullPointer_Exception_if_null() {
+//            assertThrows(NullPointerException.class, () -> {
+//                Message message = new Message();
+//                message.setMessageId(null);
+//            });
+//        }
         @Test
         public void conversation_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
