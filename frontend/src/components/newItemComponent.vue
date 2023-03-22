@@ -8,7 +8,7 @@
           type="text"
           v-model="itemname"
           :error="errors.itemname"
-          autocomplete="itemanme"
+          autocomplete="itemname"
       />
       <label for="priceInput">{{$t('price')}}</label>
       <BasicInput
