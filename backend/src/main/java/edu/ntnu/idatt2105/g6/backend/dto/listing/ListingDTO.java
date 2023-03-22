@@ -28,7 +28,7 @@ public class ListingDTO {
     private String county;
 
     @NonNull
-    private String category;
+    private Long categoryId;
 
     @NonNull
     private double price;

@@ -15,6 +15,7 @@ import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -69,12 +70,13 @@ public class CategoryService implements ICategoryService{
 
         /* Create the root of the category tree, if it doesn't already exist */
         if (mainCategory == null) {
-            mainCategory = categoryRepository.findBySubCategory(null)
-                    .orElseGet(() -> categoryRepository.save(Category
+            mainCategory = categoryRepository.save(Category
                             .builder()
+                            .categoryId(1L)
                             .mainCategory(null)
-                            .subCategory("root")
-                            .build()));
+                            .subCategory("Root")
+                            .subCategories(new HashSet<>())
+                            .build());
         }
 
         /* Check if root already has sub-category with that name */

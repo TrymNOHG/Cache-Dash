@@ -36,7 +36,7 @@ public class Category {
     private Set<Category> subCategories = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_category_id", referencedColumnName = "category_id",nullable = false)
+    @JoinColumn(name = "main_category_id", referencedColumnName = "category_id", nullable = true)
     @ToString.Exclude
     private Category mainCategory;
 

@@ -49,9 +49,8 @@ public class ItemService implements IItemService{
     public void addListing(ListingDTO listing) {
         User user = userRepository.findByUsername(listing.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(listing.getUsername()));
-        Category category = categoryRepository.findBySubCategory(listing.getCategory())
-                .orElseThrow(() -> new CategoryNotFound(listing.getCategory()));
-        System.out.println("hei");
+        Category category = categoryRepository.findById(listing.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFound(listing.getCategoryId()));
         Item item = ListingMapper.toItem(user, category, listing);
         System.out.println(item);
         itemRepository.save(item);

@@ -32,7 +32,7 @@ public class ListingMapper {
                 .fullDesc(item.getFullDesc())
                 .address(item.getAddress())
                 .county(item.getCounty())
-                .category(item.getCategory().getSubCategory())
+                .categoryId(item.getCategory().getCategoryId())
                 .price(item.getPrice())
                 .thumbnail(item.getThumbnail())
                 .keyInfoList(item.getKeyInfoList())

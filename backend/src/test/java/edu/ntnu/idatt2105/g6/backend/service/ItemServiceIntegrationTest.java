@@ -37,7 +37,72 @@ public class ItemServiceIntegrationTest {
 
     @Nested
     @SpringBootTest
-    class AddListing{
+    class Item_can_be{
+        @Autowired
+        UserRepository userRepository;
+
+        @Autowired
+        ItemRepository itemRepository;
+
+        @Autowired
+        CategoryRepository categoryRepository;
+
+        @Autowired
+        ItemService itemService;
+
+        @Autowired
+        CategoryService categoryService;
+
+
+
+        ListingDTO populateDB() {
+            User user = User
+                    .builder()
+                    .userId(1L)
+                    .username("OleN")
+                    .password("password")
+                    .fullName("Ole Norman")
+                    .email("test@gamil.com")
+                    .role(Role.ADMIN)
+                    .build();
+
+            userRepository.save(user);
+
+            CategoryEditDTO categoryEditDTO = new CategoryEditDTO(user.getUserId(), "Mercedes", null);
+            categoryService.addCategory(categoryEditDTO);
+
+            return ListingDTO
+                    .builder()
+                    .username(user.getUsername())
+                    .briefDesc("Yamaha Piano")
+                    .address("Trondheim")
+                    .county("Troenderlag")
+                    .categoryId(1L)
+                    .price(1000)
+                    .build();
+        }
+
+
+        @Test
+        public void addListing_adds_item(){
+            ListingDTO listingDTO = populateDB();
+
+            //when(userRepository.findByUsername("Test")).thenReturn(Optional.ofNullable(user));
+            //when(categoryRepository.findBySubCategory("Mercedes")).thenReturn(Optional.ofNullable(category));
+            assertDoesNotThrow(() -> {
+                itemService.addListing(listingDTO);
+            });
+
+            System.out.println(itemRepository.findAll());
+
+        }
+
+        }
+
+
+    @Nested
+    @SpringBootTest
+    class Listing_can_be{
         @Autowired
         UserRepository userRepository;
 
@@ -67,6 +132,7 @@ public class ItemServiceIntegrationTest {
             Category category = Category
                     .builder()
                     .subCategory("Mercedes")
+                    .mainCategory(null)
                     .build();
 
             CategoryEditDTO categoryEditDTO = new CategoryEditDTO(1L, "Mercedes", null);
@@ -74,23 +140,14 @@ public class ItemServiceIntegrationTest {
             categoryService.addCategory(categoryEditDTO);
 
 
-            ListingDTO listingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", "Mercedes", 100);
-            //when(userRepository.findByUsername("Test")).thenReturn(Optional.ofNullable(user));
-            //when(categoryRepository.findBySubCategory("Mercedes")).thenReturn(Optional.ofNullable(category));
-            assertDoesNotThrow(() -> {
-                itemService.addListing(listingDTO);
-            });
+//            ListingDTO listingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", "Mercedes", 100);
+//            //when(userRepository.findByUsername("Test")).thenReturn(Optional.ofNullable(user));
+//            //when(categoryRepository.findBySubCategory("Mercedes")).thenReturn(Optional.ofNullable(category));
+//            assertDoesNotThrow(() -> {
+//                itemService.addListing(listingDTO);
+//            });
 
         }
-
-
-
-        }
-
-
-    @Nested
-    @SpringBootTest
-    class Nest2{
 
 
 
