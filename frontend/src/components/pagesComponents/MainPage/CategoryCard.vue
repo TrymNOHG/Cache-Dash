@@ -18,10 +18,9 @@ export default {
 
 <style scoped>
   .figure{
-    background: #FFD700;
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: inherit;
+    height: inherit;
     display: flex;
     justify-content:center;
     align-items:center;
