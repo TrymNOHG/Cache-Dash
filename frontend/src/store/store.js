@@ -56,4 +56,46 @@ export const useLoggedInStore = defineStore('alerts', {
         }
 
     },
-})
+});
+
+export const useRegisterStore = defineStore( 'reg', {
+    state: () => ({
+        fullName: "",
+        username: "",
+        email: "",
+        phoneNumber: "",
+    }),
+
+
+    getters: {
+        getUsername(state){
+            return state.username;
+        },
+        getFullname(state){
+            return state.fullname;
+        },
+        getEmail(state){
+            return state.email;
+        },
+
+        getPhone(state){
+            return state.phonenumber;
+        },
+    },
+
+    actions: {
+        setUsername(username){
+            this.username = username;
+            console.log(this.username)
+        },
+        setFullName(fullName){
+            this.fullName = fullName;
+        },
+        setEmail(email){
+            this.email = email;
+        },
+        setPhoneNumber(phoneNumber){
+            this.phoneNumber =phoneNumber ;
+        },
+    },
+});

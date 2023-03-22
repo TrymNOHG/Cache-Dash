@@ -69,7 +69,7 @@
           >
             {{ $t('register') }}
           </button>
-          <button @click="$router.push('/login')">{{$t('login')}}</button>
+          <button @click="toTerms()">{{$t('login')}}</button>
         </div>
       </fieldset>
     </form>
@@ -82,7 +82,7 @@
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import * as yup from 'yup'
 import {useField, useForm } from "vee-validate";
-import {useLoggedInStore} from "@/store/store";
+import { useRegisterStore } from "@/store/store";
 import {ref} from "vue";
 import router from "@/router/router";
 import {registerUser} from "@/services/Authenticator";
@@ -100,10 +100,20 @@ export default {
     PhoneInput
   },
 
+
   setup () {
+    const store = useRegisterStore();
+
+    function setValues() {
+      this.username = store.getUsername
+      this.email = store.getEmail()
+      this.phonenumber = store.getPhone()
+      this.fullname = store.getFullname()
+    }
+
+    setValues()
     const submitMessage = ref('');
     const storage = useStorage();
-    const store = useLoggedInStore();
 
     const validationSchema = yup.object({
       fullname: yup.string()
@@ -177,6 +187,7 @@ export default {
       submit,
       validationSchema,
       submitMessage,
+      store
     }
   },
 
@@ -193,6 +204,15 @@ export default {
       });
     },
   },
+
+  methods: {
+    toTerms(){
+      this.store.setUsername(this.username)
+      this.store.setEmail(this.email)
+      this.store.setPhoneNumber(this.phonenumber)
+      this.store.setFullName(this.fullname)
+    },
+  }
 }
 </script>
 
