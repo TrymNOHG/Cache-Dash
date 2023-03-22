@@ -23,7 +23,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 4fr 4fr 1fr;
     row-gap: 10px;
-    grid-template-rows: 1fr 4fr 4fr;
+    grid-template-rows: 1fr 3fr 3fr;
   }
   .search{
     grid-column: 2 / 3;
@@ -35,6 +35,7 @@ export default {
   }
   .recAdded{
     grid-column: 2 / 4;
+    padding-bottom: 15px;
   }
 
 </style>
