@@ -54,7 +54,7 @@
             <BasicCheckbox
                 v-model="termOfService"
             />
-            <label id="termsInput" for="termsInput" @click="$router.push('/terms')">{{ $t('termsOfService') }}</label>
+            <label id="termsInput" for="termsInput" @click="$router.push('/register/terms')">{{ $t('termsOfService') }}</label>
           </div>
         </div>
         <div class="button-group">
