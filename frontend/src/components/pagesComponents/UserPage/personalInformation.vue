@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import BasicButton from "@/components/basicInputComponents/BasicButton.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import {useLoggedInStore} from "@/store/store";
 export default {

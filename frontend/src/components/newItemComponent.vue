@@ -36,7 +36,7 @@
           v-model="full"
           :error="errors.full"
       />
-      <picture-upload-component/>
+      <picture-upload-component v-model="imageData"/>
       <button
           id="submit_button"
           :disabled="hasErrors"
@@ -67,7 +67,9 @@ export default {
   components: {PictureUploadComponent, BasicTextArea, BasicInput},
 
   data(){
-
+    return{
+      imageData: []
+    }
   },
 
   setup () {

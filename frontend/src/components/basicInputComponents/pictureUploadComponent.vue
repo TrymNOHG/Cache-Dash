@@ -1,18 +1,28 @@
 <template>
-  <div class="upload">
-    <div class="surroundingArea">
+  <div>
+    <div
+        v-for="(image, index) in imageList"
+        :key="index"
+        class="image-input"
+        :style="{ 'background-image': `url(${image})` }"
+    >
+    </div>
+    <div
+        class="image-input"
+        @click="chooseImage"
+    ><span
+        v-if="imageList.length >= 0"
+        class="placeholder"
+    >
+        Choose an Image
+      </span>
       <input
-          name=""
-          id=""
+          class="file-input"
+          ref="fileInput"
           type="file"
-          multiple @change="handleFileUpload"
-      />
-      <div v-if="files.length > 0" >
-        <h3>Uploaded Files:</h3>
-        <ul>
-          <li v-for="(file, index) in files" :key="index">{{ file.name }}</li>
-        </ul>
-      </div>
+          @input="onSelectFile"
+          multiple
+      >
     </div>
   </div>
 </template>
@@ -20,36 +30,71 @@
 <script>
 export default {
   name: "pictureUploadComponent",
-  data() {
-    return{
-      files: []
+
+  data () {
+    return {
+      imageList: []
     }
   },
+
   methods: {
-    handleFileUpload(event) {
-      const files = event.target.files;
-      this.files = [...this.files, ...files];
-      // Do something with the files, such as sending them to a server
+    chooseImage () {
+      this.$refs.fileInput.click()
+    },
+
+    async onSelectFile() {
+      const input = this.$refs.fileInput
+      const files = input.files
+      if (files) {
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader()
+          const loadedData = await new Promise((resolve) => {
+            reader.onload = (e) => resolve(e.target.result)
+            reader.readAsDataURL(files[i])
+          })
+          this.imageList.push(loadedData)
+          console.log(loadedData)
+          console.log(this.imageList.at(i))
+          console.log(files[i])
+          this.$emit('input', files[i])
+        }
+      }
     }
   }
-}
+};
+
 </script>
 
 <style scoped>
-.upload {
-  margin-bottom: 50px;
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+.image-input {
+  display: block;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center center;
 }
-.upload .surroundingArea {
+
+.placeholder{
+  background: #F0F0F0;
   width: 100%;
-  min-height: 200px;
+  height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  border: 2px dashed #ccc;
-  margin-top: 40px;
+  align-items: center;
+  color: #333;
+  font-size: 18px;
+}
+
+.placeholder:hover{
+  background: #E0E0E0
+}
+
+.file-input{
+  display: none
+}
+
+input{
+  background-color: grey;
 }
 </style>
