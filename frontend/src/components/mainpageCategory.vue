@@ -5,7 +5,7 @@
     </div>
     <div class="category-container">
       <div v-for="category in categories" :category="category" key="category.id" class="category-list">
-        <router-link :to="`/category/${category.id}`" class="link">
+        <router-link :to="`category/${category.categoryName}`" class="link">
           <CategoryCard :category="category.categoryName"/>
         </router-link>
       </div>
