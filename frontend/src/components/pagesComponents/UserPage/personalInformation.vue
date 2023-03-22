@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import BasicButton from "@/components/basicInputComponents/BasicButton.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import {useLoggedInStore} from "@/store/store";
 export default {
@@ -95,6 +94,7 @@ export default {
   }
 
   /* Common styles for button elements */
+  /*
   button {
     border-width: 2px;
     border-color: black;
@@ -115,4 +115,38 @@ export default {
     color: #1E293B !important;
     background-color: white !important;
   }
+
+ */
+
+  button {
+    border-width: 2px;
+    border-color: black;
+    padding: 10px 20px;
+    background-color: #FFD700;
+    color: black;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+    -2px -2px 4px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+    transform: translate(0, -1px);
+    transition: all 0.1s ease-in-out;
+  }
+
+  button:active {
+    background-color: white;
+    color: #1E293B;
+  }
+
+  button:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+    -4px -4px 8px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+    transform: translate(0, -2px);
+    color: #1E293B !important;
+  }
+
+
 </style>
