@@ -25,10 +25,8 @@ public class CategoryMapper {
 //    }
 
     public static CategoryDTO toCategoryDTO(Category rootCategory) {
-        CategoryDTO categoryDTO = CategoryDTO
-                .builder()
-                .rootCategory(rootCategory)
-                .build();
+        CategoryDTO categoryDTO = new CategoryDTO(rootCategory);
+
         return categoryDTO;
     }
 

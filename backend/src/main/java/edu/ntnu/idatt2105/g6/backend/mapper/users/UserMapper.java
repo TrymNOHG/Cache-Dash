@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.mapper.users;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
+import org.springframework.stereotype.Service;
 
 public class UserMapper {
 

@@ -35,6 +35,7 @@ public class ChatService implements IChatService{
 
         conversationRepository.save(conversation);
 
+
         MessageDTO messageDTO = new MessageDTO(conversation.getConversationId(), conversationDTO.getUsername1(), conversationDTO.getMessage());
         addMessage(messageDTO);
     }
@@ -42,6 +43,7 @@ public class ChatService implements IChatService{
     @Override
     public ConversationLoadDTO loadConversation(Long conversationId) {
         Conversation conversation = conversationRepository.findByConversationId(conversationId).orElseThrow(() -> new ConversationNotFoundException(conversationId));
+
         return ConversationMapper.loadConversation(conversation);
     }
 
@@ -58,5 +60,6 @@ public class ChatService implements IChatService{
         User user = userRepository.findByUsername(messageDTO.username()).orElseThrow(() -> new UserNotFoundException(messageDTO.username()));
         Message message = MessageMapper.toMessage(conversation, user, messageDTO.message());
         messageRepository.save(message);
+
     }
 }

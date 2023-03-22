@@ -19,23 +19,22 @@ public class Conversation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conversation_id", nullable = false)
-    @NonNull
+    @Column(name = "conversation_id")
     private Long conversationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id1")
     @NonNull
-    @ToString.Exclude
+    //@ToString.Exclude
     private User user1;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id2")
     @NonNull
     @ToString.Exclude
     private User user2;
 
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
     @NonNull
     @ToString.Exclude
     private List<Message> messages = new ArrayList<>();

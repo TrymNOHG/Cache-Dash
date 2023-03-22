@@ -16,11 +16,10 @@ public class PictureGallery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "picture_id", nullable = false)
-    @NonNull
+    @Column(name = "picture_gallery_id")
     private Long pictureGalleryId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
     @NonNull
     @ToString.Exclude

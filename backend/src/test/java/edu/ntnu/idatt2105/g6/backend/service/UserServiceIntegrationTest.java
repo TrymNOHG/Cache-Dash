@@ -51,6 +51,7 @@ public class UserServiceIntegrationTest {
             userService.updateUser(userUpdateDTO);
 
             User user = userRepository.findByUsername("Test").orElseThrow();
+            System.out.println(user);
 
             assertEquals("Mr Test", user.getFullName());
         }
