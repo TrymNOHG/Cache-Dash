@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.model.listing;
 
+import edu.ntnu.idatt2105.g6.backend.model.users.Bookmark;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,7 +47,7 @@ public class Item {
     private String county;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sub_category")
+    @JoinColumn(name = "category_id")
     @NonNull
     @ToString.Exclude
     private Category category;
@@ -62,8 +63,8 @@ public class Item {
     @ToString.Exclude
     private List<KeyInfo> keyInfoList;
 
-    @OneToMany
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<User> bookmarkerList = new ArrayList<>();
+    private List<Bookmark> bookmarkerList = new ArrayList<>();
 
 }

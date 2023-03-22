@@ -69,7 +69,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Item> bookmarks = new ArrayList<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user1")
     @ToString.Exclude

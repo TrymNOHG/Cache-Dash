@@ -3,6 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.model.listing;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.listing.KeyInfo;
+import edu.ntnu.idatt2105.g6.backend.model.users.Bookmark;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import org.junit.jupiter.api.Nested;
@@ -129,7 +130,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(1L, item.getItemId());
         }
@@ -140,7 +141,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(user, item.getUser());
         }
@@ -151,7 +152,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("test", item.getBriefDesc());
         }
@@ -162,7 +163,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("test1", item.getFullDesc());
         }
@@ -173,7 +174,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("Nordkapp", item.getAddress());
         }
@@ -185,7 +186,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals("Troms og Finnmark", item.getCounty());
         }
@@ -196,7 +197,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(category, item.getCategory());
         }
@@ -207,7 +208,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(200000, item.getPrice());
         }
@@ -218,7 +219,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(thumbnail, item.getThumbnail());
         }
@@ -229,7 +230,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(keyInfoList, item.getKeyInfoList());
         }
@@ -240,7 +241,7 @@ class ItemTest {
             Category category = Category.builder().categoryId(1L).subCategory("Cars").build();
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
-            List<User> bookmarkerList = new ArrayList<>();
+            List<Bookmark> bookmarkerList = new ArrayList<>();
             Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, keyInfoList, bookmarkerList);
             assertEquals(bookmarkerList, item.getBookmarkerList());
         }

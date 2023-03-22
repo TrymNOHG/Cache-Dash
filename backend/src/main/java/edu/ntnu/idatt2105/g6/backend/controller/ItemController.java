@@ -3,8 +3,6 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
-import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

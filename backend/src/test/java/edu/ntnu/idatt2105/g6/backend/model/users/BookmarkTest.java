@@ -20,7 +20,7 @@ class BookmarkTest {
         void item_id_cannot_be_null(){
             //TODO does not throw error for empty constructor
             assertThrows(NullPointerException.class, () -> {
-                Bookmark bookmark = new Bookmark(null, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+                Bookmark bookmark = new Bookmark(null, null, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             });
         }
 
@@ -28,7 +28,7 @@ class BookmarkTest {
         void user_id_cannot_be_null(){
             //TODO does not throw error for empty constructor
             assertThrows(NullPointerException.class, () -> {
-                Bookmark bookmark = new Bookmark(new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", Category.builder().build(), 200000), null);
+                Bookmark bookmark = new Bookmark(new BookmarkId(), new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", Category.builder().build(), 200000), null);
             });
         }
 
@@ -39,7 +39,7 @@ class BookmarkTest {
 
         @Test
         void item_id_cannot_be_set_to_null(){
-            Bookmark bookmark = new Bookmark(new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+            Bookmark bookmark = new Bookmark(new BookmarkId(),new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             assertThrows(NullPointerException.class, () -> {
                 bookmark.setUser(null);
             });
@@ -47,7 +47,7 @@ class BookmarkTest {
 
         @Test
         void user_id_cannot_be_set_to_null(){
-            Bookmark bookmark = new Bookmark(new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+            Bookmark bookmark = new Bookmark(new BookmarkId() ,new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             assertThrows(NullPointerException.class, () -> {
                 bookmark.setItem(null);
             });
@@ -62,7 +62,7 @@ class BookmarkTest {
 
             User user = new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER);
             Item item = new Item(user, "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000);
-            Bookmark bookmark = new Bookmark(item, user);
+            Bookmark bookmark = new Bookmark(new BookmarkId(), item, user);
             assertEquals(item, bookmark.getItem());
         }
 
@@ -70,7 +70,7 @@ class BookmarkTest {
         void user_id_getter_returns_correct_value(){
             User user = new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER);
             Item item = new Item(user, "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000);
-            Bookmark bookmark = new Bookmark(item, user);
+            Bookmark bookmark = new Bookmark(new BookmarkId(),item, user);
             assertEquals(user, bookmark.getUser());
         }
     }
