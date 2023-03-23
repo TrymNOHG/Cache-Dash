@@ -61,7 +61,9 @@ public class Item {
     @Column(name = "thumbnail")
     private byte[] thumbnail;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @NonNull
     private ListingStatus status;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)

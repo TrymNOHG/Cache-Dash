@@ -5,6 +5,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
+import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 
 public class ListingMapper {
@@ -19,6 +20,7 @@ public class ListingMapper {
                 .county(listingDTO.getCounty())
                 .category(category)
                 .price(listingDTO.getPrice())
+                .status(ListingStatus.ACTIVE)
                 .thumbnail(listingDTO.getThumbnail())
                 .keyInfoList(listingDTO.getKeyInfoList())
                 .build();
@@ -36,6 +38,7 @@ public class ListingMapper {
                 .county(item.getCounty())
                 .categoryId(item.getCategory().getCategoryId())
                 .price(item.getPrice())
+                .listingStatus(item.getStatus())
                 .thumbnail(item.getThumbnail())
                 .keyInfoList(item.getKeyInfoList())
                 .build();

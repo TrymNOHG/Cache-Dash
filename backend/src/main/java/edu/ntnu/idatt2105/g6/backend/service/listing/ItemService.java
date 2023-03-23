@@ -18,6 +18,7 @@ import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -55,6 +56,7 @@ public class ItemService implements IItemService{
         return archivedItems.stream().map(ListingMapper::toListing).toList();
     }
 
+    @Transactional
     @Override
     public void addListing(ListingDTO listing) {
         User user = userRepository.findByUsername(listing.getUsername())
@@ -81,6 +83,7 @@ public class ItemService implements IItemService{
                             .orElseThrow(() -> new CategoryNotFound(listingUpdateDTO.category()))
                         : item.getCategory())
                 .price(listingUpdateDTO.price() != null ? listingUpdateDTO.price() : item.getPrice())
+                .status(item.getStatus())
                 .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
                 .build();

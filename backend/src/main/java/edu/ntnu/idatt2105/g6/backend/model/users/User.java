@@ -51,7 +51,6 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     @NonNull
     private Role role;
-    //TODO: can User have multiple Role?
 
     @Column(name = "birth_date")
     private Date birthDate;

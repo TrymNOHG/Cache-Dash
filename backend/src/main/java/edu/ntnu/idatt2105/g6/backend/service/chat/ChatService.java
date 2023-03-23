@@ -15,6 +15,7 @@ import edu.ntnu.idatt2105.g6.backend.repo.chat.MessageRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,15 +27,14 @@ public class ChatService implements IChatService{
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public void startConversation(ConversationDTO conversationDTO) {
         User user1 = userRepository.findByUsername(conversationDTO.getUsername1()).orElseThrow(() -> new UserNotFoundException(conversationDTO.getUsername1()));
         User user2 = userRepository.findByUsername(conversationDTO.getUsername2()).orElseThrow(() -> new UserNotFoundException(conversationDTO.getUsername1()));
-
         Conversation conversation = ConversationMapper.toConversation(user1, user2);
 
-        conversationRepository.save(conversation);
-
+        conversation = conversationRepository.save(conversation);
 
         MessageDTO messageDTO = new MessageDTO(conversation.getConversationId(), conversationDTO.getUsername1(), conversationDTO.getMessage());
         addMessage(messageDTO);
