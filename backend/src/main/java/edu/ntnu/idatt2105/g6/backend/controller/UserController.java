@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/profile")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,10 +26,11 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/update")
-    @ExceptionHandler(UserNotFoundException.class)
+//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@RequestBody UserUpdateDTO user) {
         userService.updateUser(user);
-        return ResponseEntity.badRequest().build();
+        logger.info(String.format("User %s has been updated!", user.username()));
+        return ResponseEntity.ok().build();
     }
 
     // delete

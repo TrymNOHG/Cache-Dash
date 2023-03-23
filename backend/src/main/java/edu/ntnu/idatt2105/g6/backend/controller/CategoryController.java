@@ -9,23 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/category")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
-    private final ConversationRepository conversationRepository;
     private final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-    @PostMapping("/save")
 //    @ExceptionHandler(UserNotFoundException.class)
+    @PostMapping("/save")
     public ResponseEntity<Object> save(@RequestBody CategoryEditDTO category) {
         logger.info("Attempting to add new category");
         categoryService.addCategory(category);
