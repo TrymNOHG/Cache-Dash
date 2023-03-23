@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCard.vue";
+import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
 export default {
   name: "mainpageCategory",
   components: {
