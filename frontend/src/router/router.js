@@ -9,8 +9,9 @@ import mainpageView from "@/views/MainPageView.vue";
 import TermsView from "@/views/TermsView.vue";
 import userSite from "@/views/UserSite.vue";
 import newItemView from "@/views/NewItemView.vue";
-import categoryCard from "@/components/pagesComponents/MainPage/CategoryCard.vue";
-import itemsView from "@/views/ItemsView.vue";
+import categoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
+import listingView from "@/views/ListingView.vue";
+import itemView from "@/views/ItemView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,13 +69,14 @@ const router = createRouter({
             component: userSite
         },
         {
-            path: '/category/:id',
-            name: 'category',
-            component: itemsView
+            path: '/category/:name',
+            name: 'listingView',
+            component: listingView
         },
         {
-            path: '/category/:id/items',
-            name: '/'
+            path: '/category/:name/item/:id',
+            name: 'item',
+            component: itemView
 
         },
 

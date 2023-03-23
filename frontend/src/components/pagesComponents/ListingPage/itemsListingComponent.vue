@@ -1,7 +1,7 @@
 <template>
   <div class="itemsListing-window">
-    <div v-for="item in items" :item="item" key="item.id" class="item-list">
-      <router-link :to="`${item.categoryName}/item/${item.itemName}`" class="link">
+    <div v-for="item in items" :item="item" key="listingView.id" class="item-list">
+      <router-link :to="`${item.categoryName}/item/${item.id}`" class="link">
         <ItemThumbnail :category="item.categoryName"/>
       </router-link>
     </div>
@@ -16,7 +16,8 @@ export default {
   components: {ItemThumbnail},
   data(){
     return{
-      item: {},
+      item: {
+      },
       items: [{
         id:1,
         categoryName: 'Cars',
