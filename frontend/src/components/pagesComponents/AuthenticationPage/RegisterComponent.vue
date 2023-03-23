@@ -69,7 +69,7 @@
           >
             {{ $t('register') }}
           </button>
-          <button @click="toTerms()">{{$t('login')}}</button>
+          <button class="login_button" @click="$router.push('/login')">{{$t('login')}}</button>
         </div>
       </fieldset>
     </form>
@@ -82,7 +82,7 @@
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import * as yup from 'yup'
 import {useField, useForm } from "vee-validate";
-import { useRegisterStore } from "@/store/store";
+import { useLoggedInStore } from "@/store/store";
 import {ref} from "vue";
 import router from "@/router/router";
 import {registerUser} from "@/services/Authenticator";
@@ -100,18 +100,8 @@ export default {
     PhoneInput
   },
 
-
   setup () {
-    const store = useRegisterStore();
-
-    function setValues() {
-      this.username = store.getUsername
-      this.email = store.getEmail()
-      this.phonenumber = store.getPhone()
-      this.fullname = store.getFullname()
-    }
-
-    setValues()
+    const store = useLoggedInStore();
     const submitMessage = ref('');
     const storage = useStorage();
 
@@ -160,8 +150,18 @@ export default {
         console.log(token)
         storage.setStorageSync('token', token.token);
         storage.setStorageSync('username', username.value);
-        await store.setToken(token);
-        await store.setUsername(username.value);
+
+        store.setUser({
+          loggedIn: true,
+          token: token,
+          username: userData.username,
+          fullname: userData.fullName,
+          email: userData.email,
+          dateOfBirth: userData.birthDate,
+          phoneNumber: userData.phone,
+          role: userData.role
+        })
+
         submitMessage.value = "Registration Successful";
         setTimeout(() => {
           submitMessage.value = "";
@@ -204,15 +204,6 @@ export default {
       });
     },
   },
-
-  methods: {
-    toTerms(){
-      this.store.setUsername(this.username)
-      this.store.setEmail(this.email)
-      this.store.setPhoneNumber(this.phonenumber)
-      this.store.setFullName(this.fullname)
-    },
-  }
 }
 </script>
 
@@ -282,7 +273,8 @@ button:hover {
 
 button:disabled{
   color: black;
-  background-color: black;
+  opacity: 68%;
+  background-color: #b3a100;
 }
 
 /* Style for error messages */
@@ -304,6 +296,12 @@ h5 {
   margin: 25px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+}
+
+.login_button{
+  background-color: white;
+  color: black;
 }
 
 </style>
