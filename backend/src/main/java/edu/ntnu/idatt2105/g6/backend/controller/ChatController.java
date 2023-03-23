@@ -18,11 +18,18 @@ import java.util.List;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/chat")
+@RequestMapping("/api/auth/chat")
 @RequiredArgsConstructor
 public class ChatController {
 
     private final ChatService chatService;
+
+    @PostMapping("/new")
+//    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> startConversation(@RequestBody ConversationDTO conversation) {
+        chatService.startConversation(conversation);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("/send")
 //    @ExceptionHandler(UserNotFoundException.class)

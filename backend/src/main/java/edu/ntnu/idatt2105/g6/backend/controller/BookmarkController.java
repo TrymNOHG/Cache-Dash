@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/bookmark")
+@RequestMapping("/api/auth/bookmark")
 @RequiredArgsConstructor
 public class BookmarkController {
 

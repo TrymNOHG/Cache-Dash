@@ -4,6 +4,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.users.Bookmark;
+import edu.ntnu.idatt2105.g6.backend.model.users.BookmarkId;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 
 import java.util.List;
@@ -20,11 +21,10 @@ public class BookmarkMapper {
     public static Bookmark toBookmark(Item item, User user){
         return Bookmark
                 .builder()
+                .id(new BookmarkId(item.getItemId(), user.getUserId()))
                 .item(item)
                 .user(user)
                 .build();
     }
-
-
 
 }

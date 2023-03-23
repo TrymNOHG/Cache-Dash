@@ -89,6 +89,8 @@ public class CategoryService implements ICategoryService{
         categoryRepository.save(CategoryMapper.toCategory(categoryDTO, mainCategory));
     }
 
+    //TODO: add to categoryID 1 or create new root
+
     @Override
     public void deleteCategory(CategoryEditDTO categoryDTO) {
         User user = userRepository.findById(categoryDTO.userId())
