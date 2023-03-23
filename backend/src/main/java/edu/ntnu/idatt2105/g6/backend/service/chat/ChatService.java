@@ -54,6 +54,7 @@ public class ChatService implements IChatService{
         return conversationList.stream().map(ConversationMapper::loadConversation).toList();
     }
 
+    @Transactional
     @Override
     public void addMessage(MessageDTO messageDTO) {
         Conversation conversation = conversationRepository.findByConversationId(messageDTO.conversationId()).orElseThrow(() -> new ConversationNotFoundException(messageDTO.conversationId()));

@@ -14,6 +14,7 @@ import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class CategoryService implements ICategoryService{
                 .orElseThrow(() -> new CategoryNotFound("Root")).get(0));
     }
 
+    @Transactional
     @Override
     public void addCategory(CategoryEditDTO categoryDTO) {
 
@@ -91,6 +93,7 @@ public class CategoryService implements ICategoryService{
 
     //TODO: add to categoryID 1 or create new root
 
+    @Transactional
     @Override
     public void deleteCategory(CategoryEditDTO categoryDTO) {
         User user = userRepository.findById(categoryDTO.userId())

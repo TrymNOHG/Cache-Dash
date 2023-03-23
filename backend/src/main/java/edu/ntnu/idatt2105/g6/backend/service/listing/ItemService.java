@@ -65,10 +65,10 @@ public class ItemService implements IItemService{
                 .orElseThrow(() -> new CategoryNotFound(listing.getCategoryId()));
         Item item = ListingMapper.toItem(user, category, listing);
         item.setStatus(ListingStatus.ACTIVE);
-        System.out.println(item);
         itemRepository.save(item);
     }
 
+    @Transactional
     @Override
     public void updateListing(ListingUpdateDTO listingUpdateDTO) {
         Item item = itemRepository.findByItemId(listingUpdateDTO.itemId())
@@ -91,6 +91,7 @@ public class ItemService implements IItemService{
         itemRepository.save(item);
     }
 
+    @Transactional
     @Override
     public void sellListing(ListingStatusDTO listingStatusDTO) {
         Item item = itemRepository.findById(listingStatusDTO.itemId())
@@ -103,6 +104,7 @@ public class ItemService implements IItemService{
         itemRepository.save(item);
     }
 
+    @Transactional
     @Override
     public void deleteListing(ListingDeletionDTO listingDeletionDTO) {
         /* Check authorization */

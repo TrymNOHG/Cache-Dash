@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class AuthenticationService implements IAuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public AuthenticationResponse register(UserDTO userDTO) {
         User user = User
                 .builder()

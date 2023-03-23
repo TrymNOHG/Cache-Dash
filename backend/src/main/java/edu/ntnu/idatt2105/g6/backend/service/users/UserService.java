@@ -11,6 +11,7 @@ import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public void updateUser(UserUpdateDTO userUpdateDTO){
 
@@ -49,6 +51,7 @@ public class UserService implements IUserService {
 
     }
 
+    @Transactional
     @Override
     public void deleteUser(UserDeletionDTO userDeletionDTO) {
         User user = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.username()));
