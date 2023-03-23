@@ -61,6 +61,9 @@ public class Item {
     @Column(name = "thumbnail")
     private byte[] thumbnail;
 
+    @Column(name = "status")
+    private ListingStatus status;
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude

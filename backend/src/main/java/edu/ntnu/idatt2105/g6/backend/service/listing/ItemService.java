@@ -1,16 +1,15 @@
 package edu.ntnu.idatt2105.g6.backend.service.listing;
 
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.*;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.CategoryNotFound;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.ItemNotFoundException;
+import edu.ntnu.idatt2105.g6.backend.exception.not_found.NotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.mapper.listing.ListingMapper;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
+import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
@@ -47,12 +46,23 @@ public class ItemService implements IItemService{
     }
 
     @Override
+    public List<ListingLoadDTO> loadArchive(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        List<Item> archivedItems = itemRepository.findItemsByUser_UserIdAndStatus(userId, ListingStatus.ARCHIVED)
+                .orElseThrow(() -> new NotFoundException("Item with userId", String.valueOf(userId)));
+
+        return archivedItems.stream().map(ListingMapper::toListing).toList();
+    }
+
+    @Override
     public void addListing(ListingDTO listing) {
         User user = userRepository.findByUsername(listing.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(listing.getUsername()));
         Category category = categoryRepository.findById(listing.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFound(listing.getCategoryId()));
         Item item = ListingMapper.toItem(user, category, listing);
+        item.setStatus(ListingStatus.ACTIVE);
         System.out.println(item);
         itemRepository.save(item);
     }
@@ -75,6 +85,18 @@ public class ItemService implements IItemService{
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
                 .build();
 
+        itemRepository.save(item);
+    }
+
+    @Override
+    public void sellListing(ListingStatusDTO listingStatusDTO) {
+        Item item = itemRepository.findById(listingStatusDTO.itemId())
+                .orElseThrow(() -> new ItemNotFoundException(listingStatusDTO.itemId()));
+        User user = userRepository.findById(listingStatusDTO.itemId())
+                .orElseThrow(() -> new UserNotFoundException(listingStatusDTO.itemId()));
+        if(!userAuthorized(user, item)) throw new UnauthorizedException(user.getUsername());
+
+        item.setStatus(listingStatusDTO.listingStatus());
         itemRepository.save(item);
     }
 
