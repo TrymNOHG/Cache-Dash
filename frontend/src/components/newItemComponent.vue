@@ -1,7 +1,7 @@
 <template>
   <form name="login-form" role="form" @submit="submit">
     <fieldset>
-      <legend>{{$t('register')}}</legend>
+      <legend>{{$t('newItem')}}</legend>
       <label for="itemnameInput">{{$t('itemname')}}</label>
       <BasicInput
           id="itemnameInput"
@@ -13,7 +13,7 @@
       <label for="priceInput">{{$t('price')}}</label>
       <BasicInput
           id="lastnameInput"
-          type="double"
+          type="number"
           v-model="price"
           :error="errors.price"
           autocomplete="price"
@@ -36,7 +36,7 @@
           v-model="full"
           :error="errors.full"
       />
-      <picture-upload-component v-model="imageData"/>
+      <picture-upload-component v-on:send-image-data="addToImageList($event)"/>
       <button
           id="submit_button"
           :disabled="hasErrors"
@@ -126,6 +126,12 @@ export default {
       });
     },
   },
+  methods: {
+    addToImageList(theNewImage){
+      console.log("hello")
+      this.imageData.unshift(theNewImage)
+    }
+  }
 }
 
 

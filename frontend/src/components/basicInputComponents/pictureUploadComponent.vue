@@ -56,7 +56,7 @@ export default {
           console.log(loadedData)
           console.log(this.imageList.at(i))
           console.log(files[i])
-          this.$emit('input', files[i])
+          this.$emit('send-image-data', files[i])
         }
       }
     }
