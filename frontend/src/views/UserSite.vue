@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import PersonalInformation from "@/components/pagesComponents/UserPage/personalInformation.vue";
-import MyItems from "@/components/pagesComponents/UserPage/myItems.vue";
+import PersonalInformation from "@/components/pagesComponents/UserPage/personalInformationComponent.vue";
+import MyItems from "@/components/pagesComponents/UserPage/myItemsComponent.vue";
 
 export default {
-  name: "userSite",
+  name: "myProfile",
   components: {MyItems, PersonalInformation}
 }
 </script>
