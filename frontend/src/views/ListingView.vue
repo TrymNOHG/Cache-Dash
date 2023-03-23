@@ -12,11 +12,11 @@
 
 <script>
 import MainpageSearchBar from "@/components/basicInputComponents/mainpageSearchBar.vue";
-import ItemsListingComponent from "@/components/pagesComponents/ItemPage/itemsListingComponent.vue";
-import FilterComponent from "@/components/pagesComponents/ItemPage/filterComponent.vue";
+import ItemsListingComponent from "@/components/pagesComponents/ListingPage/itemsListingComponent.vue";
+import FilterComponent from "@/components/pagesComponents/ListingPage/filterComponent.vue";
 
 export default {
-  name: "itemsView",
+  name: "listingView",
   components: {FilterComponent, ItemsListingComponent, MainpageSearchBar}
 }
 </script>
