@@ -29,7 +29,7 @@
           >
             {{ $t('login') }}
           </button>
-          <button @click="$router.push('/register')">{{ $t('register') }}</button>
+          <button class="register_button" @click="$router.push('/register')">{{ $t('register') }}</button>
         </div>
       </fieldset>
     </form>
@@ -77,8 +77,9 @@ export default {
         console.log(token)
         storage.setStorageSync('token', token.token);
         storage.setStorageSync('username', username.value);
-        await store.setToken(token);
-        await store.setUsername(username.value);
+
+
+
         submitMessage.value = "Registration Successful";
         setTimeout(() => {
           submitMessage.value = "";
@@ -176,6 +177,17 @@ button:hover {
   background-color: white !important;
 }
 
+button:disabled{
+  color: black;
+  opacity: 68%;
+  background-color: #b3a100;
+}
+
+.register_button{
+  color: black;
+  background-color: white;
+}
+
 /* Style for error messages */
 h5 {
   color: red;
@@ -193,11 +205,12 @@ h5 {
 .button-group {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 fieldset{
   margin: 25px;
-
 }
+
 
 </style>
