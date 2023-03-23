@@ -8,6 +8,9 @@ springdoc:
     path: /api/auth/docs
   swagger-ui:
     path: /api/auth/swagger
+    operations-sorter: method
+  packages-to-scan: edu.ntnu.idatt2105.g6.backend.controller
+
 
 
 
