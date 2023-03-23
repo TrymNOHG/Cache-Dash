@@ -3,7 +3,16 @@ logging:
     root: INFO
 
 server.port: 8080
+springdoc:
+  api-docs:
+    path: /api/auth/docs
+  swagger-ui:
+    path: /api/auth/swagger
+
+
+
 
 spring:
   profiles:
     active: dev
+
