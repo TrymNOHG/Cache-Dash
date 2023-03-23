@@ -2,13 +2,13 @@
   <form name="login-form" role="form" @submit="submit">
     <fieldset>
       <legend>{{$t('newItem')}}</legend>
-      <label for="itemnameInput">{{$t('itemname')}}</label>
+      <label for="briefInput">{{$t('briefdescription')}}</label>
       <BasicInput
-          id="itemnameInput"
+          id="briefInput"
           type="text"
-          v-model="itemname"
-          :error="errors.itemname"
-          autocomplete="itemname"
+          v-model="brief"
+          :error="errors.brief"
+          autocomplete="name"
       />
       <label for="priceInput">{{$t('price')}}</label>
       <BasicInput
@@ -19,17 +19,32 @@
           autocomplete="price"
       />
       <label for="categoryInput">{{$t('category')}}</label>
-      <BasicInput
-          id="categoryInput"
-          type="username"
-          v-model="category"
-          :error="errors.category"
-          autocomplete="category"
+      <BasicSelect
+          class="CategorySelect"
+          :options="catStore.allCategoryNames"
+          v-model="catStore.category.categoryName"
       />
-      <label for="briefInput">{{$t('briefdescription')}}</label>
-      <BasicTextArea
-          v-model="brief"
-          :error="errors.brief"
+      <label for="categoryInput">{{$t('county')}}</label>
+      <BasicSelect
+          class="CategorySelect"
+          :options="countyStore.allCounties"
+          v-model="countyStore.county.countyName"
+      />
+      <label for="addressInput">{{$t('address')}}</label>
+      <BasicInput
+          id="addressInput"
+          type="text"
+          v-model="address"
+          :error="errors.address"
+          autocomplete="address"
+      />
+      <label for="keyInfoListInput">{{$t('keyInfoList')}}</label>
+      <BasicInput
+          id="keyInfoListInput"
+          type="text"
+          v-model="keyInfoList"
+          :error="errors.keyInfoList"
+          autocomplete="information"
       />
       <label for="fullInput">{{$t('fulldescription')}}</label>
       <BasicTextArea
@@ -54,30 +69,34 @@ import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 
 import BasicTextArea from "@/components/basicInputComponents/BasicTextArea.vue";
 import {ref} from "vue";
-import {useStorage} from "vue3-storage";
-import {useLoggedInStore} from "@/store/store";
+import {useCategoryStore, useLoggedInStore, useCountyStore, useImageStore} from "@/store/store";
 import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
-import {loginUser} from "@/services/Authenticator";
-import router from "@/router/router";
 import PictureUploadComponent from "@/components/basicInputComponents/pictureUploadComponent.vue";
+import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
+import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
 
 export default {
   name: "newItemComponent",
-  components: {PictureUploadComponent, BasicTextArea, BasicInput},
+  components: {BasicSelect, BasicRadioGroup, PictureUploadComponent, BasicTextArea, BasicInput},
 
   data(){
     return{
-      imageData: []
+      catStore: useCategoryStore(),
+      countyStore: useCountyStore()
     }
   },
 
   setup () {
     const submitMessage = ref('');
+    const userStore = useLoggedInStore();
+    const catStore = useCategoryStore();
+    const countyStore = useCountyStore();
+    const imageStore = useImageStore();
+    countyStore.$reset();
+    catStore.$reset();
 
     const validationSchema = yup.object({
-      itemname: yup.string()
-          .required('Item name is Required'),
       price: yup.string()
           .required('Price required'),
       brief: yup.string()
@@ -86,55 +105,82 @@ export default {
       full: yup.string()
           .required('Full description is Required')
           .min(100),
-
+      address: yup.string()
+          .required('Address is Required'),
+      keyInfoList: yup.string()
+          .required('Key information Required')
     });
 
     const { handleSubmit, errors } = useForm({ validationSchema });
-    const { value: itemname } = useField('itemname');
     const { value: price } = useField('price')
     const { value: brief } = useField('brief')
     const { value: full } = useField('full')
     const { value: category } = useField('category')
-
+    const { value: address } = useField('address')
+    const { value: keyInfoList } = useField('keyInfoList')
 
 
     const submit = handleSubmit(async () => {
+      catStore.setCorrectCategory(catStore.category.categoryName);
 
+      const formData = new FormData();
+      formData.append('username', userStore.user.username);
+      formData.append('briefDesc', brief.value)
+      formData.append('fullDesc', full.value)
+      formData.append('address', address.value)
+      formData.append('county', countyStore.county.countyName)
+      formData.append('categoryId', catStore.category.categoryID)
+      formData.append('price', price.value)
+
+      for (let i = 0; i < imageStore.imageToSend.length; i++) {
+        let string = 'imagex'.replace('x', i)
+        formData.append(string, imageStore.imageToSend[i])
+      }
+      formData.append('keyInfoList', keyInfoList.value.split(" "))
+
+      try{
+        ItemService
+      }
+
+      imageStore.$reset();
     });
 
     return {
-      itemname,
       price,
       brief,
       full,
+      address,
       errors,
       category,
+      keyInfoList,
       submit,
       validationSchema,
       submitMessage,
+      catStore,
+      countyStore,
+      userStore,
+      imageStore
     }
   },
   computed: {
     hasErrors() {
       return !this.validationSchema.isValidSync({
-        username: this.username,
-        password: this.password,
-        itemname: this.itemname,
         price: this.price,
         brief: this.brief,
         full: this.full,
+        keyInfoList: this.keyInfoList,
+        address: this.address
       });
     },
   },
   methods: {
     addToImageList(theNewImage){
-      console.log("hello")
-      this.imageData.unshift(theNewImage)
-    }
+      console.log("kill", theNewImage)
+      this.imageStore.addImage(theNewImage)
+      console.log("me", this.imageStore.test)
+    },
   }
 }
-
-
 </script>
 
 <style scoped>
@@ -193,6 +239,9 @@ button:hover {
   background-color: white !important;
 }
 
+button:disabled{
+  background-color: black;
+}
 /* Style for error messages */
 h5 {
   color: red;

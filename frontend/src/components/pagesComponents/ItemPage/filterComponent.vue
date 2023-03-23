@@ -22,8 +22,8 @@
       <h2>Search for county</h2>
         <BasicSelect
             class="dropDown"
-            :options="counties"
-            v-model="search.counties"
+            :options="countyStore.allCounties"
+            v-model="search.county"
             label="Choose a county"
           />
     </div>
@@ -37,31 +37,26 @@
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
+import {useCountyStore} from "@/store/store";
 
 export default {
   name: "filterComponent",
   components: {BasicSelect, BasicCheckbox, BasicInput},
   data(){
     return{
-      counties:[
-        'Troms og Finnmark',
-        'Nordland',
-        'Trøndelag',
-        'Møre og Romsdal',
-        'Vestland',
-        'Rogaland',
-        'Agder',
-        'Vestfold og Telemark',
-        'Viken',
-        'Oslo',
-        'Innlandet'
-      ],
       search:{
         county:'',
         searchArea:'',
         checkedCatagories:[]
 
       }
+    }
+  },
+  setup(){
+    const countyStore = useCountyStore();
+    countyStore.$reset();
+    return{
+      countyStore
     }
   },
   props: {
