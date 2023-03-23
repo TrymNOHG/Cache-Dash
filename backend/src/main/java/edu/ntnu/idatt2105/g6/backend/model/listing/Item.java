@@ -4,6 +4,8 @@ import edu.ntnu.idatt2105.g6.backend.model.users.Bookmark;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class Item {
     @NonNull
     private String county;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     @NonNull
     @ToString.Exclude
@@ -60,10 +62,12 @@ public class Item {
     private byte[] thumbnail;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private List<KeyInfo> keyInfoList;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private List<Bookmark> bookmarkerList = new ArrayList<>();
 

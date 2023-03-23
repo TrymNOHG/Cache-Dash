@@ -1,11 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
-import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
-import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
-import edu.ntnu.idatt2105.g6.backend.exception.not_found.NotFoundException;
-import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
-import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
 import edu.ntnu.idatt2105.g6.backend.service.users.UserService;
 import lombok.RequiredArgsConstructor;

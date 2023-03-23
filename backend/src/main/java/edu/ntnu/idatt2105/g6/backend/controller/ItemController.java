@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/api/auth/item")
+@RequestMapping("/api/auth/listing")
 @RequiredArgsConstructor
 public class ItemController {
 

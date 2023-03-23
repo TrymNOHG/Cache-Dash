@@ -3,6 +3,8 @@ package edu.ntnu.idatt2105.g6.backend.model.chat;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
 
@@ -21,13 +23,14 @@ public class Message {
     @Column(name = "message_id")
     private Long messageId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "conversation_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @NonNull
     @ToString.Exclude
     private Conversation conversation;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @NonNull
     @ToString.Exclude
