@@ -39,6 +39,13 @@ public class ApplicationConfig {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * This method return the application's current Password Encoder, which leverages the bcrypt algorithm.
+     * The BCryptPasswordEncoder can take in a strength as a parameter and is recommended to take about 1 second to
+     * generate.
+     *
+     * @return  BCrypt password encoder, given as a PasswordEncoder object.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

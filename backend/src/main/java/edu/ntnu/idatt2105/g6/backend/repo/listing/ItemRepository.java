@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.repo.listing;
 
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
+import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -21,6 +22,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<List<Item>> findItemsByPriceGreaterThan(double price);
     Optional<List<Item>> findItemsByPriceGreaterThanEqual(double price);
     Optional<List<Item>> findItemsByPriceBetween(double lowerBound, double upperBound);
+
+    Optional<List<Item>> findItemsByUser_UserIdAndStatus(Long userId ,ListingStatus status);
 //    Optional<List<Item>> findItemsByPrice(double lowerBound, double upperBound); //Test what this does
 
 
