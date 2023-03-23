@@ -138,9 +138,8 @@ export default {
       }
       formData.append('keyInfoList', keyInfoList.value.split(" "))
 
-      try{
-        ItemService
-      }
+      console.log('formdatan:' + formData.getAll('image'))
+
 
       imageStore.$reset();
     });
