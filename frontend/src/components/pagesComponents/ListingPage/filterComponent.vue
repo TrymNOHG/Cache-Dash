@@ -1,6 +1,6 @@
 <template>
   <div class="filter-window">
-    <map-component></map-component>
+    <map-component :chosenCounty="chosenCounty"/>
     <div>
       <h2>placeholder </h2>
       <div v-for="category in categories" key="category.id" class="category-list">
@@ -24,7 +24,8 @@
         <BasicSelect
             class="dropDown"
             :options="countyStore.allCounties"
-            v-model="search.county"
+            v-model="chosenCounty"
+            @change="updateFyleValgt"
             label="Choose a county"
           />
     </div>
@@ -49,9 +50,9 @@ export default {
       search:{
         county:'',
         searchArea:'',
-        checkedCatagories:[]
-
-      }
+        checkedCatagories:[],
+      },
+      chosenCounty: ''
     }
   },
   setup(){
@@ -77,8 +78,16 @@ export default {
           this.search.checkedCatagories.push(this.categories[i].catName)
         }
       }
-    }
-  }
+    },
+    updateFyleValgt() {
+      this.$emit("update:fyleValgt", this.fyleValgt);
+    },
+  },
+  watch: {
+    fyleValgt: function (newVal) {
+      this.$emit("update:fyleValgt", newVal);
+    },
+  },
 }
 </script>
 

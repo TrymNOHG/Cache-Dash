@@ -21,8 +21,6 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import {LMap, LTileLayer, LMarker, LPolygon} from "@vue-leaflet/vue-leaflet";
-import {useCountyStore} from "@/store/store";
-import axios from "axios";
 import fylker from "@/assets/fylker.json"
 
 
@@ -33,6 +31,11 @@ export default {
     LMap,
     LTileLayer,
   },
+
+  props: {
+    chosenCounty: String,
+  },
+
   data() {
     return {
       zoom: 4,
@@ -42,16 +45,26 @@ export default {
         [35.689722, 139.691667],
       ],
       polygonCoordinates: [],
-      fylkeData: fylker,
     };
   },
 
-  mounted() {
-
+  watch: {
+    chosenCounty: function (newVal) {
+      console.log("fyleValgt changed:", newVal);
+      this.loadCounty()
+    },
   },
-  methods: {
 
-  }
+  methods: {
+    loadCounty(){
+      fylker.features.forEach(feature => {
+        if (feature.properties.navn[0].navn === this.chosenCounty) {
+          this.polygonCoordinates = feature.geometry.coordinates[0]
+        }
+      })
+    }
+  },
+
 };
 </script>
 
