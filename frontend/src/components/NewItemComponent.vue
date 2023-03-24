@@ -46,10 +46,6 @@
           :error="errors.address"
           autocomplete="street-address"
       />
-      <div v-if="latitude && longitude">
-        Latitude: {{ latitude }}<br>
-        Longitude: {{ longitude }}
-      </div>
 
       <label for="keyInfoListInput">{{$t('keyInfoList')}}</label>
       <BasicInput
@@ -70,7 +66,6 @@
           :disabled="hasErrors"
           type="submit"
           class="-fill-gradient"
-          @click="handleSubmit()"
       >
         {{$t('register')}}
       </button>
@@ -96,8 +91,7 @@ export default {
     return{
       catStore: useCategoryStore(),
       countyStore: useCountyStore(),
-      latitude: null,
-      longitude: null,
+
     }
   },
 
@@ -145,16 +139,15 @@ export default {
       formData.append('username', userStore.user.username);
       formData.append('briefDesc', brief.value)
       formData.append('fullDesc', full.value)
+      formData.append('city', city.value)
       formData.append('address', address.value)
       formData.append('county', countyStore.county.countyName)
       formData.append('categoryId', catStore.category.categoryID)
       formData.append('price', price.value)
-
-      for (let i = 0; i < imageStore.imageToSend.length; i++) {
-        let string = 'imagex'.replace('x', i)
-        formData.append(string, imageStore.imageToSend[i])
-      }
       formData.append('keyInfoList', keyInfoList.value.split(" "))
+      formData.append('images', imageStore.imageToSend)
+
+      console.log(formData)
 
       imageStore.$reset();
     });
@@ -196,7 +189,7 @@ export default {
       console.log("me", this.imageStore.test)
     },
 
-    findAddressByLatLng() {
+    handleSubmit() {
       const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(this.address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
       fetch(url)
           .then(response => response.json())
