@@ -44,7 +44,7 @@ public class SecurityConfig {
                 //TODO: might have to create own CustomRequestMatcher for roles
             .formLogin(form ->
                     form.loginPage("/login")
-                            .defaultSuccessUrl("/home")//TODO add custom
+                            .defaultSuccessUrl("/home")//TODO add custom and to correct port!!!
             )
             .logout(logout ->
                     logout.logoutUrl("/logout")

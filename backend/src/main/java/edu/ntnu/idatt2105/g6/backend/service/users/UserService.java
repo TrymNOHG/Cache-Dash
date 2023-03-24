@@ -1,14 +1,17 @@
 package edu.ntnu.idatt2105.g6.backend.service.users;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.exists.UserExistsException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
+import edu.ntnu.idatt2105.g6.backend.mapper.users.UserMapper;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,4 +66,12 @@ public class UserService implements IUserService {
         else throw new UnauthorizedException(user.getUsername());
 
     }
+
+    @Override
+    public UserLoadDTO loadUserByUsername(String username) {
+        UserLoadDTO userLoadDTO = UserMapper.userLoadDTO(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username)));
+        return userLoadDTO;
+    }
+
 }
