@@ -5,9 +5,9 @@ logging:
 server.port: 8080
 springdoc:
   api-docs:
-    path: /api/auth/docs
+    path: /docs
   swagger-ui:
-    path: /api/auth/swagger
+    path: /swagger
     operations-sorter: method
   packages-to-scan: edu.ntnu.idatt2105.g6.backend.controller
 

@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,7 +34,7 @@ public class SecurityConfig {
             .headers().frameOptions().sameOrigin()
             .and()
             .authorizeHttpRequests(authorize ->
-                authorize.requestMatchers("/home", "/login", "/user/register", "/about")
+                authorize.requestMatchers("/home", "/login", "/user/register", "/about", "/swagger/**", "/docs/**", "/swagger-ui/**")
                             .permitAll()
                         .requestMatchers("/user/**", "/auth/**")
                             .hasAnyRole( "USER", "ADMIN") //TODO: is authenticated applied?
