@@ -8,10 +8,8 @@
       ></l-tile-layer>
       <l-polygon
         :lat-lngs="polygonCoordinates"
-        color="#41b782"
-        :fill="true"
-        :fillOpacity="0.5"
-        fillColor="#41b782"
+        color="blue"
+        :fill="false"
       />
       <l-marker v-for="(coordinate, index) in coordinates" :key="index" :lat-lng="coordinate"></l-marker>
     </l-map>
