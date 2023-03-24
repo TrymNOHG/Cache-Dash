@@ -46,6 +46,7 @@ public class UserService implements IUserService {
                     .listedItems(user.getListedItems())
                     .build();
 
+            System.out.println(user);
             userRepository.save(user);
 
 

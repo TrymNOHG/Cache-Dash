@@ -42,16 +42,16 @@ public class SecurityConfig {
                             .hasRole("ADMIN").anyRequest().authenticated()
             )
                 //TODO: might have to create own CustomRequestMatcher for roles
-            .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/home")//TODO add custom
-            .and()
-            .logout()
-                .logoutUrl("/logout")
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSION", "remember-me") //todo yeah?
-            .and()
+            .formLogin(form ->
+                    form.loginPage("/login")
+                            .defaultSuccessUrl("/home")//TODO add custom
+            )
+            .logout(logout ->
+                    logout.logoutUrl("/logout")
+                            .clearAuthentication(true)
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSION", "remember-me")//todo yeah?
+            )
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
