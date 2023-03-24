@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/auth/chat")
+@RequestMapping("/user/chat")
 @RequiredArgsConstructor
 public class ChatController {
 

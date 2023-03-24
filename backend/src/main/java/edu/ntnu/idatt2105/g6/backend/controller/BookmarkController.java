@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/auth/bookmark")
+@RequestMapping("/user/bookmark")
 @RequiredArgsConstructor
 public class BookmarkController {
 

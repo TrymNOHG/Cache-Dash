@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/auth/category")
+@RequestMapping("/admin/category")
 @RequiredArgsConstructor
 public class CategoryController {
 
