@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:8080/api/auth";
-export const registerUser = async (name, password) => {
+const BASE_API_URL = "http://10.24.0.100:8080/api/auth";
+export const registerUser = async (userData) => {
     return await axios.post(`${BASE_API_URL}/register`, {
-        username: name,
-        password: password,
+
     }).then((response) => {
         console.log(response.data)
         return response.data;
