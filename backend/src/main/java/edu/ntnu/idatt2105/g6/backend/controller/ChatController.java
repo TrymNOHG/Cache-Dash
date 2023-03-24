@@ -4,9 +4,14 @@ import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
 import edu.ntnu.idatt2105.g6.backend.service.chat.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +45,12 @@ public class ChatController {
     }
 
     @PostMapping("/load")
+    @Operation(summary = "Load conversation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading conversations",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ConversationLoadDTO.class)) })}
+    )
 //    @ExceptionHandler(UserNotFoundException.class)
     //TODO: add token?
     public ResponseEntity<Object> loadConversations(@ParameterObject @RequestBody String username) {
