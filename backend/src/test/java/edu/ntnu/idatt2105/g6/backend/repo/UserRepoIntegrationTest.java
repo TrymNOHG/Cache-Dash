@@ -1,23 +1,42 @@
-//package edu.ntnu.idatt2105.g6.backend.repo;
-//
-//import edu.ntnu.idatt2105.g6.backend.BackendApplication;
-//import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = BackendApplication.class)
-////@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
-////@SpringBootTest(webEnvironment=WebEnvironment.NONE)
-////@SpringBootTest(webEnvironment=WebEnvironment.)
-//class UserRepoIntegrationTest {
-//
-//    @Test
-//    void test1() {
-//
-//    }
-//
-//}
+package edu.ntnu.idatt2105.g6.backend.repo;//package edu.ntnu.idatt2105.g6.backend.repo;
+
+
+import edu.ntnu.idatt2105.g6.backend.model.users.Role;
+import edu.ntnu.idatt2105.g6.backend.model.users.User;
+import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+//TODO: test that username cannot be same
+//TODO: test that changing to already existing username throws error
+//TODO: test other exceptions
+
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
+public class UserRepoIntegrationTest {
+
+    @Autowired
+    private UserRepository repository;
+
+
+    @Test
+    public void user_repository_retrieves_correct_user(){
+
+        User user = User
+                .builder()
+                .username("Test")
+                .password("123")
+                .fullName("Test test")
+                .email("test@test.test")
+                .role(Role.USER)
+                .build();
+        repository.save(user);
+        assertEquals(user, repository.findByUsername("Test").orElseThrow());
+    }
+
+    }

@@ -21,7 +21,8 @@ public class BookmarkIdTest {
         @Test
         void constructor_does_not_throw_errors(){
             assertDoesNotThrow(() -> {
-                new BookmarkId(1L, "test");
+
+                new BookmarkId(1L, 1L);
             });
         }
     }

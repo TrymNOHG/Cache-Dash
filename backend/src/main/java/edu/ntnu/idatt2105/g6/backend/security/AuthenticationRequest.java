@@ -1,9 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -11,7 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest {
     //TODO: Maybe move to dto
+    @NonNull
     private String username;
 
+    @NonNull
     private String password;
 }

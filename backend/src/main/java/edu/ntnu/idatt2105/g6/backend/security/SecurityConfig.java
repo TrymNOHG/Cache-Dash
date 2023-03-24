@@ -25,22 +25,35 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf()
-                .disable()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .cors()
+            .and()
+            .csrf()
+            .disable()
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .headers().frameOptions().sameOrigin()
+            .and()
+            .authorizeHttpRequests(authorize ->
+                authorize.requestMatchers("/home", "/login", "/user/register", "/about", "/swagger/**", "/docs/**", "/swagger-ui/**")
+                            .permitAll()
+                        .requestMatchers("/user/**", "/auth/**")
+                            .hasAnyRole( "USER", "ADMIN") //TODO: is authenticated applied?
+                        .requestMatchers("/admin/**")
+                            .hasRole("ADMIN").anyRequest().authenticated()
+            )
+                //TODO: might have to create own CustomRequestMatcher for roles
+            .formLogin(form ->
+                    form.loginPage("/login")
+                            .defaultSuccessUrl("/home")//TODO add custom
+            )
+            .logout(logout ->
+                    logout.logoutUrl("/logout")
+                            .clearAuthentication(true)
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSION", "remember-me")//todo yeah?
+            )
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }

@@ -1,24 +1,23 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
+import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
-import edu.ntnu.idatt2105.g6.backend.service.AuthenticationService;
+import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
-@Controller
+@RestController
 @CrossOrigin("*")
-@RequestMapping("/api/auth")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -26,9 +25,11 @@ public class AuthenticationController {
     private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDTO user) {
+    @Operation(summary = "Register a new user")
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<AuthenticationResponse> register(@ParameterObject @RequestBody UserDTO user) {
         try {
-            logger.info("User " + user.getUsername() + " is being registered!");
+            logger.info("User " + user.username() + " is being registered!");
             return ResponseEntity.ok(service.register(user));
         }catch (Exception e) {
             logger.warn("Internal error has occurred: " + e.getMessage());
@@ -36,8 +37,9 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) throws Exception {
+    @PostMapping("/auth/authenticate")
+    @Operation(summary = "Authenticate a user")
+    public ResponseEntity<AuthenticationResponse> register(@ParameterObject @RequestBody AuthenticationRequest request) throws Exception {
         try{
             logger.info("New Authentication request: " + request.toString());
             return ResponseEntity.ok(service.authenticate(request));

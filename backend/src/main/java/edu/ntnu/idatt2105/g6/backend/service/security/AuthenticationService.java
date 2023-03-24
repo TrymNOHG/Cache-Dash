@@ -1,11 +1,13 @@
-package edu.ntnu.idatt2105.g6.backend.service;
+package edu.ntnu.idatt2105.g6.backend.service.security;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
+import edu.ntnu.idatt2105.g6.backend.mapper.users.UserMapper;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,10 +16,13 @@ import org.springframework.stereotype.Service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+
 @RequiredArgsConstructor
-public class AuthenticationService implements IAuthenticationService{
+@Service
+public class AuthenticationService implements IAuthenticationService {
+
 
     private final UserRepository userRepository;
 
@@ -27,16 +32,17 @@ public class AuthenticationService implements IAuthenticationService{
 
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public AuthenticationResponse register(UserDTO userDTO) {
         User user = User
                 .builder()
-                .username(userDTO.getUsername())
-                .password(passwordEncoder.encode(userDTO.getPassword()))
-                .role(Role.USER)
-                .fullName(userDTO.getFullName())
-                .email(userDTO.getEmail())
+                .username(userDTO.username())
+                .password(passwordEncoder.encode(userDTO.password()))
+                .role(userDTO.role())
+                .fullName(userDTO.fullName())
+                .email(userDTO.email())
                 .build();
-        if (userRepository.findByUsername(userDTO.getUsername()).isPresent())
+        if (userRepository.findByUsername(userDTO.username()).isPresent())
             throw new IllegalStateException("Username already exists");
         userRepository.save(user);
 

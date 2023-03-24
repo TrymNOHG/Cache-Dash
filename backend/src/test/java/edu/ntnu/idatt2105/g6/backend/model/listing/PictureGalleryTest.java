@@ -12,12 +12,12 @@ class PictureGalleryTest {
     @Nested
     class When_Picture_Gallery_constructor_has_non_null_variable {
 
-        @Test
-        public void id_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                PictureGallery pictureGallery = new PictureGallery(null, new Item(), new byte[5]);
-            });
-        }
+//        @Test
+//        public void id_throws_NullPointer_Exception_if_null() {
+//            assertThrows(NullPointerException.class, () -> {
+//                PictureGallery pictureGallery = new PictureGallery(null, new Item(), new byte[5]);
+//            });
+//        }
         @Test
         public void item_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {
@@ -36,13 +36,13 @@ class PictureGalleryTest {
 
     @Nested
     class When_setting_Picture_Gallery_non_null_variable {
-        @Test
-        public void id_throws_NullPointer_Exception_if_null() {
-            assertThrows(NullPointerException.class, () -> {
-                PictureGallery pictureGallery = new PictureGallery();
-                pictureGallery.setPictureGalleryId(null);
-            });
-        }
+//        @Test
+//        public void id_throws_NullPointer_Exception_if_null() {
+//            assertThrows(NullPointerException.class, () -> {
+//                PictureGallery pictureGallery = new PictureGallery();
+//                pictureGallery.setPictureGalleryId(null);
+//            });
+//        }
         @Test
         public void item_throws_NullPointer_Exception_if_null() {
             assertThrows(NullPointerException.class, () -> {

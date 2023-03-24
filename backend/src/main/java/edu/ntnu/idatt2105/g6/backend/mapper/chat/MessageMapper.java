@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class MessageMapper {
 
-   public Message toMessage(Conversation conversation, User sender, String text){
+   public static Message toMessage(Conversation conversation, User sender, String text){
        Timestamp timestamp = new Timestamp(new Date().getTime());
        Message message = Message
                .builder()

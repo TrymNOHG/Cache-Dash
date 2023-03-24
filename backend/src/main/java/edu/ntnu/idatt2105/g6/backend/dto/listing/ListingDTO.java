@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ListingDTO {
 
+
     @NonNull
     private String username;
 
@@ -28,7 +29,7 @@ public class ListingDTO {
     private String county;
 
     @NonNull
-    private String category;
+    private Long categoryId;
 
     @NonNull
     private double price;

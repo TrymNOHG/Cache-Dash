@@ -1,19 +1,26 @@
 package edu.ntnu.idatt2105.g6.backend.model.users;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class BookmarkId implements Serializable {
 
-    private Long itemId;
-    private String username;
+
+    @Column(name = "item_id")
+    private Long item;
+
+    @Column(name = "user_id")
+    private Long user;
 
     public BookmarkId() {
     }
 
-    public BookmarkId(Long itemId, String username) {
-        this.itemId = itemId;
-        this.username = username;
+    public BookmarkId(Long item, Long user) {
+        this.item = item;
+        this.user = user;
     }
 
     @Override
@@ -21,14 +28,14 @@ public class BookmarkId implements Serializable {
         if (this == o) return true;
         if (!(o instanceof BookmarkId that)) return false;
 
-        if (!Objects.equals(itemId, that.itemId)) return false;
-        return Objects.equals(username, that.username);
+        if (!Objects.equals(item, that.item)) return false;
+        return Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        int result = itemId != null ? itemId.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
+        int result = item != null ? item.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 }

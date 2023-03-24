@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.model.users;
 
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
+import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import edu.ntnu.idatt2105.g6.backend.model.users.Bookmark;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
@@ -20,7 +21,7 @@ class BookmarkTest {
         void item_id_cannot_be_null(){
             //TODO does not throw error for empty constructor
             assertThrows(NullPointerException.class, () -> {
-                Bookmark bookmark = new Bookmark(null, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+                Bookmark bookmark = new Bookmark(null, null, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             });
         }
 
@@ -28,7 +29,7 @@ class BookmarkTest {
         void user_id_cannot_be_null(){
             //TODO does not throw error for empty constructor
             assertThrows(NullPointerException.class, () -> {
-                Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), null);
+                Bookmark bookmark = new Bookmark(new BookmarkId(), new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", Category.builder().build(), 200000, ListingStatus.ACTIVE), null);
             });
         }
 
@@ -39,7 +40,7 @@ class BookmarkTest {
 
         @Test
         void item_id_cannot_be_set_to_null(){
-            Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+            Bookmark bookmark = new Bookmark(new BookmarkId(),new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000, ListingStatus.ACTIVE), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             assertThrows(NullPointerException.class, () -> {
                 bookmark.setUser(null);
             });
@@ -47,7 +48,7 @@ class BookmarkTest {
 
         @Test
         void user_id_cannot_be_set_to_null(){
-            Bookmark bookmark = new Bookmark(new Item(1L, new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
+            Bookmark bookmark = new Bookmark(new BookmarkId() ,new Item(new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER), "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000, ListingStatus.ACTIVE), new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER));
             assertThrows(NullPointerException.class, () -> {
                 bookmark.setItem(null);
             });
@@ -61,16 +62,16 @@ class BookmarkTest {
         void item_id_getter_returns_correct_value(){
 
             User user = new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER);
-            Item item = new Item(1L, user, "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
-            Bookmark bookmark = new Bookmark(item, user);
+            Item item = new Item(user, "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000, ListingStatus.ACTIVE);
+            Bookmark bookmark = new Bookmark(new BookmarkId(), item, user);
             assertEquals(item, bookmark.getItem());
         }
 
         @Test
         void user_id_getter_returns_correct_value(){
             User user = new User("Ole123", "123", "Ole Norman", "Ole@gmail.com", Role.USER);
-            Item item = new Item(1L, user, "test", "Nordkapp", "Troms og Finnmark", new Category("Mercedes", "Cars"), 200000);
-            Bookmark bookmark = new Bookmark(item, user);
+            Item item = new Item(user, "test", "Nordkapp", "Troms og Finnmark", new Category(), 200000, ListingStatus.ACTIVE);
+            Bookmark bookmark = new Bookmark(new BookmarkId(),item, user);
             assertEquals(user, bookmark.getUser());
         }
     }
