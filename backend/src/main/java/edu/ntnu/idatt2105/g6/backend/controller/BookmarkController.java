@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkLoadDTO;
@@ -8,6 +9,10 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
 import edu.ntnu.idatt2105.g6.backend.service.users.BookmarkService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +51,11 @@ public class BookmarkController {
 
     //TODO: fix DTO for loadBookmarks why UserDeletionDTO
     @PostMapping("/load")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading bookmarks",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = BookmarkLoadDTO.class)) })}
+    )
     @Operation(summary = "Load all bookmarks")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllBookmarks(@ParameterObject @RequestBody UserDeletionDTO user) {

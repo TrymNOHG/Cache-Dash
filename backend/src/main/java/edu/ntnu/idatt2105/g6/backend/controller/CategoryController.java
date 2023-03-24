@@ -2,9 +2,14 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 
 import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryEditDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.repo.chat.ConversationRepository;
 import edu.ntnu.idatt2105.g6.backend.service.listing.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +46,11 @@ public class CategoryController {
     //TODO: fix DTO for loadBookmarks why UserDeletionDTO
     @PostMapping("/load")
     @Operation(summary = "Load all categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading categories",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CategoryDTO.class)) })}
+    )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllCategories(@ParameterObject @RequestBody CategoryDTO categoryDTO) {
         return ResponseEntity.ok().build();
