@@ -11,11 +11,12 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @Entity
-@IdClass(BookmarkId.class)
 @Table(name = "bookmarks")
 public class Bookmark {
 
-    @Id
+    @EmbeddedId
+    private BookmarkId id;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @MapsId("item")
     @JoinColumn(name = "item_id", nullable = false)
@@ -23,8 +24,7 @@ public class Bookmark {
     @ToString.Exclude
     private Item item;
 
-    @Id
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @MapsId("user")
     @JoinColumn(name = "user_id", nullable = false)
     @NonNull

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,8 +40,16 @@ public class ApplicationConfig {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * This method return the application's current Password Encoder, which leverages the bcrypt algorithm.
+     * The BCryptPasswordEncoder can take in a strength as a parameter and is recommended to take about 1 second to
+     * generate.
+     *
+     * @return  BCrypt password encoder, given as a PasswordEncoder object.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

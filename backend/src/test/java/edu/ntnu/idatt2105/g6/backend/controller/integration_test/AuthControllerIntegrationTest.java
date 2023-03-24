@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2105.g6.backend.controller;
+package edu.ntnu.idatt2105.g6.backend.controller.integration_test;
 
 import edu.ntnu.idatt2105.g6.backend.BackendApplication;
 import org.junit.runner.RunWith;

@@ -176,7 +176,7 @@ class UserTest {
         @Test
         void listed_items(){
             List<Item> expectedItems = new ArrayList<>();
-            List<Item> bookmarks = new ArrayList<>();
+            List<Bookmark> bookmarks = new ArrayList<>();
             List<Conversation> conversations1 = new ArrayList<>();
             List<Conversation> conversations2 = new ArrayList<>();
             List<Message> messages = new ArrayList<>();
@@ -189,13 +189,13 @@ class UserTest {
         @Test
         void bookmarks(){
             List<Item> listedItems = new ArrayList<>();
-            List<Item> expectedBookmarks = new ArrayList<>();
+            List<Bookmark> expectedBookmarks = new ArrayList<>();
             List<Conversation> conversations1 = new ArrayList<>();
             List<Conversation> conversations2 = new ArrayList<>();
             List<Message> messages = new ArrayList<>();
             User user = new User(1L, "Ole123", "password", "Ole Norman", "Ole@gmail.com", Role.USER, new Date(), "+4712345678", new byte[4], listedItems, expectedBookmarks, conversations1, conversations2, messages);
 
-            List<Item> actualBookmarks = user.getBookmarks();
+            List<Bookmark> actualBookmarks = user.getBookmarks();
 
             assertEquals(expectedBookmarks, actualBookmarks);
         }
@@ -203,7 +203,7 @@ class UserTest {
         @Test
         void conversations() {
             List<Item> listedItems = new ArrayList<>();
-            List<Item> bookmarks = new ArrayList<>();
+            List<Bookmark> bookmarks = new ArrayList<>();
             List<Conversation> expectedConversations1 = new ArrayList<>();
             List<Conversation> expectedConversations2 = new ArrayList<>();
             List<Message> messages = new ArrayList<>();
@@ -219,7 +219,7 @@ class UserTest {
         @Test
         void messages() {
             List<Item> listedItems = new ArrayList<>();
-            List<Item> bookmarks = new ArrayList<>();
+            List<Bookmark> bookmarks = new ArrayList<>();
             List<Conversation> conversations1 = new ArrayList<>();
             List<Conversation> conversations2 = new ArrayList<>();
             List<Message> expectedMessages = new ArrayList<>();

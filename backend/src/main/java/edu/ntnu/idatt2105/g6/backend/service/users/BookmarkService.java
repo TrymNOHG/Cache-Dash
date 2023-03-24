@@ -18,6 +18,7 @@ import edu.ntnu.idatt2105.g6.backend.repo.users.BookmarkRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class BookmarkService implements IBookmarkService{
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public void addBookmark(BookmarkDTO bookmarkDTO) {
         Item item = itemRepository.findByItemId(bookmarkDTO.itemId()).orElseThrow(() -> new ItemNotFoundException(bookmarkDTO.itemId()));
@@ -37,6 +39,7 @@ public class BookmarkService implements IBookmarkService{
         bookmarkRepository.save(bookmark);
     }
 
+    @Transactional
     @Override
     public void deleteBookmark(BookmarkDeletionDTO bookmarkDeletionDTO) {
         User actingUser = userRepository.findByUsername(bookmarkDeletionDTO.actingUser()).orElseThrow(() -> new UserNotFoundException(bookmarkDeletionDTO.actingUser()));
@@ -50,6 +53,7 @@ public class BookmarkService implements IBookmarkService{
         else throw new UnauthorizedException(actingUser.getUsername());
     }
 
+    @Transactional
     @Override
     public void deleteAllBookmarks(UserDeletionDTO userDeletionDTO) {
         User actingUser = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.username()));
