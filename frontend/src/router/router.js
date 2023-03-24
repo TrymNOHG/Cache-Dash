@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import NotFound from "@/components/NotFoundComponent.vue";
 import notFound from "@/components/NotFoundComponent.vue";
-import simpleForm from "@/views/simpleForm.vue";
+import simpleForm from "@/views/SimpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";

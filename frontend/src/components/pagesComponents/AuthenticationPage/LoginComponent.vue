@@ -45,7 +45,7 @@ import {useField, useForm } from "vee-validate";
 import {useLoggedInStore} from "@/store/store";
 import {ref} from "vue";
 import router from "@/router/router";
-import {loginUser} from "@/services/Authenticator";
+import {loginUser} from "@/services/UserService";
 import { useStorage } from 'vue3-storage';
 
 

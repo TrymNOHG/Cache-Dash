@@ -1,37 +1,23 @@
 package edu.ntnu.idatt2105.g6.backend.service;
 
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationLoadDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
-import edu.ntnu.idatt2105.g6.backend.mapper.chat.MessageMapper;
-import edu.ntnu.idatt2105.g6.backend.model.chat.Conversation;
-import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.chat.ConversationRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.chat.MessageRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import edu.ntnu.idatt2105.g6.backend.service.chat.ChatService;
-import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
-import edu.ntnu.idatt2105.g6.backend.service.users.UserService;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.net.Socket;
-import java.net.SocketOption;
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

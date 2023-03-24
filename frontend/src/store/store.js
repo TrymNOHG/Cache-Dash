@@ -1,31 +1,49 @@
 import { defineStore } from 'pinia'
+import { getUser } from "@/services/UserService"
 
-export const useLoggedInStore = defineStore('alerts', {
+export const useLoggedInStore = defineStore('user', {
+
 
     state: () => ({
-        user: {
-            loggedIn: false,
-            token: "",
-            username: "",
-            fullName:"",
-            email:"",
-            dateOfBirth:"",
-            phoneNumber:"",
-            role: "",
-        },
+        sessionToken: null,
+        /*{
+            userId: null,
+            username: null,
+            fullName: null,
+            email: null,
+            dateOfBirth: null,
+            phoneNumber: null,
+            picture: [],
+            role: null,
+        }*/
+        user: null,
     }),
 
     getters: {
         isLoggedIn(){
-            return this.user.loggedIn;
+            return this.sessionToken !== null;
+        },
+        getUser() {
+            return this.user;
+        },
+        getSessionToken() {
+            return this.sessionToken;
         }
     },
 
     actions: {
-        setUser(user){
-            this.user = user;
+        setSessionToken(sessionToken) {
+            this.sessionToken = sessionToken
+        },
+        async fetchUser() {
+            const httpResponse = await getUser(this.sessionToken)
+                .then(response => {
+                    this.user = response.data
+                }).catch(error => {
+                    //TODO: handle error
+                })
         }
-    },
+    }
 });
 
 export const useCategoryStore = defineStore('categoryStore', {

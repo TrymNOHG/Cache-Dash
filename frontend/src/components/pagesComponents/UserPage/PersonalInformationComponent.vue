@@ -12,7 +12,7 @@
     <div class="profile-information">
       <label>{{$t('username')}}</label>
         <textarea v-if="edit">{{username}}</textarea>
-        <label v-else>{{store.username}}</label>
+        <label v-else>{{store.user.username}}</label>
       <label>{{$t('fullName')}}:</label>
         <textarea v-if="edit">{{ fullName }}</textarea>
         <label v-else>{{ store.fullName }}</label>
@@ -43,9 +43,16 @@
   </div>
 </template>
 
+<script setup>
+import { useLoggedInStore } from "@/store/store";
+
+const store = useLoggedInStore()
+console.log("Fullname is " + store.user.username)
+</script>
+
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
-import {useLoggedInStore} from "@/store/store";
+import { updateUser } from "@/services/UserService"
 export default {
   name: "personalInformation",
   components: {BasicCheckbox},
@@ -54,10 +61,15 @@ export default {
   data(){
     return{
       edit: false,
-      store: useLoggedInStore(),
       button_name: "Edit user information",
-      userData:{
-
+      userUpdateDTO:{
+        username : null,
+        newUsername : null,
+        fullName : null,
+        email : null,
+        birthDate : null,
+        phone : null,
+        picture : null,
       }
     }
 
@@ -65,6 +77,8 @@ export default {
   methods: {
     editUser(){
       if(this.edit === true){
+        //TODO: add exception handling for already existing username
+        updateUser(this.userUpdateDTO)
         this.edit = false
         this.button_name = 'Edit user information'
       } else{
@@ -72,6 +86,9 @@ export default {
         this.button_name = 'Save changes'
       }
     }
+  },
+  setup() {
+    this.store = useLoggedInStore()
   }
 }
 </script>

@@ -17,44 +17,60 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/user/listing")
+@RequestMapping("/listing")
 @RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
 
-    @PostMapping("/create")
+    @PostMapping("/user/create")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> create(@ParameterObject @RequestBody ListingDTO listing) {
         itemService.addListing(listing);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/user/delete")
 //    @ExceptionHandler(UserNotFoundException.class)
+    //TODO: make this take in token or something
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody ListingDeletionDTO listing) {
         itemService.deleteListing(listing);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/update")
+    @PostMapping("/user/update")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
         itemService.updateListing(listing);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/load")
+    //TODO: maybe just add user id to the path?
+    @GetMapping("/user/load")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Loading items",
+            @ApiResponse(responseCode = "200", description = "Loading items of a given user",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
             )
 //    @ExceptionHandler(UserNotFoundException.class)
-    //TODO: make this take in token or something
-    public ResponseEntity<Object> loadAll(@ParameterObject @RequestBody String username) {
-        itemService.loadAllListings(username);
+    public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestBody String username) {
+        itemService.loadAllListingsByUsername(username);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/load")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading all items",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
+    )
+//    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> loadAllByUser() {
+        itemService.loadAllListings();
+        return ResponseEntity.ok().build();
+    }
+
+
+
 
 }

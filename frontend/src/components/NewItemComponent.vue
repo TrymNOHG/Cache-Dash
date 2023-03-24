@@ -84,7 +84,7 @@ import {ref} from "vue";
 import {useCategoryStore, useLoggedInStore, useCountyStore, useImageStore} from "@/store/store";
 import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
-import PictureUploadComponent from "@/components/basicInputComponents/pictureUploadComponent.vue";
+import PictureUploadComponent from "@/components/basicInputComponents/PictureUploadComponent.vue";
 import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
 

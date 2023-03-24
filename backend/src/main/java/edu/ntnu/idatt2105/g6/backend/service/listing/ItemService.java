@@ -38,13 +38,22 @@ public class ItemService implements IItemService{
     }
 
     @Override
-    public List<ListingLoadDTO> loadAllListings(String username) {
+    public List<ListingLoadDTO> loadAllListingsByUsername(String username) {
         List<Item> listings = itemRepository.findItemsByUser_Username(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
         return listings.stream()
                 .map(ListingMapper::toListing)
                 .toList();
     }
+
+    @Override
+    public List<ListingLoadDTO> loadAllListings() {
+        List<Item> listings = itemRepository.findAll();
+        return listings.stream()
+                .map(ListingMapper::toListing)
+                .toList();
+    }
+
 
     @Override
     public List<ListingLoadDTO> loadArchive(Long userId) {
