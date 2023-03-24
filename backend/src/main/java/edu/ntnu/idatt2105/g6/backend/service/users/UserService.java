@@ -69,9 +69,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserLoadDTO loadUserByUsername(String username) {
-        UserLoadDTO userLoadDTO = UserMapper.userLoadDTO(userRepository.findByUsername(username)
+        return UserMapper.userLoadDTO(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username)));
-        return userLoadDTO;
+    }
+
+    public User loadByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
 }

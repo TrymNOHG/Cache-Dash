@@ -74,9 +74,10 @@ public class UserController {
     @Operation(summary = "Load user using current session token")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> load(@ParameterObject @AuthenticationPrincipal UserDetails user) {
+        logger.info("Attempting to load user!");
         UserLoadDTO userLoadDTO = userService.loadUserByUsername(user.getUsername());
         logger.info("User has been loaded!");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userLoadDTO);
     }
 
 

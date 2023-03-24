@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_LISTING_URL = "http://10.24.3.126:8080/listing";
+const BASE_LISTING_URL = "http://localhost:8080/listing";
 export const createNewListing = async (listingDTO) => {
     return await axios.post(`${BASE_LISTING_URL}/user/create`, listingDTO)
         .then((response) => {

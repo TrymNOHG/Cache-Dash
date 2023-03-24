@@ -11,26 +11,26 @@
 
     <div class="profile-information">
       <label>{{$t('username')}}</label>
-        <textarea v-if="edit">{{username}}</textarea>
-        <label v-else>{{store.user.username}}</label>
+        <textarea v-if="edit">{{user.username}}</textarea>
+        <label v-else>{{user.username}}</label>
       <label>{{$t('fullName')}}:</label>
         <textarea v-if="edit">{{ fullName }}</textarea>
-        <label v-else>{{ store.fullName }}</label>
+        <label v-else>{{ user.fullName }}</label>
       <label>{{$t('email')}}:</label>
         <textarea v-if="edit">{{ email }}</textarea>
-        <label v-else>{{ store.email }}</label>
+        <label v-else>{{ user.email }}</label>
       <label>{{$t('dateOfBirth')}}:</label>
         <textarea v-if="edit">{{ birth }}</textarea>
-        <label v-else>{{ store.dateOfBirth }}</label>
+        <label v-else>{{ user.birthDate }}</label>
       <label>{{$t('phoneNumber')}}:</label>
         <textarea v-if="edit">{{ phoneNum }}</textarea>
-        <label v-else>{{ store.phoneNumber }}</label>
+        <label v-else>{{ user.phone }}</label>
       <label>{{$t('address')}}:</label>
         <textarea v-if="edit">{{ address }}</textarea>
-        <label v-else>{{ store.address }}</label>
+        <label v-else>{{  }}</label>
       <label>{{$t('zipCode')}}:</label>
         <textarea v-if="edit">{{ zipCode }}</textarea>
-        <label v-else>{{ store.zipCode }}</label>
+        <label v-else>{{  }}</label>
       <div class="contact-Checkbox">
         <basic-checkbox
             label=' Show contact information and address in your listings'></basic-checkbox>
@@ -47,7 +47,9 @@
 import { useLoggedInStore } from "@/store/store";
 
 const store = useLoggedInStore()
-console.log("Fullname is " + store.user.username)
+store.fetchUser()
+
+const user = store.getUser.data
 </script>
 
 <script>
@@ -86,9 +88,6 @@ export default {
         this.button_name = 'Save changes'
       }
     }
-  },
-  setup() {
-    this.store = useLoggedInStore()
   }
 }
 </script>

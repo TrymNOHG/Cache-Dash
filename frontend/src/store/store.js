@@ -6,17 +6,16 @@ export const useLoggedInStore = defineStore('user', {
 
     state: () => ({
         sessionToken: null,
-        /*{
+        user: {
             userId: null,
             username: null,
             fullName: null,
             email: null,
-            dateOfBirth: null,
-            phoneNumber: null,
+            birthDate: null,
+            phone: null,
             picture: [],
             role: null,
-        }*/
-        user: null,
+        },
     }),
 
     getters: {
@@ -36,10 +35,15 @@ export const useLoggedInStore = defineStore('user', {
             this.sessionToken = sessionToken
         },
         async fetchUser() {
-            const httpResponse = await getUser(this.sessionToken)
+            await getUser(this.sessionToken)
                 .then(response => {
-                    this.user = response.data
+                    const { data : {userId, username, fullName, email, birthDate, phone, picture, role}} = response
+                    this.user = {userId, username, fullName, email, birthDate, phone, picture, role}
+                    console.log("Response:")
+                    console.log(response.data)
+                    this.user = response
                 }).catch(error => {
+                    console.warn('error', error)
                     //TODO: handle error
                 })
         }

@@ -5,6 +5,8 @@ import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +30,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Transactional
     public AuthenticationResponse register(UserCreateDTO userCreateDTO) {
@@ -43,7 +46,11 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalStateException("Username already exists");
         userRepository.save(user);
 
+        logger.info(String.format("User %s has been saved in the DB!", user.getUsername()));
+
         String jwtToken = jwtService.generateToken(user);
+        logger.info("Their JWT is: " + jwtToken);
+
         return AuthenticationResponse
                 .builder()
                 .token(jwtToken)
@@ -62,7 +69,8 @@ public class AuthenticationService implements IAuthenticationService {
 
         String jwtToken = jwtService.generateToken(user);
 
-        return AuthenticationResponse.builder()
+        return AuthenticationResponse
+                .builder()
                 .token(jwtToken)
                 .build();
     }

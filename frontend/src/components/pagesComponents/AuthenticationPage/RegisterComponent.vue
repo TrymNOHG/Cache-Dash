@@ -142,22 +142,24 @@ export default {
 
       console.log(userData)
 
-      const token = await registerUser(userData)
-      if (token !== undefined) {
-        store.setSessionToken(token.token)
-        await store.fetchUser()
+      await registerUser(userData).then(async response => {
+        if (response !== undefined) {
+          store.setSessionToken(response.data.token)
+          await store.fetchUser()
 
-        submitMessage.value = "Registration Successful";
-        setTimeout(() => {
-          submitMessage.value = "";
-        }, 3000);
-        await router.push("/");
-      } else {
-        submitMessage.value = "Something went wrong. Please try again later.";
-        setTimeout(() => {
-          submitMessage.value = "";
-        }, 3000);
-      }
+          submitMessage.value = "Registration Successful";
+          setTimeout(() => {
+            submitMessage.value = "";
+          }, 3000);
+          await router.push("/");
+        } else {
+          submitMessage.value = "Something went wrong. Please try again later.";
+          setTimeout(() => {
+            submitMessage.value = "";
+          }, 3000);
+        }
+      }).catch(error => console.warn('error1', error))
+
     });
 
     return {
