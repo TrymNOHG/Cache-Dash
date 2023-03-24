@@ -70,13 +70,13 @@
           :disabled="hasErrors"
           type="submit"
           class="-fill-gradient"
-          @click="handleSubmit()"
       >
         {{$t('register')}}
       </button>
     </fieldset>
   </form>
 </template>
+
 <script>
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import BasicTextArea from "@/components/basicInputComponents/BasicTextArea.vue";
@@ -87,6 +87,7 @@ import {useField, useForm} from "vee-validate";
 import PictureUploadComponent from "@/components/basicInputComponents/PictureUploadComponent.vue";
 import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
+import router from "@/router/router";
 
 export default {
   name: "newItemComponent",
@@ -110,6 +111,12 @@ export default {
     countyStore.$reset();
     catStore.$reset();
 
+    if(!userStore.isLoggedIn) {
+      //TODO: *** give user feedback on needing to login ****
+      alert("You need to login first to create a listing!")
+      router.push("/login")
+    }
+
     const validationSchema = yup.object({
       price: yup.string()
           .required('Price required'),
@@ -117,7 +124,7 @@ export default {
           .required('Brief description is required')
           .min(10),
       full: yup.string()
-          .required('Full description is Required')
+          // .required('Full description is Required')
           .min(100),
       address: yup.string()
           .required('Address is Required'),
@@ -139,8 +146,13 @@ export default {
 
 
     const submit = handleSubmit(async () => {
+      if(!userStore.isLoggedIn) {
+        //TODO: give user feedback on needing to login ****
+        alert("You need to login first to create a listing!")
+        await router.push("/login")
+      }
       catStore.setCorrectCategory(catStore.category.categoryName);
-
+      
       const formData = new FormData();
       formData.append('username', userStore.user.username);
       formData.append('briefDesc', brief.value)
