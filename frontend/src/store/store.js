@@ -35,7 +35,7 @@ export const useLoggedInStore = defineStore('user', {
             this.sessionToken = sessionToken
         },
         async fetchUser() {
-            await getUser(this.sessionToken)
+            await getUser()
                 .then(response => {
                     const { data : {userId, username, fullName, email, birthDate, phone, picture, role}} = response
                     this.user = {userId, username, fullName, email, birthDate, phone, picture, role}

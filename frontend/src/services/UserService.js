@@ -22,7 +22,8 @@ export const loginUser = async (username, password) => {
     });
 }
 
-export const getUser = async (sessionToken) => {
+export const getUser = async () => {
+    const sessionToken = useLoggedInStore().getSessionToken
     console.log(sessionToken)
     if (sessionToken === null) throw new Error("Session token cannot be null. Login in again.")
     return axios.get(`${BASE_USER_URL}/load`, {
@@ -33,10 +34,13 @@ export const getUser = async (sessionToken) => {
 }
 
 export const updateUser = async (userUpdateDTO) => {
-    return axios.post(`${BASE_USER_URL}/update`, userUpdateDTO)
-        .then((response) => {
-            return response.data;
-        }).catch((error) => {
-            console.warn(error);
-        });
+    const sessionToken = useLoggedInStore().getSessionToken
+    return axios.post(`${BASE_USER_URL}/update`, {
+        headers: {
+            Authorization: `Bearer ${sessionToken}`
+        },
+        body: {
+            userUpdateDTO
+        }
+    });
 }

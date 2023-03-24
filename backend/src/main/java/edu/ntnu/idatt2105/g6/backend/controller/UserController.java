@@ -69,7 +69,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/load")
     @Operation(summary = "Load user using current session token")
 //    @ExceptionHandler(UserNotFoundException.class)
@@ -79,8 +78,6 @@ public class UserController {
         logger.info("User has been loaded!");
         return ResponseEntity.ok(userLoadDTO);
     }
-
-
 
 
 }
