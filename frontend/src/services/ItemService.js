@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const BASE_API_URL = "http://10.24.0.100:8080/api/auth";
+const BASE_API_URL = "http://10.24.0.100:8080/";
 export const sendNewItem = async (formData) => {
-    return await axios.post(`${BASE_API_URL}/register`, {
+    return await axios.post(`${BASE_API_URL}/newItem`, {
         formData
     }).then((response) => {
         console.log(response.data)

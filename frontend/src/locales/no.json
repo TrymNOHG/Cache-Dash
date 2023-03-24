@@ -18,6 +18,7 @@
   "name": "Fornavn og Etternavn",
   "phoneNumber": "Telefon Nummer",
   "dateOfBirth": "Fødselsdato",
+  "city": "By Navn",
   "county": "Kommune",
   "keyInfoList": "Nøkkel Informasjon",
   "price": "Pris",
