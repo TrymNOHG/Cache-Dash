@@ -15,6 +15,7 @@
     "@mapbox/search-js-react": "^1.0.0-beta.14",
     "@progress/kendo-vue-dateinputs": "^3.9.0",
     "@studiometa/vue-mapbox-gl": "^2.0.4",
+    "@vue-leaflet/vue-leaflet": "^0.9.0",
     "axios": "^1.3.4",
     "mapbox-gl": "^2.13.0",
     "node.js": "^0.0.1-security",

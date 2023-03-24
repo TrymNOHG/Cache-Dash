@@ -1,8 +1,9 @@
 <template>
   <div class="filter-window">
+    <map-component></map-component>
     <div>
       <h2>placeholder </h2>
-      <div v-for="category in categories" :category="category" key="category.id" class="category-list">
+      <div v-for="category in categories" key="category.id" class="category-list">
           <BasicCheckbox
               v-model="category.checked"
               label="{{category}}"
@@ -38,10 +39,11 @@ import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
 import {useCountyStore} from "@/store/store";
+import MapComponent from "@/components/MapComponent/mapComponent.vue";
 
 export default {
   name: "filterComponent",
-  components: {BasicSelect, BasicCheckbox, BasicInput},
+  components: {MapComponent, BasicSelect, BasicCheckbox, BasicInput},
   data(){
     return{
       search:{
@@ -85,7 +87,7 @@ export default {
 
   .filter-window{
     display: grid;
-    grid-template-rows: 2fr 1fr 1fr 1fr ;
+    grid-template-rows: 5fr 1fr 1fr 1fr ;
     background-color: #7EB09B;
     opacity: 70%;
     height: 100%;

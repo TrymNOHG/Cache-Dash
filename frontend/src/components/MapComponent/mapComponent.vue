@@ -1,38 +1,41 @@
 <template>
-  <MapboxMap
-      id="mapbox"
-      access-token="pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg"
-      map-style="mapbox://styles/mapbox/streets-v12"
-      @mb-created="(mapInstance) => map = mapInstance"
-      :center="startPos"
-      :zoom="startZoom"
-      :attributionControl="false"
-  />
+  <div class="map">
+    <l-map ref="map" v-model:zoom="zoom" :center="[65.589353,13.501048]">
+      <l-tile-layer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          layer-type="base"
+          name="OpenStreetMap"
+      ></l-tile-layer>
+      <l-marker v-for="(coordinate, index) in coordinates" :key="index" :lat-lng="coordinate"></l-marker>
+    </l-map>
+  </div>
 </template>
 
 <script>
-import { MapboxMap } from '@studiometa/vue-mapbox-gl';
+import "leaflet/dist/leaflet.css";
+import {LMap, LTileLayer, LMarker} from "@vue-leaflet/vue-leaflet";
 
 export default {
   components: {
-    MapboxMap
+    LMarker,
+    LMap,
+    LTileLayer,
   },
-
-  data(){
-    return{
-      map: null,
-      startPos: [8.888237, 64.5783089],
-      startZoom: 3
-    }
-  }
-}
-
+  data() {
+    return {
+      zoom: 4,
+      coordinates: [
+        [60, 10],
+        [51.507222, -0.1275],
+        [35.689722, 139.691667],
+      ],
+    };
+  },
+};
 </script>
 
-<style>
-
-#mapbox{
-  max-height: 300px;
+<style scoped>
+.map {
+  height: 400px;
 }
-
 </style>

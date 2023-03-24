@@ -36,7 +36,7 @@
           type="text"
           v-model="city"
           :error="errors.city"
-          autocomplete="street-address"
+          autocomplete="shipping address-level2"
       />
       <label for="addressInput">{{$t('address')}}</label>
       <BasicInput
