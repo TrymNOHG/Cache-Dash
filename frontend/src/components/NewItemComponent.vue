@@ -88,6 +88,7 @@ import PictureUploadComponent from "@/components/basicInputComponents/PictureUpl
 import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
 import router from "@/router/router";
+import { createNewListing } from "@/services/ItemService.js"
 
 export default {
   name: "newItemComponent",
@@ -152,21 +153,45 @@ export default {
         await router.push("/login")
       }
       catStore.setCorrectCategory(catStore.category.categoryName);
-      
-      const formData = new FormData();
-      formData.append('username', userStore.user.username);
-      formData.append('briefDesc', brief.value)
-      formData.append('fullDesc', full.value)
-      formData.append('address', address.value)
-      formData.append('county', countyStore.county.countyName)
-      formData.append('categoryId', catStore.category.categoryID)
-      formData.append('price', price.value)
 
-      for (let i = 0; i < imageStore.imageToSend.length; i++) {
-        let string = 'imagex'.replace('x', i)
-        formData.append(string, imageStore.imageToSend[i])
+      // const listingDTO = new FormData();
+      // listingDTO.append('username', userStore.user.username);
+      // listingDTO.append('briefDesc', brief.value)
+      // listingDTO.append('fullDesc', full.value)
+      // listingDTO.append('address', address.value)
+      // listingDTO.append('county', countyStore.county.countyName)
+      // listingDTO.append('categoryId', catStore.category.categoryID)
+      // listingDTO.append('price', price.value)
+
+      // for (let i = 0; i < imageStore.imageToSend.length; i++) {
+      //   let string = 'imagex'.replace('x', i)
+      //   formData.append(string, imageStore.imageToSend[i])
+      // }
+      // formData.append('keyInfoList', keyInfoList.value.split(" "))
+
+      await userStore.fetchUser()
+      const listingDTO =  {
+        'username': "trym",
+        'briefDesc': brief.value,
+        'fullDesc': full.value === undefined ? null : full.value,
+        'address': address.value,
+        'county': countyStore.county.countyName,
+        'categoryId': catStore.category.categoryID,
+        'price': price.value,
+        'thumbnail': null,
+        'keyInfoList': null
       }
-      formData.append('keyInfoList', keyInfoList.value.split(" "))
+
+      console.log(listingDTO)
+
+
+      await createNewListing(listingDTO).then(async response => {
+        console.log('Response')
+        console.log(response)
+        await router.push("/my-profile") //TODO: where to go? View of item?
+      }).catch(error => {
+        console.warn('error', error)
+      })
 
       imageStore.$reset();
     });

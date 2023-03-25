@@ -1,10 +1,12 @@
 import axios from "axios";
+import {useLoggedInStore} from "@/store/store";
 
 const BASE_LISTING_URL = "http://localhost:8080/listing";
 export const createNewListing = async (listingDTO) => {
+    const sessionToken = useLoggedInStore().getSessionToken
     return await axios.post(`${BASE_LISTING_URL}/user/create`, {
         headers: {
-
+            Authorization: `Bearer ${sessionToken}`,
         },
         body: {
             listingDTO

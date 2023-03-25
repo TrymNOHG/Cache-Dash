@@ -158,7 +158,10 @@ export default {
             submitMessage.value = "";
           }, 3000);
         }
-      }).catch(error => console.warn('error1', error))
+      }).catch(error => {
+        alert(error.body) //TODO: format!!!!
+        console.warn('error1', error) //TODO: add exception handling
+      })
 
     });
 

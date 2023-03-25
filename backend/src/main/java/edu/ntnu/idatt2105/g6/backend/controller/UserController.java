@@ -38,13 +38,13 @@ public class UserController {
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<AuthenticationResponse> register(@ParameterObject @RequestBody UserCreateDTO user) {
+    public ResponseEntity<Object> register(@ParameterObject @RequestBody UserCreateDTO user) {
         try {
             logger.info("User " + user.username() + " is being registered!");
             return ResponseEntity.ok(authService.register(user));
         }catch (Exception e) {
             logger.warn("Internal error has occurred: " + e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
