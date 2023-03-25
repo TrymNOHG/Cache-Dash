@@ -171,7 +171,7 @@ export default {
 
       await userStore.fetchUser()
       const listingDTO =  {
-        'username': "trym",
+        'username': userStore.getUser.data.username,
         'briefDesc': brief.value,
         'fullDesc': full.value === undefined ? null : full.value,
         'address': address.value,
@@ -183,7 +183,6 @@ export default {
       }
 
       console.log(listingDTO)
-
 
       await createNewListing(listingDTO).then(async response => {
         console.log('Response')

@@ -29,7 +29,7 @@ public class ItemController {
     @PostMapping("/user/create")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> create(@ParameterObject @RequestBody ListingDTO listing) {
-        logger.info("A new listing is being created!");
+        logger.info("A new listing is being created by: " + listing.getUsername());
         itemService.addListing(listing);
         logger.info("New listing has been added!");
         return ResponseEntity.ok().build();

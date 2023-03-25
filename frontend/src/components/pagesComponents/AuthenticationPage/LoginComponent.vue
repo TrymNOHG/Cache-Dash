@@ -76,9 +76,9 @@ export default {
         "password": password.value
       }
       await loginUser(userLoginDTO).then(async response => {
-        console.log("User login response: " + response)
         if (response !== undefined) {
           store.setSessionToken(response.data.token)
+          console.log(store.getSessionToken)
           await store.fetchUser()
 
           submitMessage.value = "Registration Successful";

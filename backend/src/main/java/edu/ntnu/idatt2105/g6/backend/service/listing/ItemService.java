@@ -16,6 +16,8 @@ import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.ItemRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ public class ItemService implements IItemService{
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     @Override
     public ListingLoadDTO loadListing(Long itemId) {
@@ -68,13 +71,19 @@ public class ItemService implements IItemService{
     @Transactional
     @Override
     public void addListing(ListingDTO listing) {
+        //TODO: check that the username of the listing is the same as the one who sent it: auth token
+        logger.info("User creating new listing: " + listing.getUsername());
         User user = userRepository.findByUsername(listing.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(listing.getUsername()));
+        logger.info("User creating new listing: " + user);
         Category category = categoryRepository.findById(listing.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFound(listing.getCategoryId()));
+        logger.info("Category of item: " + category);
         Item item = ListingMapper.toItem(user, category, listing);
         item.setStatus(ListingStatus.ACTIVE);
         itemRepository.save(item);
+
+        logger.info("The listing has been saved!");
     }
 
     @Transactional

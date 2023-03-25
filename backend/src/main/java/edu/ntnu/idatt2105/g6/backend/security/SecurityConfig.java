@@ -36,7 +36,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize ->
                 authorize.requestMatchers("/home", "/login", "/user/register", "/about", "/swagger/**", "/docs/**", "/swagger-ui/**")
                             .permitAll()
-                        .requestMatchers("/user/**", "/auth/**", "/admin/**")
+                        .requestMatchers("/user/**", "/auth/**", "/admin/**", "/listing/user/**")
                         .permitAll().anyRequest().authenticated()
 //                        .requestMatchers("/user/**", "/auth/**")
 //                            .hasAnyRole( "USER", "ADMIN") //TODO: is authenticated applied?
