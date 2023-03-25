@@ -57,7 +57,6 @@ export default {
   },
   computed: {
     isValid() {
-      // Validate that the phone number is exactly 8 digits
       return /^\d{8}$/.test(this.unformattedPhoneNumber);
     }
   }

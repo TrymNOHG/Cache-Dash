@@ -4,8 +4,10 @@
       :checked="modelValue"
       @change="$emit('update:modelValue', $event.target.checked)"
       class="field"
+      :style="{ borderColor: error ? 'red' : ''}"
+      aria-invalid='error ? true : null'
   />
-  <label v-if="label">{{ label }}</label>
+  <p v-if="error" class="errorMessage" aria-live="assertive">{{ error }}</p>
 </template>
 
 <script>
@@ -18,6 +20,10 @@ export default {
     modelValue: {
       type: Boolean,
       default: false
+    },
+    error: {
+      type: String,
+      default: ''
     }
   }
 }

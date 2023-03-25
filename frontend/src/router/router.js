@@ -5,9 +5,13 @@ import simpleForm from "@/views/simpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
-
-
-import mainpageView from "@/views/mainpageView.vue";
+import mainpageView from "@/views/MainPageView.vue";
+import TermsView from "@/views/TermsView.vue";
+import userSite from "@/views/UserSite.vue";
+import newItemView from "@/views/NewItemView.vue";
+import categoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
+import listingView from "@/views/ListingView.vue";
+import itemView from "@/views/ItemView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +20,16 @@ const router = createRouter({
             path: '/simpleForm',
             name: 'simpleForm',
             component: simpleForm,
+        },
+        {
+            path: '/register/terms',
+            name: 'TermsOfService',
+            component: TermsView
+        },
+        {
+            path: '/newItem',
+            name: 'NewItem',
+            component: newItemView
         },
         {
             path: '/login',
@@ -48,6 +62,22 @@ const router = createRouter({
             path: '/',
             name: 'mainpage',
             component: mainpageView,
+        },
+        {
+            path: '/my-profile',
+            name: 'myProfile',
+            component: userSite
+        },
+        {
+            path: '/category/:name',
+            name: 'listingView',
+            component: listingView
+        },
+        {
+            path: '/category/:name/item/:id',
+            name: 'item',
+            component: itemView
+
         },
 
     ]

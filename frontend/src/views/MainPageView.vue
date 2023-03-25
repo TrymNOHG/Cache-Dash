@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import MainpageRecentlyAdded from "@/components/mainpageRecentlyAdded.vue";
+import MainpageRecentlyAdded from "@/components/pagesComponents/MainPage/mainpageRecentlyAddedComponent.vue";
 import MainpageSearchBar from "@/components/basicInputComponents/mainpageSearchBar.vue";
-import MainpageCategory from "@/components/mainpageCategory.vue";
+import MainpageCategory from "@/components/pagesComponents/MainPage/mainpageCategoryComponent.vue";
 export default {
-  name: "mainpageView",
+  name: "mainpage",
   components: {MainpageCategory, MainpageSearchBar, MainpageRecentlyAdded}
 }
 
@@ -23,7 +23,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 4fr 4fr 1fr;
     row-gap: 10px;
-    grid-template-rows: 1fr 4fr 4fr;
+    grid-template-rows: 1fr 3fr 3fr;
   }
   .search{
     grid-column: 2 / 3;
@@ -35,6 +35,7 @@ export default {
   }
   .recAdded{
     grid-column: 2 / 4;
+    padding-bottom: 15px;
   }
 
 </style>
