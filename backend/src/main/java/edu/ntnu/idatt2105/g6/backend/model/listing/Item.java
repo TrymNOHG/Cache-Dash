@@ -58,7 +58,8 @@ public class Item {
     @NonNull
     private double price;
 
-    @Column(name = "thumbnail")
+    @Lob
+    @Column(name = "thumbnail", columnDefinition="longblob")
     private byte[] thumbnail;
 
     @Enumerated(EnumType.STRING)

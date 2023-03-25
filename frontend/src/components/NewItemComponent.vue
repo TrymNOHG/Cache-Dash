@@ -154,22 +154,6 @@ export default {
       }
       catStore.setCorrectCategory(catStore.category.subCategory);
 
-      // const listingDTO = new FormData();
-      // listingDTO.append('username', userStore.user.username);
-      // listingDTO.append('briefDesc', brief.value)
-      // listingDTO.append('fullDesc', full.value)
-      // listingDTO.append('address', address.value)
-      // listingDTO.append('county', countyStore.county.countyName)
-      // listingDTO.append('categoryId', catStore.category.categoryID)
-      // listingDTO.append('price', price.value)
-
-      // for (let i = 0; i < imageStore.imageToSend.length; i++) {
-      //   let string = 'imagex'.replace('x', i)
-      //   formData.append(string, imageStore.imageToSend[i])
-      // }
-      // formData.append('keyInfoList', keyInfoList.value.split(" "))
-
-      await userStore.fetchUser()
       const listingDTO =  {
         'username': userStore.getUser.data.username,
         'briefDesc': brief.value,
@@ -181,10 +165,23 @@ export default {
         'thumbnail': null,
         'keyInfoList': null
       }
+      const completeListingDTO = new FormData();
+      completeListingDTO.append('listingDTO', JSON.stringify(listingDTO))
 
-      console.log(listingDTO)
+      for (let i = 0; i < imageStore.imageToSend.length; i++) {
+        completeListingDTO.append('images', imageStore.imageToSend[i])
+      }
 
-      await createNewListing(listingDTO).then(async response => {
+      // const keyInfoListString = keyInfoList.value.split(" ")
+      // for(const word in keyInfoListString) {
+      //   completeListingDTO.append('keyInfoList', word)
+      // }
+
+      await userStore.fetchUser()
+
+      console.log(completeListingDTO)
+
+      await createNewListing(completeListingDTO).then(async response => {
         console.log('Response')
         console.log(response)
         await router.push("/my-profile") //TODO: where to go? View of item?
