@@ -51,13 +51,13 @@ export const useLoggedInStore = defineStore('user', {
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
         category: {
-            categoryID: null,
-            mainCategoryID: null,
-            categoryName: "",
+            categoryId: null,
+            mainCategoryId: null,
+            subCategory: "",
         },
         categoryList: [
-            {categoryID: 2, mainCategoryID: 1, categoryName: "Sport"},
-            {categoryID: 3, mainCategoryID: 1, categoryName: "Cars"},
+            {categoryId: 2, mainCategoryID: 1, subCategory: "Sport"},
+            {categoryId: 5, mainCategoryID: 4, subCategory: "Cars"},
         ]
     }),
 
@@ -68,7 +68,7 @@ export const useCategoryStore = defineStore('categoryStore', {
 
         allCategoryNames(){
           let categoryNames = []
-          this.categoryList.forEach(category => categoryNames.push(category.categoryName))
+          this.categoryList.forEach(category => categoryNames.push(category.subCategory))
           return categoryNames;
         }
     },
@@ -76,7 +76,7 @@ export const useCategoryStore = defineStore('categoryStore', {
     actions: {
         setCorrectCategory(categoryName){
             for (let i = 0; i < this.categoryList.length; i++) {
-                if (this.categoryList.at(i).categoryName === categoryName){
+                if (this.categoryList.at(i).subCategory === categoryName){
                     this.category = this.categoryList.at(i);
                 }
             }

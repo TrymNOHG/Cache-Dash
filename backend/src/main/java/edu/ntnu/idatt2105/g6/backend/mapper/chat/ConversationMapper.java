@@ -24,6 +24,7 @@ public class ConversationMapper {
     public static ConversationLoadDTO loadConversation(Conversation conversation){
         ConversationLoadDTO conversationLoadDTO = ConversationLoadDTO
                 .builder()
+                .conversationId(conversation.getConversationId())
                 .messages(conversation.getMessages())
                 .username1(conversation.getUser1().getUsername())
                 .username2(conversation.getUser2().getUsername())

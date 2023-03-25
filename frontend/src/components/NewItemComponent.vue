@@ -22,7 +22,7 @@
       <BasicSelect
           class="CategorySelect"
           :options="catStore.allCategoryNames"
-          v-model="catStore.category.categoryName"
+          v-model="catStore.category.subCategory"
       />
       <label for="categoryInput">{{$t('county')}}</label>
       <BasicSelect
@@ -152,7 +152,7 @@ export default {
         alert("You need to login first to create a listing!")
         await router.push("/login")
       }
-      catStore.setCorrectCategory(catStore.category.categoryName);
+      catStore.setCorrectCategory(catStore.category.subCategory);
 
       // const listingDTO = new FormData();
       // listingDTO.append('username', userStore.user.username);
@@ -176,7 +176,7 @@ export default {
         'fullDesc': full.value === undefined ? null : full.value,
         'address': address.value,
         'county': countyStore.county.countyName,
-        'categoryId': catStore.category.categoryID,
+        'categoryId': catStore.category.categoryId,
         'price': price.value,
         'thumbnail': null,
         'keyInfoList': null

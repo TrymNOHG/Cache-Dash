@@ -15,6 +15,8 @@ public class ConversationLoadDTO {
 
     //TODO: test that messages are sorted by timestamp;
     @NonNull
+    private Long conversationId;
+    @NonNull
     private List<Message> messages;
 
     @NonNull
