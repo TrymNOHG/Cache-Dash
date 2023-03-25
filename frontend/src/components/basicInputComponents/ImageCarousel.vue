@@ -49,16 +49,31 @@ export default {
 * {box-sizing:border-box}
 
  .container{
-   max-width: 1000px;
    position: relative;
    margin: auto;
 }
-/*
+
+ /*
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
 }
 */
+.prev {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.next {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 1;
+}
 
 .numPictures{
   color: #f2f2f2;

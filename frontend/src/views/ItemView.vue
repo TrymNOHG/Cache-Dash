@@ -26,11 +26,11 @@ export default {
 }
 
   .image-carousel{
-    background-color: #000000;
-    height: 25%;
-
+    height: 100%;
     grid-column: 2 / 4;
     grid-row: 1;
+    border: black solid 1px;
+    width: 100%;
   }
 
   .item-description{

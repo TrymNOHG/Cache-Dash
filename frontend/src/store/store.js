@@ -67,9 +67,9 @@ export const useCategoryStore = defineStore('categoryStore', {
         },
 
         allCategoryNames(){
-          let categoryNames = []
-          this.categoryList.forEach(category => categoryNames.push(category.subCategory))
-          return categoryNames;
+            let categoryNames = []
+            this.categoryList.forEach(category => categoryNames.push(category.subCategory))
+            return categoryNames;
         }
     },
 
@@ -91,6 +91,7 @@ export const useCountyStore = defineStore('countyStore', {
             countyName: "",
         },
         categoryList: [
+            'None',
             'Troms og Finnmark',
             'Nordland',
             'Trøndelag',

@@ -1,45 +1,44 @@
 <template>
-  <button>
-    <div class="bookmark"></div>
-    <p>Add to bookmarks</p>
+  <button class="bookmark" @click="">
+    <div class="a1">
+      <img src="/src/assets/bookmark.png" class="bookmark-tag">
+    </div>
+    <div class="a2">
+      <label class="bookmark-text">Add to bookmarks</label>
+    </div>
   </button>
 </template>
 
 <script>
 export default {
-  name: "IconBookmark"
+  name: "IconBookmark",
 }
 </script>
 
 <style scoped>
   .bookmark {
-    width: 40px;
-    height: 100px;
-    background-color: #f00;
-    position: relative;
+    display: grid;
+    width: 40%;
+    height: 70%;
+    background-color: rgba(203, 202, 202, 0.96);
+
+  }
+  .bookmark-tag{
+    width: 100%;
+    height: 100%;
   }
 
-  .bookmark::before,
-  .bookmark::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-style: solid;
+  .bookmark-text{
+    font-size: 100%;
+    padding: 2%;
   }
+.a1{
+  grid-column: 1;
+}
+.a2{
+  grid-column: 2;
+}
 
-  .bookmark::before {
-    top: 0;
-    border-width: 0 20px 20px 0;
-    border-color: transparent #f00 transparent transparent;
-    transform: rotate(-45deg);
-  }
 
-  .bookmark::after {
-    bottom: 0;
-    border-width: 0 0 20px 20px;
-    border-color: transparent transparent #f00 transparent;
-    transform: rotate(45deg);
-  }
+
 </style>
