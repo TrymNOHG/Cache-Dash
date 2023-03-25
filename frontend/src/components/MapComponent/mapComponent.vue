@@ -67,7 +67,7 @@ export default {
     loadCounty() {
       this.coordinatesToShow = [];
       fylker.features.forEach((feature) => {
-        if (feature.properties.navn[0].navn === "Troms og Finnmark") {
+        if (feature.properties.navn[0].navn === this.chosenCounty) {
           this.polygonCoordinates = feature.geometry.coordinates[0];
           this.showMarkersInPolygon();
         }
