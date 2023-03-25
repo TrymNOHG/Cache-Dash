@@ -2,7 +2,14 @@ import axios from "axios";
 
 const BASE_LISTING_URL = "http://localhost:8080/listing";
 export const createNewListing = async (listingDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/create`, listingDTO)
+    return await axios.post(`${BASE_LISTING_URL}/user/create`, {
+        headers: {
+
+        },
+        body: {
+            listingDTO
+        }
+    })
         .then((response) => {
             console.log(response.data)
             return response.data;

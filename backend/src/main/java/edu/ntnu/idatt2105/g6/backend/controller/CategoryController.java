@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/admin/category")
+@RequestMapping("/category")
 @RequiredArgsConstructor
 public class CategoryController {
 
@@ -28,7 +28,7 @@ public class CategoryController {
     private final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
 //    @ExceptionHandler(UserNotFoundException.class)
-    @PostMapping("/save")
+    @PostMapping("/admin/save")
     @Operation(summary = "Create a new category")
     public ResponseEntity<Object> save(@ParameterObject @RequestBody CategoryEditDTO category) {
         logger.info("Attempting to add new category");
@@ -36,7 +36,7 @@ public class CategoryController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/admin/delete")
     @Operation(summary = "Delete a category")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody CategoryEditDTO category) {
