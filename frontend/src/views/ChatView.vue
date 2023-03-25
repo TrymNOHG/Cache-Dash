@@ -60,8 +60,9 @@ export default {
 
     loadConversations(store.getUser.data.username)
         .then(response => {
-          console.log(response)
-          conversations = response;
+          console.log("Response convo: ")
+          console.log(response.data)
+          conversations = response.data;
         }).catch(err => {
       console.log(err)
     });
@@ -88,7 +89,7 @@ export default {
   methods: {
     sendMessage() {
       sendMessage({
-        
+
       })
     },
 

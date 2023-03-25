@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageDTO;
@@ -18,7 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +56,7 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/load")
+    @PostMapping(value = "/load", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Load conversation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading conversations",
@@ -68,7 +71,7 @@ public class ChatController {
             logger.info("Sending list of conversations: " + conversations);
             return ResponseEntity.ok(conversations);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading conversations");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 

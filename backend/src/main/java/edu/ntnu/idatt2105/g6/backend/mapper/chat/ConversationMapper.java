@@ -25,7 +25,7 @@ public class ConversationMapper {
         return ConversationLoadDTO
                 .builder()
                 .conversationId(conversation.getConversationId())
-                .messages(conversation.getMessages())
+                .messages(conversation.getMessages().stream().map(MessageMapper::toMessageLoadDTO).toList())
                 .username1(conversation.getUser1().getUsername())
                 .username2(conversation.getUser2().getUsername())
                 .build();

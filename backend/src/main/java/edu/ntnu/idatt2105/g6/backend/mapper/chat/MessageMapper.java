@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.mapper.chat;
 
 import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.model.chat.Conversation;
 import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
@@ -20,6 +21,11 @@ public class MessageMapper {
                .timestamp(timestamp)
                .build();
        return message;
+   }
+
+   public static MessageLoadDTO toMessageLoadDTO(Message message) {
+       return new MessageLoadDTO(message.getMessageId(), message.getSender().getUsername(),
+               message.getMessage(), message.getTimestamp());
    }
 
 }
