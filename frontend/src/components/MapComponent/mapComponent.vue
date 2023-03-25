@@ -37,16 +37,12 @@ export default {
 
   props: {
     chosenCounty: String,
+    itemCoordinates: Array,
   },
 
   data() {
     return {
       zoom: 4,
-      coordinates: [
-        [60, 10],
-        [51.507222, -0.1275],
-        [35.689722, 139.691667],
-      ],
       coordinatesToShow: [],
       polygonCoordinates: []
     };
@@ -54,12 +50,21 @@ export default {
 
   watch: {
     chosenCounty: function (newVal) {
-      this.loadCounty();
+      if (newVal === 'None'){
+        this.loadAll();
+      } else {
+        this.loadCounty();
+      }
     },
+
+    itemCoordinates: async function(allItems){
+      console.log("hallo")
+      this.coordinatesToShow = this.itemCoordinates;
+    }
   },
 
   mounted() {
-    this.coordinatesToShow = this.coordinates;
+    this.coordinatesToShow = this.itemCoordinates;
   },
 
   methods: {
@@ -73,12 +78,15 @@ export default {
       });
     },
 
+    loadAll(){
+      this.coordinatesToShow = this.itemCoordinates;
+      this.polygonCoordinates = [];
+    },
+
     showMarkersInPolygon() {
-
-
-      for (let i = 0; i < this.coordinates.length; i++) {
-        if (booleanPointInPolygon(this.coordinates[i], polygon([this.polygonCoordinates]))){
-          this.coordinatesToShow.push(this.coordinates[i])
+      for (let i = 0; i < this.itemCoordinates.length; i++) {
+        if (booleanPointInPolygon(this.itemCoordinates[i], polygon([this.polygonCoordinates]))){
+          this.coordinatesToShow.push(this.itemCoordinates[i])
         }
       }
     },

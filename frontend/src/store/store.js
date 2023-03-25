@@ -71,6 +71,7 @@ export const useCountyStore = defineStore('countyStore', {
             countyName: "",
         },
         categoryList: [
+            'None',
             'Troms og Finnmark',
             'Nordland',
             'Trøndelag',
