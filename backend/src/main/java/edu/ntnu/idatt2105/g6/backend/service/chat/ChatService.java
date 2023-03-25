@@ -69,6 +69,12 @@ public class ChatService implements IChatService{
         User user = userRepository.findByUsername(messageDTO.username()).orElseThrow(() -> new UserNotFoundException(messageDTO.username()));
         Message message = MessageMapper.toMessage(conversation, user, messageDTO.message());
         messageRepository.save(message);
+    }
 
+    @Override
+    public void deleteConversation(Long conversationId) {
+        Conversation conversationToDelete = conversationRepository.findByConversationId(conversationId)
+                .orElseThrow(() -> new ConversationNotFoundException(conversationId));
+        conversationRepository.delete(conversationToDelete);
     }
 }
