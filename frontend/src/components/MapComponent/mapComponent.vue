@@ -7,20 +7,25 @@
           name="OpenStreetMap"
       ></l-tile-layer>
       <l-polygon
-        :lat-lngs="polygonCoordinates"
-        color="blue"
-        :fill="false"
+          :lat-lngs="polygonCoordinates"
+          color="blue"
+          :fill="false"
       />
-      <l-marker v-for="(coordinate, index) in coordinates" :key="index" :lat-lng="coordinate"></l-marker>
+      <l-marker
+          v-for="(coordinate, index) in coordinatesToShow"
+          :key="index"
+          :lat-lng="coordinate"
+          v-if="coordinatesToShow.length"
+      />
     </l-map>
   </div>
 </template>
 
 <script>
 import "leaflet/dist/leaflet.css";
-import {LMap, LTileLayer, LMarker, LPolygon} from "@vue-leaflet/vue-leaflet";
-import fylker from "@/assets/fylker.json"
-
+import { LMap, LTileLayer, LMarker, LPolygon } from "@vue-leaflet/vue-leaflet";
+import fylker from "@/assets/fylker.json";
+import { booleanPointInPolygon, polygon } from "@turf/turf";
 
 export default {
   components: {
@@ -42,27 +47,43 @@ export default {
         [51.507222, -0.1275],
         [35.689722, 139.691667],
       ],
-      polygonCoordinates: [],
+      coordinatesToShow: [],
+      polygonCoordinates: []
     };
   },
 
   watch: {
     chosenCounty: function (newVal) {
       console.log("fyleValgt changed:", newVal);
-      this.loadCounty()
+      this.loadCounty();
     },
   },
 
-  methods: {
-    loadCounty(){
-      fylker.features.forEach(feature => {
-        if (feature.properties.navn[0].navn === this.chosenCounty) {
-          this.polygonCoordinates = feature.geometry.coordinates[0]
-        }
-      })
-    }
+  mounted() {
+    this.coordinatesToShow = this.coordinates;
   },
 
+  methods: {
+    loadCounty() {
+      this.coordinatesToShow = [];
+      fylker.features.forEach((feature) => {
+        if (feature.properties.navn[0].navn === "Troms og Finnmark") {
+          this.polygonCoordinates = feature.geometry.coordinates[0];
+          this.showMarkersInPolygon();
+        }
+      });
+    },
+
+    showMarkersInPolygon() {
+
+
+      for (let i = 0; i < this.coordinates.length; i++) {
+        if (booleanPointInPolygon(this.coordinates[i], polygon([this.polygonCoordinates]))){
+          this.coordinatesToShow.push(this.coordinates[i])
+        }
+      }
+    },
+  },
 };
 </script>
 
