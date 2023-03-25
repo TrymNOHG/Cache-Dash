@@ -11,26 +11,26 @@
 
     <div class="profile-information">
       <label>{{$t('username')}}</label>
-        <textarea v-if="edit">{{username}}</textarea>
-        <label v-else>{{store.username}}</label>
+        <textarea v-if="edit">{{ user.username }}</textarea>
+        <label v-else>{{user.username}}</label>
       <label>{{$t('fullName')}}:</label>
-        <textarea v-if="edit">{{ fullName }}</textarea>
-        <label v-else>{{ store.fullName }}</label>
+        <textarea v-if="edit">{{ user.fullName }}</textarea>
+        <label v-else>{{ user.fullName }}</label>
       <label>{{$t('email')}}:</label>
-        <textarea v-if="edit">{{ email }}</textarea>
-        <label v-else>{{ store.email }}</label>
+        <textarea v-if="edit">{{ user.email }}</textarea>
+        <label v-else>{{ user.email }}</label>
       <label>{{$t('dateOfBirth')}}:</label>
-        <textarea v-if="edit">{{ birth }}</textarea>
-        <label v-else>{{ store.dateOfBirth }}</label>
+        <textarea v-if="edit">{{ user.birthDate }}</textarea>
+        <label v-else>{{ user.birthDate }}</label>
       <label>{{$t('phoneNumber')}}:</label>
-        <textarea v-if="edit">{{ phoneNum }}</textarea>
-        <label v-else>{{ store.phoneNumber }}</label>
+        <textarea v-if="edit">{{ user.phone }}</textarea>
+        <label v-else>{{ user.phone }}</label>
       <label>{{$t('address')}}:</label>
         <textarea v-if="edit">{{ address }}</textarea>
-        <label v-else>{{ store.address }}</label>
+        <label v-else>{{  }}</label>
       <label>{{$t('zipCode')}}:</label>
         <textarea v-if="edit">{{ zipCode }}</textarea>
-        <label v-else>{{ store.zipCode }}</label>
+        <label v-else>{{  }}</label>
       <div class="contact-Checkbox">
         <basic-checkbox
             label=' Show contact information and address in your listings'></basic-checkbox>
@@ -43,21 +43,34 @@
   </div>
 </template>
 
+<script setup>
+import { useLoggedInStore } from "@/store/store";
+
+const store = useLoggedInStore()
+store.fetchUser()
+
+const user = store.getUser.data
+</script>
+
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
-import {useLoggedInStore} from "@/store/store";
+import { updateUser } from "@/services/UserService"
 export default {
   name: "personalInformation",
   components: {BasicCheckbox},
-  props: ['user'],
 
   data(){
     return{
       edit: false,
-      store: useLoggedInStore(),
       button_name: "Edit user information",
-      userData:{
-
+      userUpdateDTO:{
+        username : null,
+        newUsername : null,
+        fullName : null,
+        email : null,
+        birthDate : null,
+        phone : null,
+        picture : null,
       }
     }
 
@@ -65,6 +78,13 @@ export default {
   methods: {
     editUser(){
       if(this.edit === true){
+        //TODO: add exception handling for already existing username
+        updateUser(this.userUpdateDTO).then((response) => {
+          //TODO: is there a new token generated?
+          console.log('Response', response);
+        }).catch((error) => {
+          console.warn(error);
+        })
         this.edit = false
         this.button_name = 'Edit user information'
       } else{

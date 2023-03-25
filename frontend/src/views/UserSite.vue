@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import PersonalInformation from "@/components/pagesComponents/UserPage/personalInformationComponent.vue";
-import MyItems from "@/components/pagesComponents/UserPage/myItemsComponent.vue";
+import PersonalInformation from "@/components/pagesComponents/UserPage/PersonalInformationComponent.vue";
+import MyItems from "@/components/pagesComponents/UserPage/MyItemsComponent.vue";
 
 export default {
   name: "myProfile",

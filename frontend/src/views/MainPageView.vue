@@ -8,7 +8,7 @@
 
 <script>
 import MainpageRecentlyAdded from "@/components/pagesComponents/MainPage/mainpageRecentlyAddedComponent.vue";
-import MainpageSearchBar from "@/components/basicInputComponents/mainpageSearchBar.vue";
+import MainpageSearchBar from "@/components/basicInputComponents/MainpageSearchBar.vue";
 import MainpageCategory from "@/components/pagesComponents/MainPage/mainpageCategoryComponent.vue";
 export default {
   name: "mainpage",

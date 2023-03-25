@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import MainpageSearchBar from "@/components/basicInputComponents/mainpageSearchBar.vue";
+import MainpageSearchBar from "@/components/basicInputComponents/MainpageSearchBar.vue";
 import ItemsListingComponent from "@/components/pagesComponents/ListingPage/itemsListingComponent.vue";
 import FilterComponent from "@/components/pagesComponents/ListingPage/filterComponent.vue";
 

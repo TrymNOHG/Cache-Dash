@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "6A586E3272357538782F413F4428472B4B6250645367566B5970337336763979";
+    private final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -58,12 +61,19 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        logger.info("Token being checked: " + token);
+        logger.info("Token length: " + token.length());
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            logger.error("Error parsing JWT token: " + e.getMessage());
+            throw e;
+        }
     }
 
     private Key getSigningKey() {
