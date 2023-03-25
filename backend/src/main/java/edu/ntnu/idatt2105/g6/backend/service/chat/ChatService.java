@@ -29,7 +29,6 @@ public class ChatService implements IChatService{
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
-
     private final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
 

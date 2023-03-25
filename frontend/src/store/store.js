@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
+import {loadMainCategories} from "@/services/CategoryService";
 
 export const useLoggedInStore = defineStore('user', {
 
@@ -50,6 +51,7 @@ export const useLoggedInStore = defineStore('user', {
 
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
+        mainCategories: [],
         category: {
             categoryId: null,
             mainCategoryId: null,
@@ -70,15 +72,26 @@ export const useCategoryStore = defineStore('categoryStore', {
             let categoryNames = []
             this.categoryList.forEach(category => categoryNames.push(category.subCategory))
             return categoryNames;
+        },
+        getMainCategories() {
+            return this.mainCategories;
         }
     },
 
     actions: {
         async fetchMainCategories() {
-
+            await loadMainCategories().then(response => {
+                this.mainCategories = []
+                for(const category of response.data) {
+                    const { categoryId, categoryName, subCategories } = category
+                    this.mainCategories.push({ categoryId, categoryName, subCategories })
+                }
+            }).catch(error => {
+                console.log('error' , error)
+            })
         },
-        async fetchSubCategoriesByMain() {
-
+        async fetchSubCategoriesByMainId(categoryId) {
+            //TODO: this...
         },
         setCorrectCategory(categoryName){
             for (let i = 0; i < this.categoryList.length; i++) {
