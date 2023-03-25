@@ -70,27 +70,32 @@ export default {
     const { value: username } = useField('username');
     const { value: password } = useField('password')
 
-
     const submit = handleSubmit(async () => {
-      const token = await loginUser(username.value, password.value)
-      if (token !== undefined) {
-        console.log(token)
-        storage.setStorageSync('token', token.token);
-        storage.setStorageSync('username', username.value);
-
-
-
-        submitMessage.value = "Registration Successful";
-        setTimeout(() => {
-          submitMessage.value = "";
-        }, 3000);
-        await router.push("/");
-      } else {
-        submitMessage.value = "Something went wrong. Please try again later.";
-        setTimeout(() => {
-          submitMessage.value = "";
-        }, 3000);
+      const userLoginDTO = {
+        "username": username.value,
+        "password": password.value
       }
+      await loginUser(userLoginDTO).then(async response => {
+        console.log("User login response: " + response)
+        if (response !== undefined) {
+          store.setSessionToken(response.data.token)
+          await store.fetchUser()
+
+          submitMessage.value = "Registration Successful";
+          setTimeout(() => {
+            submitMessage.value = "";
+          }, 3000);
+          await router.push("/");
+        } else {
+          submitMessage.value = "Something went wrong. Please try again later.";
+          setTimeout(() => {
+            submitMessage.value = "";
+          }, 3000);
+        }
+      }).catch(error => {
+        console.warn('error', error)
+      })
+
     });
 
 

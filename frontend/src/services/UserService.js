@@ -8,19 +8,8 @@ export const registerUser = async (userData) => {
     return await axios.post(`${BASE_USER_URL}/register`, userData);
 }
 
-export const loginUser = async (username, password) => {
-    return axios.post(`${BASE_USER_URL}/auth/authenticate`, {
-        username: username,
-        password: password,
-    }).then((response) => {
-        //TODO: get user information back
-        console.log("User login response: " + response)
-        useLoggedInStore().setSessionToken(response.data)
-        useLoggedInStore().fetchUser()
-        return response.data;
-    }).catch((error) => {
-        console.warn(error);
-    });
+export const loginUser = async (userLoginDTO) => {
+    return axios.post(`${BASE_USER_URL}/auth/authenticate`, userLoginDTO)
 }
 
 export const getUser = async () => {
