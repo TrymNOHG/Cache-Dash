@@ -54,7 +54,6 @@ export default {
 
   watch: {
     chosenCounty: function (newVal) {
-      console.log("fyleValgt changed:", newVal);
       this.loadCounty();
     },
   },
