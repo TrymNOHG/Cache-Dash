@@ -37,15 +37,6 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> stateAction(IllegalStateException e, WebRequest webRequest) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("Time of error: ", LocalDateTime.now());
-        body.put("Message:", e.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> notFoundAction(NotFoundException e, WebRequest webRequest){

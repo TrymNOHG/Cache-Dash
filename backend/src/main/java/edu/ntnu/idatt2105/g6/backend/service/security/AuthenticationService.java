@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.service.security;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreateDTO;
+import edu.ntnu.idatt2105.g6.backend.exception.exists.UserExistsException;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
@@ -43,7 +44,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .email(userCreateDTO.email())
                 .build();
         if (userRepository.findByUsername(userCreateDTO.username()).isPresent())
-            throw new IllegalStateException("Username already exists");
+            throw new UserExistsException("Username already exists");
         userRepository.save(user);
 
         logger.info(String.format("User %s has been saved in the DB!", user.getUsername()));
