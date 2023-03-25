@@ -5,6 +5,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,6 +28,7 @@ public class ItemController {
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     @PostMapping("/user/create")
+    @Operation(summary = "Create a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> create(@ParameterObject @RequestBody ListingDTO listing) {
         logger.info("A new listing is being created by: " + listing.toString());
@@ -36,6 +38,7 @@ public class ItemController {
     }
 
     @PostMapping("/user/delete")
+    @Operation(summary = "Delete a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     //TODO: make this take in token or something
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody ListingDeletionDTO listing) {
@@ -44,6 +47,7 @@ public class ItemController {
     }
 
     @PostMapping("/user/update")
+    @Operation(summary = "Update a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
         itemService.updateListing(listing);

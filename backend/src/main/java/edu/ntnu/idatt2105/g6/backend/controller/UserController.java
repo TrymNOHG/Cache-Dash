@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreateDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
@@ -37,32 +38,32 @@ public class UserController {
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
-    @ExceptionHandler(UnauthorizedException.class)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authentication token",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AuthenticationResponse.class)) })}
+    )
     public ResponseEntity<Object> register(@ParameterObject @RequestBody UserCreateDTO user) {
-        try {
             logger.info("User " + user.username() + " is being registered!");
             return ResponseEntity.ok(authService.register(user));
-        }catch (Exception e) {
-            logger.warn("Internal error has occurred: " + e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
     }
 
     @PostMapping("/auth/authenticate")
     @Operation(summary = "Authenticate a user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authentication token",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AuthenticationResponse.class)) })}
+    )
     public ResponseEntity<AuthenticationResponse> register(@ParameterObject @RequestBody AuthenticationRequest request) throws Exception {
-        try{
             logger.info("New Authentication request: " + request.toString());
             return ResponseEntity.ok(authService.authenticate(request));
-        } catch (Exception e) {
-            logger.warn("Internal error has occurred: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @PostMapping("/update")
     @Operation(summary = "Update user")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody UserUpdateDTO user) {
         userService.updateUser(user);
         logger.info(String.format("User %s has been updated!", user.username()));
@@ -71,6 +72,11 @@ public class UserController {
 
     @GetMapping("/load")
     @Operation(summary = "Load user using current session token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserLoadDTO.class)) })}
+    )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> load(@ParameterObject @AuthenticationPrincipal UserDetails user) {
         logger.info("Attempting to load user!");
