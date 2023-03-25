@@ -68,5 +68,25 @@ public class ChatController {
         }
     }
 
+    @PostMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Load conversation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading conversations",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ConversationLoadDTO.class)) })
+    })
+    @ResponseBody
+    public ResponseEntity<Object> deleteConversation(@ParameterObject @RequestBody Long conversationId) {
+        try {
+            //TODO: just check authentication token
+            logger.info("Conversation Id to be delete : " + conversationId);
+            chatService.deleteConversation(conversationId);
+            logger.info("Conversation has been deleted!");
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 
 }
