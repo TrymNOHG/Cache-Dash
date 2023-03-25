@@ -1,13 +1,12 @@
 import axios from "axios";
-import { useLoggedInStore } from "@/store/store";
+import SessionToken from '@/features/SessionToken.js'
 
 
 const BASE_USER_URL = "http://localhost:8080/user/chat";
 export const newChat = async (conversationDTO) => {
-    const sessionToken = useLoggedInStore().getSessionToken
-    return await axios.post(`${BASE_USER_URL}/new`, {
+    return await axios.post(`${BASE_USER_URL}/new`, conversationDTO,{
         headers: {
-            Authorization: `Bearer ${sessionToken}`,
+            Authorization: `Bearer ${await SessionToken()}`,
         },
         body: {
             conversationDTO
@@ -16,10 +15,9 @@ export const newChat = async (conversationDTO) => {
 }
 
 export const sendMessage = async (messageDTO) => {
-    const sessionToken = useLoggedInStore().getSessionToken
     return await axios.post(`${BASE_USER_URL}/send`, {
         headers: {
-            Authorization: `Bearer ${sessionToken}`,
+            Authorization: `Bearer ${await SessionToken()}`,
         },
         body: {
             messageDTO
@@ -28,11 +26,11 @@ export const sendMessage = async (messageDTO) => {
 }
 
 //TODO: change the load of conversation to just load the authenticated user's conversations.
-export const loadConversations = async () => {
-    const sessionToken = useLoggedInStore().getSessionToken
-    return axios.post(`${BASE_USER_URL}/load`, {
+export const loadConversations = async (username) => {
+    console.log(username)
+    return axios.post(`${BASE_USER_URL}/load`, username, {
         headers: {
-            Authorization: `Bearer ${sessionToken}`,
+            Authorization: `Bearer ${await SessionToken()}`,
         }
     })
 }

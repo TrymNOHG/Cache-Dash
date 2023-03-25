@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import NotFound from "@/components/NotFoundComponent.vue";
-import notFound from "@/components/NotFoundComponent.vue";
+import NotFound from "@/components/basicInputComponents/NotFoundComponent.vue";
+import notFound from "@/components/basicInputComponents/NotFoundComponent.vue";
 import simpleForm from "@/views/SimpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
 import LoginView from "@/views/LoginView.vue";
@@ -12,6 +12,7 @@ import newItemView from "@/views/NewItemView.vue";
 import categoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
 import listingView from "@/views/ListingView.vue";
 import itemView from "@/views/ItemView.vue";
+import ChatView from "@/views/ChatView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,6 +80,11 @@ const router = createRouter({
             component: itemView
 
         },
+        {
+            path: '/chat',
+            name: 'chat',
+            component: ChatView
+        }
 
     ]
 })
