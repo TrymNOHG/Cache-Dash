@@ -6,7 +6,7 @@
         <div class="form-group">
           <label for="nameInput">{{ $t('username') }}</label>
           <BasicInput
-              id="nameInput"
+              id="usernameInput"
               type="text"
               v-model="username"
               :error="errors.username"
