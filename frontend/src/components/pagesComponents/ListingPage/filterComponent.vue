@@ -1,23 +1,11 @@
 <template>
   <div class="filter-window">
-    <map-component :chosenCounty="chosenCounty"/>
+    <map-component :chosenCounty="chosenCounty" :itemCoordinates="itemCoordinates"/>
     <div>
-      <h2>placeholder </h2>
-      <div v-for="category in categories" key="category.id" class="category-list">
-          <BasicCheckbox
-              v-model="category.checked"
-              label="{{category}}"
-          />
-        </div>
-    </div>
-    <div>
-      <h2>Area</h2>
-        <basic-input
-            id="searchArea"
-            type="search"
-            label="Search for area"
-            v-model="search.searchArea"
-        />
+      <h2>Category</h2>
+      <BasicCheckbox
+          name="Categories"
+          options="categories"/>
     </div>
     <div>
       <h2>Search for county</h2>
@@ -25,12 +13,9 @@
             class="dropDown"
             :options="countyStore.allCounties"
             v-model="chosenCounty"
-            @change="updateFyleValgt"
+            @change="updateCounty(); updateItemCoordinates();"
             label="Choose a county"
           />
-    </div>
-    <div class="searchButton">
-      <button @click="checkBoxChecked">Search</button>
     </div>
   </div>
 </template>
@@ -41,18 +26,20 @@ import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
 import {useCountyStore} from "@/store/store";
 import MapComponent from "@/components/MapComponent/mapComponent.vue";
+import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
 
 export default {
   name: "filterComponent",
-  components: {MapComponent, BasicSelect, BasicCheckbox, BasicInput},
+  components: {BasicRadioGroup, MapComponent, BasicSelect, BasicCheckbox, BasicInput},
   data(){
     return{
-      search:{
-        county:'',
-        searchArea:'',
-        checkedCatagories:[],
-      },
-      chosenCounty: ''
+      itemCoordinates: [
+        [60, 10],
+        [51.507222, -0.1275],
+        [35.689722, 139.691667],
+      ],
+      chosenCounty: '',
+      categories:[],
     }
   },
   setup(){
@@ -68,8 +55,6 @@ export default {
       checked: false,
 
     },
-    categories:[],
-
   },
   methods: {
     checkBoxChecked(category){
@@ -79,14 +64,21 @@ export default {
         }
       }
     },
-    updateFyleValgt() {
-      this.$emit("update:fyleValgt", this.fyleValgt);
+    updateCounty() {
+      this.$emit("update:ChooseCounty", this.ChooseCounty);
     },
+    updateItemCoordinates() {
+      this.$emit("update:itemCoordinates", this.itemCoordinates)
+    }
   },
   watch: {
-    fyleValgt: function (newVal) {
-      this.$emit("update:fyleValgt", newVal);
+    ChooseCounty: function (newVal) {
+      this.$emit("update:ChooseCounty", newVal);
     },
+
+    itemCoordinates: function (newVal) {
+      this.$emit("update:itemCoordinates", newVal)
+    }
   },
 }
 </script>
