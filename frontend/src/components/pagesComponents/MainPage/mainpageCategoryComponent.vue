@@ -16,6 +16,8 @@
 
 <script>
 import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
+import { useCategoryStore } from "@/store/store";
+
 export default {
   name: "mainpageCategory",
   components: {
@@ -39,6 +41,17 @@ export default {
         },
 
       ]
+    }
+  },
+  setup() {
+
+
+    const store = useCategoryStore();
+    store.fetchMainCategories()
+
+
+    return {
+
     }
   }
 }

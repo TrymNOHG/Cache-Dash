@@ -12,23 +12,17 @@ export const createNewListing = async (listingDTO) => {
 }
 
 export const deleteListing = async (listingDeletionDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/delete`, {
+    return await axios.post(`${BASE_LISTING_URL}/user/delete`, listingDeletionDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            listingDeletionDTO
         }
     })
 }
 
 export const updateListing = async (listingUpdateDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/update`, {
+    return await axios.post(`${BASE_LISTING_URL}/user/update`, listingUpdateDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            listingUpdateDTO
         }
     })
 }
