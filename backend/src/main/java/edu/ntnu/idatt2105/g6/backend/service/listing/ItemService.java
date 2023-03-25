@@ -83,6 +83,8 @@ public class ItemService implements IItemService{
         item.setStatus(ListingStatus.ACTIVE);
         itemRepository.save(item);
 
+        //TODO: save the pictures to picture gallery
+
         logger.info("The listing has been saved!");
     }
 

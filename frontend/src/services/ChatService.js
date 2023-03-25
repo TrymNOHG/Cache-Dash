@@ -7,20 +7,14 @@ export const newChat = async (conversationDTO) => {
     return await axios.post(`${BASE_USER_URL}/new`, conversationDTO,{
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            conversationDTO
         }
     });
 }
 
 export const sendMessage = async (messageDTO) => {
-    return await axios.post(`${BASE_USER_URL}/send`, {
+    return await axios.post(`${BASE_USER_URL}/send`, messageDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            messageDTO
         }
     });
 }

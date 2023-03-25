@@ -74,6 +74,12 @@ export const useCategoryStore = defineStore('categoryStore', {
     },
 
     actions: {
+        async fetchMainCategories() {
+
+        },
+        async fetchSubCategoriesByMain() {
+
+        },
         setCorrectCategory(categoryName){
             for (let i = 0; i < this.categoryList.length; i++) {
                 if (this.categoryList.at(i).subCategory === categoryName){

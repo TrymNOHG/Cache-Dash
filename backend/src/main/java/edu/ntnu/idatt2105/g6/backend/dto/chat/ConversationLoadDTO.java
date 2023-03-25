@@ -17,7 +17,7 @@ public class ConversationLoadDTO {
     @NonNull
     private Long conversationId;
     @NonNull
-    private List<Message> messages;
+    private List<MessageLoadDTO> messages;
 
     @NonNull
     private String username1;

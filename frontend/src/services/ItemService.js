@@ -3,34 +3,26 @@ import SessionToken from '@/features/SessionToken.js'
 
 const BASE_LISTING_URL = "http://localhost:8080/listing";
 export const createNewListing = async (listingDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/create`, {
+    return await axios.post(`${BASE_LISTING_URL}/user/create`, listingDTO, {
         headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            listingDTO
         }
     })
 }
 
 export const deleteListing = async (listingDeletionDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/delete`, {
+    return await axios.post(`${BASE_LISTING_URL}/user/delete`, listingDeletionDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            listingDeletionDTO
         }
     })
 }
 
 export const updateListing = async (listingUpdateDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/update`, {
+    return await axios.post(`${BASE_LISTING_URL}/user/update`, listingUpdateDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
-        },
-        body: {
-            listingUpdateDTO
         }
     })
 }

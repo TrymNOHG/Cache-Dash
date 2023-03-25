@@ -3,11 +3,6 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
-import edu.ntnu.idatt2105.g6.backend.model.chat.Conversation;
-import edu.ntnu.idatt2105.g6.backend.model.chat.Message;
-import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.service.chat.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,7 +48,7 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/load")
+    @PostMapping(value = "/load", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Load conversation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading conversations",
@@ -63,12 +58,13 @@ public class ChatController {
     @ResponseBody
     public ResponseEntity<Object> loadConversations(@ParameterObject @RequestBody String username) {
         try {
+            //TODO: just check authentication token
             logger.info("User trying to load conversation : " + username);
             List<ConversationLoadDTO> conversations = chatService.loadAllConversations(username.substring(0, username.length()-1));
             logger.info("Sending list of conversations: " + conversations);
             return ResponseEntity.ok(conversations);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error loading conversations");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
