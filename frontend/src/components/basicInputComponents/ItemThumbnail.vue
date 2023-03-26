@@ -1,6 +1,9 @@
 <template>
   <div class="thumbnail">
-    <figure class="picture"> {{}} </figure>
+    <figure class="picture">
+      <img :src='item.thumbnail' alt="Thumbnail of item" width="100" height="100"/>
+      <p>{{}}</p>
+    </figure>
     <label class="description"> {{item.briefDesc}} </label>
     <label class="cost"> {{item.price}} </label>
   </div>

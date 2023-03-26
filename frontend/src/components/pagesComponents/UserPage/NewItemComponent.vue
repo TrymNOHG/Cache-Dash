@@ -224,9 +224,9 @@ export default {
   },
   methods: {
     addToImageList(theNewImage){
-      console.log("kill", theNewImage)
+      console.log("New Image: ", theNewImage)
       this.imageStore.addImage(theNewImage)
-      console.log("me", this.imageStore.test)
+      console.log("Image test:", this.imageStore.test)
     },
 
     findAddressByLatLng() {
