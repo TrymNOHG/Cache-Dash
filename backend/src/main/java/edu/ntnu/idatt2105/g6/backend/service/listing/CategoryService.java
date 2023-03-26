@@ -127,7 +127,7 @@ public class CategoryService implements ICategoryService{
                 .orElseThrow(() -> new UserNotFoundException(categoryDTO.userId()));
         if(user.getRole() != Role.ADMIN) throw new UnauthorizedException(user.getUsername());
         Objects.requireNonNull(categoryDTO.categoryId());
-        userRepository.deleteById(categoryDTO.categoryId());
+        categoryRepository.deleteById(categoryDTO.categoryId());
     }
 
 

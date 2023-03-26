@@ -138,6 +138,8 @@ public class ItemService implements IItemService{
         Item item = itemRepository.findByItemId(listingUpdateDTO.itemId())
                     .orElseThrow(() -> new ItemNotFoundException(listingUpdateDTO.itemId()));
         item = Item.builder()
+                .itemId(item.getItemId())
+                .user(item.getUser())
                 .briefDesc(listingUpdateDTO.briefDesc() != null ? listingUpdateDTO.briefDesc() : item.getBriefDesc())
                 .fullDesc(listingUpdateDTO.fullDesc() != null ? listingUpdateDTO.fullDesc() : item.getFullDesc())
                 .address(listingUpdateDTO.address() != null ? listingUpdateDTO.address() : item.getAddress())
@@ -150,6 +152,7 @@ public class ItemService implements IItemService{
                 .status(item.getStatus())
                 .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
+                .bookmarkerList(item.getBookmarkerList())
                 .build();
 
         itemRepository.save(item);

@@ -101,7 +101,7 @@ public class UserService implements IUserService {
      @throws UsernameNotFoundException If the user is not found in the database.
      */
     @Override
-    public UserLoadDTO loadUserByUsername(String username) {
+    public UserLoadDTO loadUserDTOByUsername(String username) {
         return UserMapper.userLoadDTO(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username)));
     }

@@ -81,7 +81,7 @@ public class UserController {
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> load(@ParameterObject @AuthenticationPrincipal UserDetails user) {
         logger.info("Attempting to load user!");
-        UserLoadDTO userLoadDTO = userService.loadUserByUsername(user.getUsername());
+        UserLoadDTO userLoadDTO = userService.loadUserDTOByUsername(user.getUsername());
         logger.info("User has been loaded!");
         return ResponseEntity.ok(userLoadDTO);
     }
