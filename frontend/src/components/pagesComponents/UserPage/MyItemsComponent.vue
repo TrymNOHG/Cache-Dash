@@ -3,24 +3,77 @@
     <h3>My Items</h3>
     <hr>
     <li v-for="item in items" :key="item.id" class="list-item">
+      <img :src='imageStore.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>
       <span class="text">{{ item.briefDesc }}</span>
-      <button class="sell-button">Sell</button>
+      <button class="sell-button" @click="changeToArchive(item)">Sell</button>
     </li>
   </ul>
 </template>
 
+<script setup>
+import {useItemStore} from "@/store/store";
+
+const imageStore = useItemStore();
+
+</script>
+
 <script>
+import {useLoggedInStore} from "@/store/store";
+import {updateListing} from "@/services/ItemService";
 export default {
   name: "myItems",
 
   props: {
     items: Array,
   },
+
+  data() {
+    return{
+      user: null
+    }
+  },
+
+  mounted() {
+    const store = useLoggedInStore();
+    store.fetchUser();
+    this.user = store.getUser.data
+  },
+
+  methods: {
+    changeToArchive(item){
+      console.log(this.user.username)
+      const listingUpdateDTO = {
+        'username' : this.user.username,
+        'itemId' : item.itemId,
+        'briefDesc' : item.briefDesc,
+        'fullDesc' : item.fullDesc,
+        'address' : item.address,
+        'county' : item.address,
+        'price': item.price,
+        'listingStatus': 'ARCHIVED',
+        'thumbnail': item.thumbnail,
+        'keyInfoList': item.keyInfoList,
+      }
+
+      updateListing(listingUpdateDTO);
+    }
+  }
 }
 </script>
 
 
 <style scoped>
+
+span{
+  margin-left: 15px;
+}
+
+img{
+  background-color: #bababa;
+  height: 100px;
+  width: 100px;
+}
+
 .container {
   background-color: white;
   display: flex;
@@ -71,6 +124,7 @@ export default {
   inset -1px -1px 2px rgba(255, 255, 255, 0.7);
   transform: translate(0, -2px);
   color: white !important;
+  background-color: #4c9fdb;
 }
 
 .text {

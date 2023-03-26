@@ -67,6 +67,7 @@ public class ItemController {
     @PostMapping("/user/update")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
+        logger.info("This listing dto is trying to get an update: " + listing);
         itemService.updateListing(listing);
         return ResponseEntity.ok().build();
     }

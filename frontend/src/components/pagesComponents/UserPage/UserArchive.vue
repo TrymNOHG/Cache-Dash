@@ -1,28 +1,46 @@
 <template>
   <ul class="container">
-    <h3>Archives</h3>
+    <h3>My Archive</h3>
     <hr>
     <li v-for="item in items" :key="item.id" class="list-item">
+      <img :src='store.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>
       <span class="text">{{ item.briefDesc }}</span>
       <button class="sell-button">Sell</button>
     </li>
   </ul>
 </template>
 
+<script setup>
+import {useItemStore} from "@/store/store";
+
+const store = useItemStore();
+
+
+</script>
+
 <script>
 export default {
-  name: "userArchive",
+  name: "myItems",
 
   props: {
-    items: {
-      type: Array,
-      required: true,
-    },
+    items: Array,
   },
 }
 </script>
 
+
 <style scoped>
+
+span{
+  margin-left: 15px;
+}
+
+img{
+  background-color: #bababa;
+  height: 100px;
+  width: 100px;
+}
+
 .container {
   background-color: white;
   display: flex;

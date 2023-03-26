@@ -177,12 +177,6 @@ export const useCountyStore = defineStore('countyStore', {
             return this.countyList;
         },
     },
-
-    actions: {
-        setSelected(county){
-            this.county = county;
-        }
-    }
 });
 
 export const useImageStore = defineStore('imageStore', {

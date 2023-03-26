@@ -55,10 +55,10 @@
         <div v-if="edit">
           <div
               class="base-image-input"
-              :style="{ 'background-image': `url(${newPicture})` }"
+              :style="{ 'background-image': `url(${user.picture})` }"
           >
             <span
-                v-if="!newPicture"
+                v-if="!user.picture"
                 class="placeholder"
             >
               Choose an Image
@@ -78,7 +78,8 @@
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import { updateUser } from "@/services/UserService"
-import {useImageStore, useItemStore, useLoggedInStore} from "@/store/store";
+import * as store from "@/services/UserService";
+import {useItemStore, useLoggedInStore} from "@/store/store";
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
 export default {
@@ -87,17 +88,14 @@ export default {
 
   setup(){
     const store = useLoggedInStore()
-    const imageStore = useItemStore();
+    const itemStore = useItemStore();
     store.fetchUser();
     const user = store.getUser.data
-    let newPicture = null
-
-    if (user.picture !== null) newPicture = imageStore.convertImageBackToUrl(user.picture);
+    user.picture = itemStore.convertImageBackToUrl(user.picture);
 
     return {
       store,
-      user,
-      newPicture
+      user
     }
   },
 
@@ -111,7 +109,6 @@ export default {
     editUser(){
       if(this.edit === true){
         //TODO: add exception handling for already existing username
-        this.user.picture = this.newPicture;
 
         const completeUserDTO = this.userToFormData(this.user)
 
@@ -137,7 +134,7 @@ export default {
       if (files && files[0]) {
         const reader = new FileReader
         reader.onload = e => {
-          this.newPicture = e.target.result
+          this.user.picture = e.target.result
         }
         reader.readAsDataURL(files[0])
         this.$emit('input', files[0])
