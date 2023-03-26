@@ -50,14 +50,9 @@
 
 <script>
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
-import {
-  deleteConversationId,
-  loadConversations,
-  newChat,
-  sendMessage
-} from "@/services/ChatService";
+import {loadConversations, newChat, sendMessage} from "@/services/ChatService";
 import {useLoggedInStore} from "@/store/store";
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 export default {
   components: {BasicInput},
@@ -102,7 +97,19 @@ export default {
         username: MessageObject.username,
         message: MessageObject.message
       })
-    },
+          .then(() => {
+            loadConversations(this.store.getUser.data.username)
+                .then(response => {
+                  this.currentConversation = response.data.find(conversation => conversation.conversationId === MessageObject.conversationId);
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      },
 
     changeConversation(username) {
       for (let i = 0; i < this.conversationList.length; i++) {
