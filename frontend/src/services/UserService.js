@@ -22,7 +22,7 @@ export const getUser = async () => {
 
 export const updateUser = async (userUpdateDTO) => {
     console.log(userUpdateDTO)
-    return axios.post(`${BASE_USER_URL}/update`, userUpdateDTO, {
+    return axios.put(`${BASE_USER_URL}/update`, userUpdateDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`
         },
