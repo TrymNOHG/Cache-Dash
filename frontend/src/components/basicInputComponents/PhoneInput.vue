@@ -1,6 +1,5 @@
 <template>
   <div>
-    <label v-if="label">{{ label }}</label>
     <input
         v-bind="$attrs"
         v-model="formattedPhoneNumber"
@@ -11,6 +10,7 @@
         :style="{ borderColor: error ? 'red' : ''}"
         aria-invalid='error ? true : null'
     >
+    <label v-if="label">{{ label }}</label>
     <p v-if="error" class="errorMessage" aria-live="assertive">{{ error }}</p>
   </div>
 </template>

@@ -14,7 +14,7 @@ export const useLoggedInStore = defineStore('user', {
             email: null,
             birthDate: null,
             phone: null,
-            picture: [],
+            picture: null,
             role: null,
         },
     }),
@@ -45,7 +45,7 @@ export const useLoggedInStore = defineStore('user', {
                     console.warn('error', error)
                     //TODO: handle error
                 })
-        }
+        },
     }
 });
 

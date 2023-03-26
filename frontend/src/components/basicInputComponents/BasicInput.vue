@@ -1,5 +1,4 @@
 <template>
-  <label v-if="label">{{ label }}</label>
   <input
       v-bind="$attrs"
       :value="modelValue"
@@ -8,7 +7,6 @@
       class="field"
       :style="{ borderColor: error ? 'red' : ''}"
       aria-invalid='error ? true : null'
-
   >
   <p
     v-if="error"

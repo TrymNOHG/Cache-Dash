@@ -16,8 +16,20 @@ export default {
 </script>
 
 <style scoped>
-  .userSite-window{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+
+.userSite-window{
+  margin-top: 25px;
+}
+
+.userSite-window{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .userSite-window {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
   }
+}
 </style>

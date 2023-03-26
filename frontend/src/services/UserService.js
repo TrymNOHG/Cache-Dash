@@ -21,12 +21,9 @@ export const getUser = async () => {
 }
 
 export const updateUser = async (userUpdateDTO) => {
-    return axios.post(`${BASE_USER_URL}/update`, {
+    return axios.post(`${BASE_USER_URL}/update`, userUpdateDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`
         },
-        body: {
-            userUpdateDTO
-        }
     });
 }
