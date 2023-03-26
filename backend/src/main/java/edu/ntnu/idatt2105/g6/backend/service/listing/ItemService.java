@@ -129,6 +129,8 @@ public class ItemService implements IItemService{
         item.setKeyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList());
         item.setUser(user);
 
+        logger.info("New item: " + item.toString());
+
         itemRepository.save(item);
     }
 

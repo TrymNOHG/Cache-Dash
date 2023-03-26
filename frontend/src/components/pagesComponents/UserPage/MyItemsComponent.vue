@@ -45,14 +45,14 @@ export default {
       const listingUpdateDTO = {
         'username' : this.user.username,
         'itemId' : item.itemId,
-        'briefDesc' : item.briefDesc,
-        'fullDesc' : item.fullDesc,
-        'address' : item.address,
-        'county' : item.address,
-        'price': item.price,
+        'briefDesc' : null,
+        'fullDesc' : null,
+        'address' : null,
+        'county' : null,
+        'price': null,
         'listingStatus': 'ARCHIVED',
-        'thumbnail': item.thumbnail,
-        'keyInfoList': item.keyInfoList,
+        'thumbnail': null,
+        'keyInfoList': null,
       }
 
       updateListing(listingUpdateDTO);
