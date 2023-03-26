@@ -143,8 +143,8 @@ export default {
 
     userToFormData(user){
       const userDTO = {
-        'username' : user.username,
-        'newUsername' : this.store.getUser.username,
+        'username' : this.store.getUser.username,
+        'newUsername' : user.username,
         'fullName' : user.fullName,
         'email' : user.email,
         'birthDate' : user.birthDate,
