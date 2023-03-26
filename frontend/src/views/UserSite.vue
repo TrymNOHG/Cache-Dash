@@ -5,8 +5,8 @@
       <div class="link" @click="whatToShow(true)">Archive</div>
     </div>
     <div class="userInformation-window">
-      <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="userItems"/>
-      <user-archive v-else style="overflow-y:auto" items=""/>
+      <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="userItems" />
+      <user-archive v-else style="overflow-y:auto" :items="userItems"/>
       <personal-information/>
     </div>
   </div>
@@ -18,31 +18,37 @@ import MyItems from "@/components/pagesComponents/UserPage/MyItemsComponent.vue"
 import UserArchive from "@/components/pagesComponents/UserPage/UserArchive.vue";
 import {useLoggedInStore} from "@/store/store";
 import {loadListingByUser} from "@/services/ItemService";
+import { ref } from 'vue';
+
 
 export default {
   name: "myProfile",
   components: {UserArchive, MyItems, PersonalInformation},
 
-  async setup() {
+
+  setup() {
     const store = useLoggedInStore();
-    await store.fetchUser();
+    store.fetchUser();
     const user = store.getUser.data;
-    let userItems = [];
+    const userItems = ref([]);
 
-    await loadListingByUser(user.username).then(response => {
-      console.log(response.data())
-      userItems = response.data;
-    }).catch(err => {
-      console.log(err)
-    });
+    async function loadItems() {
+      try {
+        const response = await loadListingByUser(user.username);
+        userItems.value = response.data; // update the userItems with the response data
+        console.log(userItems.value);
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-    console.log(userItems)
+    loadItems();
 
     return {
       store,
       user,
-      userItems
-    }
+      userItems,
+    };
   },
 
   data() {
@@ -54,10 +60,9 @@ export default {
   methods: {
     whatToShow(bool) {
       this.pageDisplay = bool;
-    }
-  }
-
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -92,6 +97,7 @@ export default {
 .userInformation-window {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin: 10px;
 }
 
 @media (max-width: 768px) {
