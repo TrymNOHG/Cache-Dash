@@ -78,8 +78,8 @@ const router = createRouter({
         {
             path: '/category/:name/item/:id',
             name: 'item',
-            component: itemView
-
+            component: itemView,
+            props: true
         },
         {
             path: '/chat',

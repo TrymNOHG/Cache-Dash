@@ -1,7 +1,7 @@
 <template>
   <div class="item-window">
     <ImageCarousel class="image-carousel" />
-    <ItemDescription class="item-description"/>
+    <ItemDescription class="item-description" :item="this.item"/>
     <SellerInformation class="seller-information"/>
     <div class="map"></div>
   </div>
@@ -14,7 +14,13 @@ import SellerInformation from "@/components/pagesComponents/ItemPage/SellerInfor
 
 export default {
   name: "item",
-  components: {SellerInformation, ItemDescription, ImageCarousel}
+  components: {SellerInformation, ItemDescription, ImageCarousel},
+  props: {
+    item: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 <style scoped>

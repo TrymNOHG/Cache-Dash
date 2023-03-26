@@ -5,7 +5,7 @@
     </div>
     <div class="searchbar-itemlisting">
       <mainpage-search-bar class="search"></mainpage-search-bar>
-      <items-listing-component class="itemsListing" :categoryId="categoryId"></items-listing-component>
+      <items-listing-component class="itemsListing" :categoryId=this.categoryId :categoryName=this.categoryName></items-listing-component>
     </div>
   </div>
 </template>
