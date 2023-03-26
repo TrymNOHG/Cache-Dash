@@ -2,11 +2,8 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
-import edu.ntnu.idatt2105.g6.backend.model.listing.KeyInfo;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.*;
+import edu.ntnu.idatt2105.g6.backend.service.listing.CategoryService;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +28,8 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final CategoryService categoryService;
+
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     @PostMapping(value="/user/create", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
@@ -105,12 +103,11 @@ public class ItemController {
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
     )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
+    public ResponseEntity<List<ListingLoadDTO>> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
+        logger.info("Looking for items under category Id: " + categoryId);
         List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
+        logger.info("Items found: " + listings);
         return ResponseEntity.ok(listings);
     }
-
-
-
 
 }

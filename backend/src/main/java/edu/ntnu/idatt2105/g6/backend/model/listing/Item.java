@@ -61,6 +61,7 @@ public class Item {
 
     @Lob
     @Column(name = "thumbnail", columnDefinition="longblob")
+    @ToString.Exclude
     private byte[] thumbnail;
 
     @Enumerated(EnumType.STRING)

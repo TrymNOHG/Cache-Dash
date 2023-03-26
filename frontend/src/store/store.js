@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
 import {loadMainCategories} from "@/services/CategoryService";
+import {loadListingsByCategoryId} from "@/services/ItemService";
 
 export const useLoggedInStore = defineStore('user', {
 
@@ -41,6 +42,53 @@ export const useLoggedInStore = defineStore('user', {
                     // const { data : {userId, username, fullName, email, birthDate, phone, picture, role}} = response
                     // this.user = {userId, username, fullName, email, birthDate, phone, picture, role}
                     this.user = response
+                }).catch(error => {
+                    console.warn('error', error)
+                    //TODO: handle error
+                })
+        }
+    }
+});
+
+export const useItemStore = defineStore('item', {
+    state: () => ({
+        item: {
+            "username": "Eirik",
+            "briefDesc": "Razor computer",
+            "fullDesc" : null,
+            "address" : "Tjome",
+            "county" :  "Vestfold",
+            "categoryId" : 2,
+            "price" : 3000,
+            "thumbnail" : null,
+            "keyInfoList" : []
+        },
+        items: [],
+        currentCategoryId: null
+    }),
+
+    getters: {
+        getItems() {
+            return this.items;
+        }
+    },
+
+    actions: {
+        async fetchItemsByCategoryId(categoryId) {
+            if(this.currentCategoryId === categoryId) return this.items
+            await loadListingsByCategoryId(categoryId)
+                .then(response => {
+                    this.items = [];
+
+                    for(const {itemId, username, briefDesc, fullDesc,
+                            address, county, categoryId, price,
+                            listingStatus, thumbnail, keyInfoList} of response.data){
+                        this.items.push({itemId, username, briefDesc, fullDesc,
+                            address, county, categoryId, price,
+                            listingStatus, thumbnail, keyInfoList})
+                    }
+
+                    this.currentCategoryId = categoryId
                 }).catch(error => {
                     console.warn('error', error)
                     //TODO: handle error

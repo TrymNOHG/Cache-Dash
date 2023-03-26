@@ -70,9 +70,10 @@ const router = createRouter({
             component: userSite
         },
         {
-            path: '/category/:name',
+            path: '/category/:categoryName+_:categoryId',
             name: 'listingView',
-            component: listingView
+            component: listingView,
+            props: true
         },
         {
             path: '/category/:name/item/:id',

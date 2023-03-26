@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,12 +54,20 @@ public class ItemService implements IItemService{
 
     @Override
     public List<ListingLoadDTO> loadAllListingsByCategoryId(Long categoryId) {
+        List<ListingLoadDTO> listings = new ArrayList<>();
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFound(categoryId));
         Specification<Item> specification = ItemSpecifications.itemsUnderCategory(category);
-        return itemRepository.findAll(specification)
-                .stream().map(ListingMapper::toListing).toList();
+
+        logger.info("Sub categories of " + categoryId + ": " + category.getSubCategory());
+        category.getSubCategories()
+                .forEach(subCategory -> listings.addAll(loadAllListingsByCategoryId(subCategory.getCategoryId())));
+        listings.addAll(itemRepository.findAll(specification)
+                .stream().map(ListingMapper::toListing).toList());
+
+        return listings;
     }
+
 
     @Override
     public List<ListingLoadDTO> loadAllListings() {

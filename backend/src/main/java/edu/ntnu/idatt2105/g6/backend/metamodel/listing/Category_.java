@@ -19,6 +19,8 @@ public abstract class Category_ {
     public static volatile SingularAttribute<Category, Category> mainCategory;
     public static volatile ListAttribute<Category, Item> itemsWithCategory;
     public final static String CATEGORYID = "categoryId";
+    public final static String MAINCATEGORY = "mainCategory";
+
 
 
 }

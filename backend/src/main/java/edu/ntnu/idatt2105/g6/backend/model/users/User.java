@@ -62,8 +62,6 @@ public class User implements UserDetails {
     @Lob
     private byte[] picture;
 
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
