@@ -148,7 +148,6 @@ export default {
 
 
     const submit = handleSubmit(async () => {
-      catStore.getCategoryId();
 
       const listingDTO =  {
         'username': userStore.getUser.data.username,
@@ -156,7 +155,7 @@ export default {
         'fullDesc': full.value === undefined ? null : full.value,
         'address': address.value,
         'county': countyStore.county.countyName,
-        'categoryId': 5,
+        'categoryId': catStore.getCategoryId(),
         'price': price.value,
         'thumbnail': null,
         'keyInfoList': null
