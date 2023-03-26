@@ -98,6 +98,18 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/category/{categoryId}/load")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading items of a given user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
+    )
+//    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
+        List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
+        return ResponseEntity.ok(listings);
+    }
+
 
 
 

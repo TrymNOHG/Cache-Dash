@@ -15,9 +15,11 @@ import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.ItemRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import edu.ntnu.idatt2105.g6.backend.specification.ItemSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,15 @@ public class ItemService implements IItemService{
         return listings.stream()
                 .map(ListingMapper::toListing)
                 .toList();
+    }
+
+    @Override
+    public List<ListingLoadDTO> loadAllListingsByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFound(categoryId));
+        Specification<Item> specification = ItemSpecifications.itemsUnderCategory(category);
+        return itemRepository.findAll(specification)
+                .stream().map(ListingMapper::toListing).toList();
     }
 
     @Override
