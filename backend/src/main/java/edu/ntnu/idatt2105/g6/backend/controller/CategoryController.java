@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/category")
@@ -44,7 +46,7 @@ public class CategoryController {
     }
 
     //TODO: fix DTO for loadBookmarks why UserDeletionDTO
-    @PostMapping("/load")
+    @GetMapping("/load/all")
     @Operation(summary = "Load all categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading categories",
@@ -52,8 +54,24 @@ public class CategoryController {
                             schema = @Schema(implementation = CategoryDTO.class)) })}
     )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> loadAllCategories(@ParameterObject @RequestBody CategoryDTO categoryDTO) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestBody Long categoryId) {
+        CategoryDTO mainCategory = categoryService.loadSubCategories(categoryId);
+        return ResponseEntity.ok(mainCategory);
+    }
+
+    @GetMapping("/load/main")
+    @Operation(summary = "Load main categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading main categories",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CategoryDTO.class)) })}
+    )
+//    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<List<CategoryDTO>> loadMainCategories() {
+        logger.info("Retrieving main categories...");
+        List<CategoryDTO> mainCategories = categoryService.loadSubCategoriesShallow(1L);
+        logger.info("The main categories are: " + mainCategories);
+        return ResponseEntity.ok().body(mainCategories);
     }
 
 }

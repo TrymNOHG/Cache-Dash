@@ -24,8 +24,24 @@ public class CategoryMapper {
 //        return category;
 //    }
 
-    public static CategoryDTO toCategoryDTO(Category rootCategory) {
-        CategoryDTO categoryDTO = new CategoryDTO(rootCategory);
+    public static CategoryDTO toCategoryDTO(Category category) {
+        CategoryDTO categoryDTO = CategoryDTO
+                .builder()
+                .categoryId(category.getCategoryId())
+                .categoryName(category.getSubCategory())
+                .subCategories(category.getSubCategories().stream().map(CategoryMapper::toCategoryDTO).toList())
+                .build();
+
+        return categoryDTO;
+    }
+
+    public static CategoryDTO toShallowCategoryDTO(Category category) {
+        CategoryDTO categoryDTO = CategoryDTO
+                .builder()
+                .categoryId(category.getCategoryId())
+                .categoryName(category.getSubCategory())
+                .subCategories(null)
+                .build();
 
         return categoryDTO;
     }

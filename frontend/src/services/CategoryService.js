@@ -25,18 +25,10 @@ export const deleteCategory = async (categoryEditDTO) => {
 }
 
 //TODO: take away the need for authentication ***
-export const loadCategories = async () => {
-    return axios.post(`${BASE_USER_URL}/load`, {
-        headers: {
-            Authorization: `Bearer ${await SessionToken()}`,
-        },
-    })
+export const loadAllCategories = async () => {
+    return axios.get(`${BASE_USER_URL}/load/all`)
 }
 
 export const loadMainCategories = async () => {
-    return axios.post(`${BASE_USER_URL}/load`, {
-        headers: {
-            Authorization: `Bearer ${await SessionToken()}`,
-        },
-    })
+    return axios.get(`${BASE_USER_URL}/load/main`)
 }
