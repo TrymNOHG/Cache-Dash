@@ -78,8 +78,7 @@
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import { updateUser } from "@/services/UserService"
-import * as store from "@/services/UserService";
-import {useLoggedInStore} from "@/store/store";
+import {useImageStore, useItemStore, useLoggedInStore} from "@/store/store";
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
 export default {
@@ -88,12 +87,17 @@ export default {
 
   setup(){
     const store = useLoggedInStore()
+    const imageStore = useItemStore();
     store.fetchUser();
     const user = store.getUser.data
+    let newPicture = null
+
+    if (user.picture !== null) newPicture = imageStore.convertImageBackToUrl(user.picture);
 
     return {
       store,
-      user
+      user,
+      newPicture
     }
   },
 
@@ -101,7 +105,6 @@ export default {
     return{
       edit: false,
       button_name: "Edit user information",
-      newPicture: null
     }
   },
   methods: {

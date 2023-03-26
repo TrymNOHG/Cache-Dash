@@ -105,18 +105,17 @@ export const useItemStore = defineStore('item', {
 
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
-        mainCategories: []
+        mainCategories: [],
+        chosenCategory: null,
+        chosenCategoryId: null
     }),
 
     getters: {
-        allCategories(){
-            return this.categoryList;
-        },
-
         allCategoryNames(){
             let categoryNames = []
-            this.categoryList.forEach(category => categoryNames.push(category.subCategory))
+            this.mainCategories.forEach(category => categoryNames.push(category.categoryName))
             return categoryNames;
+
         },
         getMainCategories() {
             return this.mainCategories;
@@ -138,13 +137,16 @@ export const useCategoryStore = defineStore('categoryStore', {
         async fetchSubCategoriesByMainId(categoryId) {
             //TODO: this...
         },
-        setCorrectCategory(categoryName){
-            for (let i = 0; i < this.categoryList.length; i++) {
-                if (this.categoryList.at(i).subCategory === categoryName){
-                    this.category = this.categoryList.at(i);
+
+        getCategoryId(){
+            for (let i = 0; i < this.mainCategories.length; i++) {
+                if (this.mainCategories[i].categoryName === this.chosenCategory){
+                    this.chosenCategoryId = this.mainCategories[i].categoryId;
+                    return this.chosenCategoryId;
                 }
             }
-        }
+        },
+
     }
 });
 
@@ -154,7 +156,7 @@ export const useCountyStore = defineStore('countyStore', {
         county: {
             countyName: "",
         },
-        categoryList: [
+        countyList: [
             'None',
             'Troms og Finnmark',
             'Nordland',
@@ -172,7 +174,7 @@ export const useCountyStore = defineStore('countyStore', {
 
     getters: {
         allCounties(){
-            return this.categoryList;
+            return this.countyList;
         },
     },
 
