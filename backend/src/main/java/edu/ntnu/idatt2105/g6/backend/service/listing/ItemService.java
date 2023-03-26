@@ -116,6 +116,7 @@ public class ItemService implements IItemService{
         Item item = itemRepository.findByItemId(listingUpdateDTO.itemId())
                     .orElseThrow(() -> new ItemNotFoundException(listingUpdateDTO.itemId()));
         item = Item.builder()
+                .itemId(item.getItemId())
                 .briefDesc(listingUpdateDTO.briefDesc() != null ? listingUpdateDTO.briefDesc() : item.getBriefDesc())
                 .fullDesc(listingUpdateDTO.fullDesc() != null ? listingUpdateDTO.fullDesc() : item.getFullDesc())
                 .address(listingUpdateDTO.address() != null ? listingUpdateDTO.address() : item.getAddress())
