@@ -80,8 +80,8 @@ public class ItemController {
             )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestBody String username) {
-        itemService.loadAllListingsByUsername(username);
-        return ResponseEntity.ok().build();
+        List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
+        return ResponseEntity.ok(items);
     }
 
     @GetMapping("/load")
