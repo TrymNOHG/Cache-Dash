@@ -40,11 +40,9 @@ export const loadListingByUser = async (username) => {
 
 export const loadAllListings = async () => {
     return await axios.get(`${BASE_LISTING_URL}/load`)
-        .then((response) => {
-            console.log(response.data)
-            return response.data;
-        }).catch((error) => {
-            console.warn(error);
-        });
+}
+
+export const loadListingsByCategoryId = async (categoryId) => {
+    return await axios.get(`${BASE_LISTING_URL}/category/${categoryId}/load`)
 }
 

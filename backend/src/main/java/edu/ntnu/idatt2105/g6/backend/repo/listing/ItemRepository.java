@@ -3,14 +3,16 @@ package edu.ntnu.idatt2105.g6.backend.repo.listing;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
 
     Optional<Item> findByItemId(Long itemId);
+    Optional<List<Item>> findItemsByCategory_CategoryId(Long categoryId);
     Optional<List<Item>> findItemsByCategory_MainCategory(String mainCategory);
     Optional<List<Item>> findItemsByCategory_SubCategory(String subCategory);
     Optional<List<Item>> findItemsByBriefDescContainingIgnoreCase(String phrase);

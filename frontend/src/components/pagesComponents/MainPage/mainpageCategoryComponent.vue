@@ -5,7 +5,7 @@
     </div>
     <div class="category-container">
       <div v-for="category in mainCategories" :category="category" key="category.categoryId" class="category-list">
-        <router-link :to="`category/${category.categoryName}`" class="link">
+        <router-link :to="{ name : 'listingView', params: { categoryName : category.categoryName, categoryId: category.categoryId}}" class="link">
           <CategoryCard :category="category.categoryName"/>
         </router-link>
       </div>
@@ -17,7 +17,7 @@
 <script>
 import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
 import { useCategoryStore } from "@/store/store";
-import {watch} from "vue";
+import {computed} from "vue";
 
 export default {
   name: "mainpageCategory",
@@ -47,13 +47,16 @@ export default {
   setup() {
 
     const store = useCategoryStore();
+    const mainCategories = computed(() => {
+      return store.getMainCategories;
+    });
+
     store.fetchMainCategories()
 
-    const mainCategories = store.getMainCategories
-    watch(mainCategories, (newMainCategories) => {
-      console.log(newMainCategories)
-      this.mainCategories = newMainCategories;
-    });
+    // watch(mainCategories, (newMainCategories) => {
+    //   console.log(newMainCategories)
+    //   this.mainCategories = newMainCategories;
+    // });
 
     return {
       mainCategories

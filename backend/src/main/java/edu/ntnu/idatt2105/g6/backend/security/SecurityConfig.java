@@ -34,7 +34,7 @@ public class SecurityConfig {
             .headers().frameOptions().sameOrigin()
             .and()
             .authorizeHttpRequests(authorize ->
-                authorize.requestMatchers("/home", "/login", "/user/register", "/about", "/swagger/**", "/docs/**", "/swagger-ui/**", "/category/load/**")
+                authorize.requestMatchers("/home", "/login", "/user/register", "/about", "/swagger/**", "/docs/**", "/swagger-ui/**", "/category/load/**", "/listing/category/**")
                             .permitAll()
                         .requestMatchers("/user/**", "/auth/**", "/admin/**", "/listing/user/**")
                         .permitAll().anyRequest().authenticated()

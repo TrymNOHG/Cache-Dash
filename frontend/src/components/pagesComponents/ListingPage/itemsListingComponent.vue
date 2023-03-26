@@ -10,56 +10,42 @@
 
 <script>
 import ItemThumbnail from "@/components/basicInputComponents/ItemThumbnail.vue";
+import {useCategoryStore, useItemStore} from "@/store/store";
+import {computed} from "vue";
 
 export default {
   name: "itemsListingComponent",
   components: {ItemThumbnail},
+  props: {
+    categoryId: {
+      type: Number,
+      required: true
+    },
+  },
   data(){
     return{
-      item: {
-      },
-      items: [{
-        id:1,
-        categoryName: 'Cars',
-        itemName: 'Selling car'
-      },
-      {
-        id:2,
-        categoryName: 'Cars',
-        itemName: 'Selling Mercedes'
-      },
-      {
-        id:3,
-        categoryName: 'Cars',
-        itemName: 'Selling Mercedes'
-      },
-        {
-          id:4,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-        {
-          id:5,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
 
-      ]
     }
   },
-  /*props:{
-    item:{
-      id:'',
-      categoryName:'',
-      itemName:'',
-      cost:''
+  setup(props) {
 
-    },
-    items:[
+    const store = useItemStore();
+    const items = computed(() => {
+      return store.getItems;
+    });
 
-    ]
+    store.fetchItemsByCategoryId(props.categoryId)
+    // console.log("Items: ")
+    //
+    // for(let item of this.items.value) {
+    //   console.log(item)
+    // }
+
+    return {
+      items
+    }
   }
-   */
+
 }
 </script>
 
