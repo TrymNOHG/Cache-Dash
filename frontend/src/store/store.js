@@ -80,9 +80,12 @@ export const useItemStore = defineStore('item', {
                 .then(response => {
                     this.items = [];
 
-                    for(const {itemId, username, briefDesc, fullDesc,
+                    for(let {itemId, username, briefDesc, fullDesc,
                             address, county, categoryId, price,
                             listingStatus, thumbnail, keyInfoList} of response.data){
+
+                        thumbnail = this.convertImageBackToUrl(thumbnail);
+
                         this.items.push({itemId, username, briefDesc, fullDesc,
                             address, county, categoryId, price,
                             listingStatus, thumbnail, keyInfoList})
@@ -93,22 +96,16 @@ export const useItemStore = defineStore('item', {
                     console.warn('error', error)
                     //TODO: handle error
                 })
+        },
+        convertImageBackToUrl(image) {
+            return `data:image/png;base64,${image}`;
         }
     }
 });
 
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
-        mainCategories: [],
-        category: {
-            categoryId: null,
-            mainCategoryId: null,
-            subCategory: "",
-        },
-        categoryList: [
-            {categoryId: 2, mainCategoryID: 1, subCategory: "Sport"},
-            {categoryId: 5, mainCategoryID: 4, subCategory: "Cars"},
-        ]
+        mainCategories: []
     }),
 
     getters: {

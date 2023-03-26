@@ -54,7 +54,7 @@ public class CategoryController {
                             schema = @Schema(implementation = CategoryDTO.class)) })}
     )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestBody Long categoryId) {
+    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestParam Long categoryId) {
         CategoryDTO mainCategory = categoryService.loadSubCategories(categoryId);
         return ResponseEntity.ok(mainCategory);
     }
