@@ -111,6 +111,8 @@ public class ItemService implements IItemService{
     @Transactional
     @Override
     public void updateListing(ListingUpdateDTO listingUpdateDTO) {
+        User user = userRepository.findByUsername(listingUpdateDTO.username())
+                .orElseThrow(() -> new UserNotFoundException(listingUpdateDTO.username()));
         Item item = itemRepository.findByItemId(listingUpdateDTO.itemId())
                     .orElseThrow(() -> new ItemNotFoundException(listingUpdateDTO.itemId()));
         item = Item.builder()
@@ -126,6 +128,7 @@ public class ItemService implements IItemService{
                 .status(listingUpdateDTO.listingStatus() != null ? listingUpdateDTO.listingStatus() : item.getStatus())
                 .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
+                .user(user)
                 .build();
 
         itemRepository.save(item);
