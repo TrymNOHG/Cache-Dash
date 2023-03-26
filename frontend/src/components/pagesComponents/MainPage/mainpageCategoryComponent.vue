@@ -4,7 +4,7 @@
       <h2>Category</h2>
     </div>
     <div class="category-container">
-      <div v-for="category in mainCategories" :category="category" key="category.categoryId" class="category-list">
+      <div v-for="category in mainCategories" :key=category.categoryId class="category-list">
         <router-link :to="{ name : 'listingView', params: { categoryName : category.categoryName, categoryId: category.categoryId}}" class="link">
           <CategoryCard :category="category.categoryName"/>
         </router-link>
@@ -26,22 +26,6 @@ export default {
   },
   data(){
     return{
-      category: {},
-      // categories: [{
-      //   id:1,
-      //   categoryName:"Cars",
-      //
-      // },
-      // {
-      // id:2,
-      // categoryName: "Guns",
-      // },
-      //   {
-      //     id:3,
-      //     categoryName: "Humans",
-      //   },
-      //
-      // ]
     }
   },
   setup() {
@@ -52,11 +36,6 @@ export default {
     });
 
     store.fetchMainCategories()
-
-    // watch(mainCategories, (newMainCategories) => {
-    //   console.log(newMainCategories)
-    //   this.mainCategories = newMainCategories;
-    // });
 
     return {
       mainCategories

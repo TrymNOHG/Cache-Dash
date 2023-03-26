@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <mainpage-search-bar class="search"></mainpage-search-bar>
-    <mainpage-category class="category">hei</mainpage-category>
-    <MainpageRecentlyAdded class="recAdded">hei</MainpageRecentlyAdded>
+    <mainpage-category class="category"></mainpage-category>
+    <MainpageRecentlyAdded class="recAdded"></MainpageRecentlyAdded>
   </div>
 </template>
 

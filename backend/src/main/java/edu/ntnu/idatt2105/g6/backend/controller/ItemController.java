@@ -79,7 +79,7 @@ public class ItemController {
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
             )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestBody String username) {
+    public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestParam String username) {
         List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
         return ResponseEntity.ok(items);
     }
