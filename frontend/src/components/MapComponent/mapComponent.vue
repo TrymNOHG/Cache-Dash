@@ -2,7 +2,7 @@
   <div class="map">
     <l-map ref="map" v-model:zoom="zoom" :center="[65.589353,13.501048]">
       <l-tile-layer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           layer-type="base"
           name="OpenStreetMap"
       ></l-tile-layer>
