@@ -26,14 +26,17 @@ import IconArrow from "@/components/icons/IconArrow.vue";
 export default {
   name: "imageCarousel",
   components: {IconArrow},
+  props: {
+    pictures: {
+      type: Array,
+      required: true
+    },
+  },
   data(){
     return{
       slideIndex: 0,
       currentPicture: null
     }
-  },
-  props: {
-    pictures: [],
   },
   methods: {
 
