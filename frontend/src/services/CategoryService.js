@@ -25,8 +25,9 @@ export const deleteCategory = async (categoryEditDTO) => {
 }
 
 //TODO: take away the need for authentication ***
-export const loadAllCategories = async () => {
-    return axios.get(`${BASE_USER_URL}/load/all`)
+export const loadAllCategories = async (categoryId) => {
+    console.log(categoryId)
+    return axios.get(`${BASE_USER_URL}/load/all?categoryId=${categoryId}`)
 }
 
 export const loadMainCategories = async () => {

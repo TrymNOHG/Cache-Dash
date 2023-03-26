@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
-import {loadMainCategories} from "@/services/CategoryService";
+import {loadAllCategories, loadMainCategories} from "@/services/CategoryService";
 import {loadListingsByCategoryId} from "@/services/ItemService";
 
 export const useLoggedInStore = defineStore('user', {
@@ -105,10 +105,8 @@ export const useCategoryStore = defineStore('categoryStore', {
             mainCategoryId: null,
             subCategory: "",
         },
-        categoryList: [
-            {categoryId: 2, mainCategoryID: 1, subCategory: "Sport"},
-            {categoryId: 5, mainCategoryID: 4, subCategory: "Cars"},
-        ]
+        categoryList: [],
+        currentCategory : []
     }),
 
     getters: {
@@ -123,9 +121,20 @@ export const useCategoryStore = defineStore('categoryStore', {
         },
         getMainCategories() {
             return this.mainCategories;
+        },
+        getCurrentCategory() {
+            console.log("getCurrentCategory" + this.currentCategory)
+            return this.currentCategory;
+        },
+        getSubCategories() {
+            return this.categoryList;
         }
     },
-
+    setters: {
+        setCurrentCategoryList(newList) {
+            this.currentCategory = newList
+        }
+    },
     actions: {
         async fetchMainCategories() {
             await loadMainCategories().then(response => {
@@ -138,15 +147,52 @@ export const useCategoryStore = defineStore('categoryStore', {
                 console.log('error' , error)
             })
         },
-        async fetchSubCategoriesByMainId(categoryId) {
-            //TODO: this...
+
+        async fetchMainCurrentCategories() {
+            await loadMainCategories().then(response => {
+                this.currentCategory = []
+                for(const category of response.data) {
+                    console.log("Dette er respons i forloop:" + category.categoryName)
+                    const { categoryId, categoryName, subCategories } = category
+                    this.currentCategory.push({ categoryId, categoryName, subCategories })
+                    console.log("fetchMainCurrentCategories end" + this.currentCategory)
+                }
+            }).catch(error => {
+                console.log('error' , error)
+            })
         },
+
+        async fetchSubCategoriesByMainId(mainCategoryId) {
+            console.log("mainCategoryId")
+            await loadAllCategories(mainCategoryId).then(response => {
+                this.categoryList = []
+                const { categoryId, categoryName, subCategories } = response.data
+                this.categoryList.push({ categoryId, categoryName, "mainCategoryId" : null })
+                console.log(response)
+                for(const category of subCategories) {
+                    const { categoryId, categoryName, subCategories} = category
+                    if(categoryId === mainCategoryId){
+                        this.categoryList.push({ categoryId, categoryName, subCategories })
+                        console.log(categoryName)
+                    }
+                }
+            })
+        },
+
         setCorrectCategory(categoryName){
             for (let i = 0; i < this.categoryList.length; i++) {
                 if (this.categoryList.at(i).subCategory === categoryName){
                     this.category = this.categoryList.at(i);
                 }
             }
+        },
+
+        async setStartList(){
+            await this.fetchMainCategories().then(() => {
+                this.currentCategory = this.mainCategories
+            })
+            console.log("setStartList" + this.currentCategory)
+            return this.currentCategory
         }
     }
 });

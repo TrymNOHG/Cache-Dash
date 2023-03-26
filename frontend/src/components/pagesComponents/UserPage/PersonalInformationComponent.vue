@@ -34,7 +34,10 @@
 
 
     </div>
-    <div class="edit-button">
+    <div class="edit-button" v-if="role === 'ADMIN'">
+      <button id="edit-info" @click="deleteUser()" >Delete user</button>
+    </div>
+    <div class="edit-button" v-else>
       <button id="edit-info" @click="editUser()" >{{ button_name }}</button>
     </div>
   </div>
@@ -48,6 +51,9 @@ const store = useLoggedInStore()
 store.fetchUser()
 
 const user = store.getUser.data
+
+const role = user.role
+
 </script>
 
 <script>
@@ -89,6 +95,9 @@ export default {
         this.edit = true
         this.button_name = 'Save changes'
       }
+    },
+    deleteUser(){
+
     }
   }
 }

@@ -4,7 +4,27 @@ import i18n from "@/locales/i18n";
 </script>
 
 <template>
-  <header>
+  <header v-if="isAdmin && isLoggedIn">
+    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
+    <div class="wrapper">
+      <ul>
+        <RouterLink to="/admin/users">{{ $t ("users") }}</RouterLink>
+        <RouterLink to="/admin">{{ $t ("admin") }}</RouterLink>
+        <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>
+        <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
+        <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
+        <div class="language" @click="changeLanguage()">{{language}}</div>
+        <RouterLink v-if="store.isLoggedIn" :to="'/my-profile'">
+          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+        </RouterLink>
+        <RouterLink v-else :to="'/login'">
+          <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
+        </RouterLink>
+      </ul>
+    </div>
+  </header>
+
+  <header v-else>
     <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.png" width="100" height="100" />
     <div class="wrapper">
       <ul>
@@ -18,7 +38,6 @@ import i18n from "@/locales/i18n";
         <RouterLink v-else :to="'/login'">
           <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
         </RouterLink>
-
       </ul>
     </div>
   </header>
@@ -50,6 +69,21 @@ export default {
         this.language = "NO"
 
       }
+    }
+  },
+  setup() {
+    const store = useLoggedInStore();
+    const isAdmin = computed(() => {
+      return store.getUser.data.role === 'ADMIN'
+    })
+
+    const isLoggedIn = computed(() => {
+      return store.isLoggedIn
+    })
+
+    return {
+      isAdmin,
+      isLoggedIn
     }
   }
 }
