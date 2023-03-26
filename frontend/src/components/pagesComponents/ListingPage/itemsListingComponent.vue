@@ -1,8 +1,9 @@
 <template>
   <div class="itemsListing-window">
-    <div v-for="item in items" :item="item" key="listingView.id" class="item-list">
-      <router-link :to="`${item.categoryName}/item/${item.id}`" class="link">
-        <ItemThumbnail :category="item.categoryName"/>
+    <div v-for="item in items" key="listingView.id" class="item-list">
+      <router-link :to="{name : 'item', params : { name: this.categoryName.toString(), id: item.itemId}, props: { item: item }}" class="link">
+        <ItemThumbnail :item="item"/>
+<!--        TODO: Send item into ^^^ -->
       </router-link>
     </div>
   </div>
@@ -10,56 +11,46 @@
 
 <script>
 import ItemThumbnail from "@/components/basicInputComponents/ItemThumbnail.vue";
+import { useItemStore } from "@/store/store";
+import {computed} from "vue";
 
 export default {
   name: "itemsListingComponent",
   components: {ItemThumbnail},
-  data(){
-    return{
-      item: {
-      },
-      items: [{
-        id:1,
-        categoryName: 'Cars',
-        itemName: 'Selling car'
-      },
-      {
-        id:2,
-        categoryName: 'Cars',
-        itemName: 'Selling Mercedes'
-      },
-      {
-        id:3,
-        categoryName: 'Cars',
-        itemName: 'Selling Mercedes'
-      },
-        {
-          id:4,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-        {
-          id:5,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-
-      ]
+  props: {
+    categoryId: {
+      type: Number,
+      required: true
+    },
+    categoryName: {
+      type: String,
+      required: true
     }
   },
-  /*props:{
-    item:{
-      id:'',
-      categoryName:'',
-      itemName:'',
-      cost:''
+  data(){
+    return{
 
-    },
-    items:[
+    }
+  },
+  setup(props) {
 
-    ]
+    const store = useItemStore();
+    const items = computed(() => {
+      return store.getItems;
+    });
+
+    store.fetchItemsByCategoryId(props.categoryId)
+    // console.log("Items: ")
+    //
+    // for(let item of this.items.value) {
+    //   console.log(item)
+    // }
+
+    return {
+      items
+    }
   }
-   */
+
 }
 </script>
 

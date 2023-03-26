@@ -4,11 +4,11 @@
       <IconBookmark></IconBookmark>
     </div>
     <div>
-      <h2> {{ '#item namn' }} </h2>
+      <h2> {{ item }} </h2>
       <h3> {{'item cost'}} </h3>
     </div>
     <div class="short-description">
-      <p>#short description</p>
+      <p>{{ item }}</p>
     </div>
     <div class="longer-description">
       <p>#long description</p>
@@ -25,35 +25,16 @@ export default {
   components: {IconBookmark},
   props:{
     item:{
-      id: null,
-      categoryName: '',
-      itemName:'',
-      cost:'',
-
-    },
-    items:{
-      type: array,
+      type: Object,
+      required: true
     }
   },
   data(){
-    return {
-      items: [{
-        id:1,
-        categoryName: 'Cars',
-        itemName: 'Selling car'
-      },
-        {
-          id:2,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-        {
-          id:3,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-      ]
-    }
+    return {}
+  },
+  setup(props) {
+    console.log(props.item)
+    return null
   }
 }
 </script>

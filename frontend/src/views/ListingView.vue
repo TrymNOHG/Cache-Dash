@@ -5,7 +5,7 @@
     </div>
     <div class="searchbar-itemlisting">
       <mainpage-search-bar class="search"></mainpage-search-bar>
-      <items-listing-component class="itemsListing"></items-listing-component>
+      <items-listing-component class="itemsListing" :categoryId=this.categoryId :categoryName=this.categoryName></items-listing-component>
     </div>
   </div>
 </template>
@@ -17,7 +17,17 @@ import FilterComponent from "@/components/pagesComponents/ListingPage/filterComp
 
 export default {
   name: "listingView",
-  components: {FilterComponent, ItemsListingComponent, MainpageSearchBar}
+  components: {FilterComponent, ItemsListingComponent, MainpageSearchBar},
+  props: {
+    categoryName: {
+      type: String,
+      required: true
+    },
+    categoryId: {
+      type: Number,
+      required: true
+    }
+  }
 }
 </script>
 

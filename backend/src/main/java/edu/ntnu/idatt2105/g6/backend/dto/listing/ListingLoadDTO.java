@@ -38,6 +38,7 @@ public class ListingLoadDTO {
     private double price;
     @NonNull
     private ListingStatus listingStatus;
+    @ToString.Exclude
     private byte[] thumbnail;
     private List<KeyInfo> keyInfoList;
 }

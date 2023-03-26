@@ -4,8 +4,8 @@
       <h2>Category</h2>
     </div>
     <div class="category-container">
-      <div v-for="category in mainCategories" :category="category" key="category.categoryId" class="category-list">
-        <router-link :to="`category/${category.categoryName}`" class="link">
+      <div v-for="category in mainCategories" :key=category.categoryId class="category-list">
+        <router-link :to="{ name : 'listingView', params: { categoryName : category.categoryName, categoryId: category.categoryId}}" class="link">
           <CategoryCard :category="category.categoryName"/>
         </router-link>
       </div>
@@ -17,7 +17,7 @@
 <script>
 import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
 import { useCategoryStore } from "@/store/store";
-import {watch} from "vue";
+import {computed} from "vue";
 
 export default {
   name: "mainpageCategory",
@@ -26,34 +26,16 @@ export default {
   },
   data(){
     return{
-      category: {},
-      // categories: [{
-      //   id:1,
-      //   categoryName:"Cars",
-      //
-      // },
-      // {
-      // id:2,
-      // categoryName: "Guns",
-      // },
-      //   {
-      //     id:3,
-      //     categoryName: "Humans",
-      //   },
-      //
-      // ]
     }
   },
   setup() {
 
     const store = useCategoryStore();
-    store.fetchMainCategories()
-
-    const mainCategories = store.getMainCategories
-    watch(mainCategories, (newMainCategories) => {
-      console.log(newMainCategories)
-      this.mainCategories = newMainCategories;
+    const mainCategories = computed(() => {
+      return store.getMainCategories;
     });
+
+    store.fetchMainCategories()
 
     return {
       mainCategories

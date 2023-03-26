@@ -8,6 +8,7 @@ public interface IItemService {
 
     ListingLoadDTO loadListing(Long itemId);
     List<ListingLoadDTO> loadAllListingsByUsername(String username);
+    List<ListingLoadDTO> loadAllListingsByCategoryId(Long categoryId);
     List<ListingLoadDTO> loadAllListings();
     List<ListingLoadDTO> loadArchive(Long userId);
     void addListing(ListingDTO listing);
