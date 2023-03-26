@@ -5,7 +5,7 @@
     </div>
     <div>
       <h2> {{ item }} </h2>
-      <h3> {{'item cost'}} </h3>
+      <h3> {{ item }} </h3>
     </div>
     <div class="short-description">
       <p>{{ item }}</p>
