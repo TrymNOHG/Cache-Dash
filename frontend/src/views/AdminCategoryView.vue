@@ -3,9 +3,9 @@
     <div class="main-categories">
       <AdminCategoriesComponents/>
     </div>
-    <PopUp v-if="trigger.pressedTrigger">
-      <h2>Attention</h2>
-    </PopUp>
+<!--    <PopUp v-if="trigger.pressedTrigger">-->
+<!--      <h2>Attention</h2>-->
+<!--    </PopUp>-->
     <div class="sub-categories">
       <AdminSubCategories/>
     </div>
@@ -17,12 +17,12 @@
 
 <script>
 import AdminCategoriesComponents from "@/components/pagesComponents/AdminPages/AdminCategoriesComponents.vue";
-import PopUp from "@/components/basicInputComponents/PopUp.vue";
+// import PopUp from "@/components/basicInputComponents/PopUp.vue";
 import { ref } from 'vue';
 import AdminSubCategories from "@/components/pagesComponents/AdminPages/AdminSubCategories.vue";
 export default {
   name: "AdminCategory",
-  components:{AdminSubCategories, PopUp, AdminCategoriesComponents},
+  components:{AdminSubCategories, AdminCategoriesComponents},
   setup() {
     const trigger = ref({
       pressedTrigger: false,
@@ -30,7 +30,6 @@ export default {
     });
 
     return {
-      PopUp,
       trigger,
 
     }

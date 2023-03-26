@@ -4,7 +4,7 @@
       <h1>Main Category</h1>
     </div>
     <div class="category-container">
-      <div v-for="category in mainCategories" :category="category" key="category.categoryId" class="category-list">
+      <div v-for="category in this.mainCategories" :category="category" key="category.categoryId" class="category-list">
       </div>
       <div class="new-category-button">
         <h2>Add new main category</h2>
@@ -25,7 +25,7 @@
 <script>
 import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
 import { useCategoryStore } from "@/store/store";
-import {watch} from "vue";
+import {computed} from "vue";
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 
 export default {
@@ -37,21 +37,22 @@ export default {
       newCategoryName:'',
     }
   },
-
   setup() {
-
-    const store = useCategoryStore();
+    const store = useCategoryStore()
     store.fetchMainCategories()
 
-    const mainCategories = store.getMainCategories
-    watch(mainCategories, (newMainCategories) => {
-      console.log(newMainCategories)
-      this.mainCategories = newMainCategories;
-    });
+
+    const mainCategories = computed( () => {
+      return store.getMainCategories.data
+    })
+
+
+    console.log(mainCategories)
 
     return {
       mainCategories
     }
+
   },
   methods: {
     addNewCategory(){

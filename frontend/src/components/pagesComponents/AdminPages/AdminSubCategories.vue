@@ -3,11 +3,11 @@
     <div class="sub-categories-representation">
       <h1>Sub category</h1>
       <div class="parent-category">
-        <label> hei {{ parentCategory }}</label>
+        <label> {{ parentCategory }}</label>
       </div>
       <div>
         <ul>
-          <li v-for="category in this.currentMainCategories" :key="category.categoryId " class="category-list" @click="changeCategory(category.categoryId)"> {{ category }} </li>
+          <li v-for="category in this.currentMainCategories" :key="category.categoryId " class="category-list" @click="changeCategory(category.categoryId)"> {{ category.categoryName }} </li>
         </ul>
       </div>
     </div>
@@ -42,9 +42,8 @@ export default {
   methods: {
     async changeCategory(parentId){
       console.log("Dette er parent ID " + parentId)
-      console.log("Dette er categories FØR tømt:" + this.categories.length)
+
       this.currentMainCategories=[]
-      console.log("Dette er categories etter tømt:" + this.categories.length)
       await this.store.fetchSubCategoriesByMainId(parentId).then(() => {
         this.categories = this.store.getSubCategories
         //this.categories.push(this.store.getSubCategories);
@@ -54,48 +53,21 @@ export default {
 
       })
     },
-
   },
+
   setup() {
-    const store = useCategoryStore();
-    console.log(store.setStartList())
-    this.currentMainCategories = store.setStartList()
-    //let categories = [];
-    // let categories = ref([]);
-    //
-    // onMounted(async () => {
-    //   await store.fetchMainCurrentCategories();
-    //
-    //   categories.value = store.getCurrentCategory;
-    //   console.log("getCurrentCategory: \n" + store.getCurrentCategory)
-    //   // categories = computed(() => {
-    //   //   console.log("getCurrentCategory: \n" + store.getCurrentCategory)
-    //   //   return store.getCurrentCategory;
-    //   // });
-    //
-    //   console.log("Dette er categories" + categories.value)
-    // })
+    const store = useCategoryStore()
 
     return {
       store
     }
-
   },
   mounted() {
-    let categories = ref([]);
+    const categoryStore = useCategoryStore();
+    categoryStore.fetchMainCategories().then(() => {
+      this.currentMainCategories = categoryStore.getMainCategories;
 
-    onMounted(async () => {
-      await store.fetchMainCurrentCategories();
-
-      categories.value = store.getCurrentCategory;
-      console.log("getCurrentCategory: \n" + store.getCurrentCategory)
-      // categories = computed(() => {
-      //   console.log("getCurrentCategory: \n" + store.getCurrentCategory)
-      //   return store.getCurrentCategory;
-      // });
-
-      console.log("Dette er categories" + categories.value)
-    })
+    });
   },
   watch() {
 

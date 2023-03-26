@@ -138,8 +138,19 @@ export const useCategoryStore = defineStore('categoryStore', {
                 console.log('error' , error)
             })
         },
-        async fetchSubCategoriesByMainId(categoryId) {
-            //TODO: this...
+        async fetchSubCategoriesByMainId(mainCategoryId) {
+            await loadAllCategories(mainCategoryId).then(response => {
+                this.categoryList = []
+                const { categoryId, categoryName, subCategories } = response.data
+                this.categoryList.push({ categoryId, categoryName, "mainCategoryId" : null })
+                for(const category of subCategories) {
+                    const { categoryId, categoryName, subCategories} = category
+                    if(categoryId === mainCategoryId){
+                        this.categoryList.push({ categoryId, categoryName, subCategories })
+                        console.log(categoryName)
+                    }
+                }
+            })
         },
         setCorrectCategory(categoryName){
             for (let i = 0; i < this.categoryList.length; i++) {
