@@ -19,6 +19,14 @@ export const sendMessage = async (messageDTO) => {
     });
 }
 
+export const deleteConversationId = async (conversationId) => {
+    return await axios.post(`${BASE_USER_URL}/delete`, conversationId, {
+        headers: {
+            Authorization: `Bearer ${await SessionToken()}`,
+        }
+    });
+}
+
 //TODO: change the load of conversation to just load the authenticated user's conversations.
 export const loadConversations = async (username) => {
     console.log(username)

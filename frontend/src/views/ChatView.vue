@@ -9,11 +9,12 @@
         <ul v-if="!newConversationBoolean" class="conversationList">
           <li class="conversation"
               v-for="conversation in conversations"
-              :value="conversation"
-              :key="conversation.username1"
+              :value="conversation.username2"
+              :key="conversation.conversationId"
               @click="changeConversation(conversation.username2)"
           >
-            {{ conversation.username }}
+            <!--<div class="remove" @click="removeConversation(conversation.conversationId)">X</div>-->
+            {{ conversation.username2 }}
           </li>
         </ul>
         <div v-else class="new-conversation">
@@ -29,14 +30,19 @@
         </div>
       </div>
     </div>
-    <div class="chat-window">
-      <div v-for="message in conversations.messages" :key="message.id" class="message">
-        <div class="message-sender">{{ message.sender }}</div>
-        <div class="message-body">{{ message.body }}</div>
+    <div class="chat-window" v-if="currentConversation !== null">
+      <div v-for="message in currentConversation.messages" :key="message.id" class="message">
+        <div class="message-sender">{{ currentConversation.username2 }}</div>
+        <div class="message-body">{{ message.message }}</div>
       </div>
       <div class="message-input">
         <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
-        <button @click="sendMessage(newMessage)">Send</button>
+        <button @click="sendMessage({
+        conversationId: currentConversation.conversationId,
+        username: this.store.getUser.data.username,
+        message: newMessage
+        })"
+        >Send</button>
       </div>
     </div>
   </div>
@@ -44,25 +50,27 @@
 
 <script>
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
-import {loadConversations, newChat} from "@/services/ChatService";
+import {
+  deleteConversationId,
+  loadConversations,
+  newChat,
+  sendMessage
+} from "@/services/ChatService";
 import {useLoggedInStore} from "@/store/store";
+import { ref } from 'vue';
 
 export default {
   components: {BasicInput},
 
   setup(){
     const store = useLoggedInStore();
-    let conversations = [];
+    const conversations = ref([]);
 
     store.fetchUser()
 
-    console.log(store.getUser.data.username);
-
     loadConversations(store.getUser.data.username)
         .then(response => {
-          console.log("Response convo: ")
-          console.log(response.data)
-          conversations = response.data;
+          conversations.value = response.data;
         }).catch(err => {
       console.log(err)
     });
@@ -83,41 +91,86 @@ export default {
         errorMessage: ''
       },
       newMessage: '',
-      currentConversation: null
+      currentConversation: null,
+      reciver: '',
     };
   },
   methods: {
-    sendMessage() {
+    sendMessage(MessageObject) {
       sendMessage({
-
+        conversationId: MessageObject.conversationId,
+        username: MessageObject.username,
+        message: MessageObject.message
       })
     },
 
     changeConversation(username) {
-      // code to change conversation
+      for (let i = 0; i < this.conversationList.length; i++) {
+        if (this.conversationList[i].username2 === username) {
+          this.currentConversation = this.conversationList[i];
+          break;
+        }
+      }
     },
 
     addNewConversation(bool) {
       this.newConversationBoolean = bool;
     },
 
-    newConversation(username){
+    async newConversation(username) {
       try {
-        newChat({
+        await newChat({
           message: "Conversation Created",
           username1: this.store.getUser.data.username,
           username2: username
         });
-      }catch (e){
+        this.addNewConversation(false);
+        this.error.errorBool = false;
+
+        const conversationsResponse = await loadConversations(this.store.getUser.data.username);
+        this.conversations = conversationsResponse.data;
+      } catch (e) {
         this.error.errorBool = true;
         this.error.errorMessage = e;
       }
     },
+
+    /*
+    async removeConversation(conversationId){
+      console.log(conversationId)
+      await deleteConversationId({
+        conversationId: conversationId
+      });
+    }
+
+     */
   },
+  computed: {
+    conversationList() {
+      return this.conversations;
+    }
+  }
 };
 </script>
 
 <style>
+
+.remove {
+  color: black;
+  background-color: #d3d3d6;
+  width: 25px;
+  height: 25px;
+  float: right;
+  solid-color: black;
+  border-radius: 2px;
+
+}
+
+.remove:hover{
+  background-color: #a8a8ab;
+}
+
+
 label {
   font-weight: bold;
 }
