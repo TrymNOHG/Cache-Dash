@@ -123,7 +123,7 @@ public class ItemService implements IItemService{
                             .orElseThrow(() -> new CategoryNotFound(listingUpdateDTO.category()))
                         : item.getCategory())
                 .price(listingUpdateDTO.price() != null ? listingUpdateDTO.price() : item.getPrice())
-                .status(item.getStatus())
+                .status(listingUpdateDTO.listingStatus() != null ? listingUpdateDTO.listingStatus() : item.getStatus())
                 .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
                 .build();
