@@ -67,6 +67,7 @@ public class ItemController {
     @PostMapping("/user/update")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
+        logger.info("This listing dto is trying to get an update: " + listing);
         itemService.updateListing(listing);
         return ResponseEntity.ok().build();
     }
@@ -80,7 +81,10 @@ public class ItemController {
             )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestParam String username) {
+        logger.info("This user is trying to get his items: " + username);
         List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
+        logger.info("This user get his items: " + items);
+
         return ResponseEntity.ok(items);
     }
 
