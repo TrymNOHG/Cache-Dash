@@ -65,6 +65,7 @@ public class UserController {
     @PostMapping("/update")
     @Operation(summary = "Update user")
     public ResponseEntity<Object> update(@ParameterObject @RequestBody UserUpdateDTO user) {
+        logger.info("User " + user.username() + " is being updated!");
         userService.updateUser(user);
         logger.info(String.format("User %s has been updated!", user.username()));
         return ResponseEntity.ok().build();

@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,12 +29,17 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
+    private final Logger logger = LoggerFactory.getLogger(ChatController.class);
+
 
     @PostMapping("/new")
     @Operation(summary = "Create new conversation")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> startConversation(@ParameterObject @RequestBody ConversationDTO conversation) {
+        logger.info("A conversation between " + conversation.getUsername1() + " and " + conversation.getUsername2() + " is being created");
         chatService.startConversation(conversation);
+        logger.info("A conversation between " + conversation.getUsername1() + " and " + conversation.getUsername2() + " was created");
+
         return ResponseEntity.ok().build();
     }
 
@@ -41,6 +48,7 @@ public class ChatController {
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> saveMessage(@ParameterObject @RequestBody MessageDTO message) {
         chatService.addMessage(message);
+        logger.info("A message was sent from " + message.username());
         return ResponseEntity.ok().build();
     }
 
@@ -54,7 +62,10 @@ public class ChatController {
 //    @ExceptionHandler(UserNotFoundException.class)
     //TODO: add token?
     public ResponseEntity<Object> loadConversations(@ParameterObject @RequestBody String username) {
+        logger.info("All conversations with " +username + " is being loaded");
         List<ConversationLoadDTO> conversations = chatService.loadAllConversations(username);
+        logger.info("All conversations with " +username + " was loaded");
+
         return ResponseEntity.ok(conversations);
     }
 

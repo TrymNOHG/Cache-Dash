@@ -42,7 +42,9 @@ public class ItemController {
 //    @ExceptionHandler(UserNotFoundException.class)
     //TODO: make this take in token or something
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody ListingDeletionDTO listing) {
+        logger.info(listing.toString() + " is being deleted!");
         itemService.deleteListing(listing);
+        logger.info(listing.toString() + " was deleted!");
         return ResponseEntity.ok().build();
     }
 
@@ -50,7 +52,9 @@ public class ItemController {
     @Operation(summary = "Update a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
+        logger.info(listing.toString() + " is being updated!");
         itemService.updateListing(listing);
+        logger.info(listing.toString() + " was updated!");
         return ResponseEntity.ok().build();
     }
 
@@ -63,7 +67,9 @@ public class ItemController {
             )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestBody String username) {
+        logger.info("All listing by "+ username + " is being loaded!");
         itemService.loadAllListingsByUsername(username);
+        logger.info("All listing by "+ username + " was loaded");
         return ResponseEntity.ok().build();
     }
 
@@ -75,7 +81,9 @@ public class ItemController {
     )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser() {
+        logger.info("All listings are being loaded!");
         itemService.loadAllListings();
+        logger.info("All listings were loaded!");
         return ResponseEntity.ok().build();
     }
 
