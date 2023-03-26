@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "myItems",
+  name: "userArchive",
 
   props: {
     items: {
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style scoped>
-  .container{
-    background-color: red;
-  }
+.container{
+  background-color: red;
+}
 </style>
