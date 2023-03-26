@@ -22,12 +22,12 @@ public class ConversationMapper {
     }
 
     public static ConversationLoadDTO loadConversation(Conversation conversation){
-        ConversationLoadDTO conversationLoadDTO = ConversationLoadDTO
+        return ConversationLoadDTO
                 .builder()
-                .messages(conversation.getMessages())
+                .conversationId(conversation.getConversationId())
+                .messages(conversation.getMessages().stream().map(MessageMapper::toMessageLoadDTO).toList())
                 .username1(conversation.getUser1().getUsername())
                 .username2(conversation.getUser2().getUsername())
                 .build();
-        return conversationLoadDTO;
     }
 }

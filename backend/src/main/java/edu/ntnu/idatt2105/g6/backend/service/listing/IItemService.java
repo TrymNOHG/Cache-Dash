@@ -7,7 +7,8 @@ import java.util.List;
 public interface IItemService {
 
     ListingLoadDTO loadListing(Long itemId);
-    List<ListingLoadDTO> loadAllListings(String username);
+    List<ListingLoadDTO> loadAllListingsByUsername(String username);
+    List<ListingLoadDTO> loadAllListings();
     List<ListingLoadDTO> loadArchive(Long userId);
     void addListing(ListingDTO listing);
     void updateListing(ListingUpdateDTO listingUpdateDTO);

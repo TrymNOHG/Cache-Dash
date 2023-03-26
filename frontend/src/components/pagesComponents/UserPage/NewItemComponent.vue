@@ -22,7 +22,7 @@
       <BasicSelect
           class="CategorySelect"
           :options="catStore.allCategoryNames"
-          v-model="catStore.category.categoryName"
+          v-model="catStore.category.subCategory"
       />
       <label for="categoryInput">{{$t('county')}}</label>
       <BasicSelect
@@ -36,7 +36,7 @@
           type="text"
           v-model="city"
           :error="errors.city"
-          autocomplete="shipping address-level2"
+          autocomplete="street-address"
       />
       <label for="addressInput">{{$t('address')}}</label>
       <BasicInput
@@ -46,6 +46,10 @@
           :error="errors.address"
           autocomplete="street-address"
       />
+      <div v-if="latitude && longitude">
+        Latitude: {{ latitude }}<br>
+        Longitude: {{ longitude }}
+      </div>
 
       <label for="keyInfoListInput">{{$t('keyInfoList')}}</label>
       <BasicInput
@@ -72,6 +76,7 @@
     </fieldset>
   </form>
 </template>
+
 <script>
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import BasicTextArea from "@/components/basicInputComponents/BasicTextArea.vue";
@@ -79,9 +84,11 @@ import {ref} from "vue";
 import {useCategoryStore, useLoggedInStore, useCountyStore, useImageStore} from "@/store/store";
 import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
-import PictureUploadComponent from "@/components/basicInputComponents/pictureUploadComponent.vue";
+import PictureUploadComponent from "@/components/basicInputComponents/PictureUploadComponent.vue";
 import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
+import router from "@/router/router";
+import { createNewListing } from "@/services/ItemService.js"
 
 export default {
   name: "newItemComponent",
@@ -91,7 +98,8 @@ export default {
     return{
       catStore: useCategoryStore(),
       countyStore: useCountyStore(),
-
+      latitude: null,
+      longitude: null,
     }
   },
 
@@ -104,6 +112,12 @@ export default {
     countyStore.$reset();
     catStore.$reset();
 
+    if(!userStore.isLoggedIn) {
+      //TODO: *** give user feedback on needing to login ****
+      alert("You need to login first to create a listing!")
+      router.push("/login")
+    }
+
     const validationSchema = yup.object({
       price: yup.string()
           .required('Price required'),
@@ -111,7 +125,7 @@ export default {
           .required('Brief description is required')
           .min(10),
       full: yup.string()
-          .required('Full description is Required')
+          // .required('Full description is Required')
           .min(100),
       address: yup.string()
           .required('Address is Required'),
@@ -133,21 +147,47 @@ export default {
 
 
     const submit = handleSubmit(async () => {
-      catStore.setCorrectCategory(catStore.category.categoryName);
+      if(!userStore.isLoggedIn) {
+        //TODO: give user feedback on needing to login ****
+        alert("You need to login first to create a listing!")
+        await router.push("/login")
+      }
+      catStore.setCorrectCategory(catStore.category.subCategory);
 
-      const formData = new FormData();
-      formData.append('username', userStore.user.username);
-      formData.append('briefDesc', brief.value)
-      formData.append('fullDesc', full.value)
-      formData.append('city', city.value)
-      formData.append('address', address.value)
-      formData.append('county', countyStore.county.countyName)
-      formData.append('categoryId', catStore.category.categoryID)
-      formData.append('price', price.value)
-      formData.append('keyInfoList', keyInfoList.value.split(" "))
-      formData.append('images', imageStore.imageToSend)
+      const listingDTO =  {
+        'username': userStore.getUser.data.username,
+        'briefDesc': brief.value,
+        'fullDesc': full.value === undefined ? null : full.value,
+        'address': address.value,
+        'county': countyStore.county.countyName,
+        'categoryId': catStore.category.categoryId,
+        'price': price.value,
+        'thumbnail': null,
+        'keyInfoList': null
+      }
+      const completeListingDTO = new FormData();
+      completeListingDTO.append('listingDTO', JSON.stringify(listingDTO))
 
-      console.log(formData)
+      for (let i = 0; i < imageStore.imageToSend.length; i++) {
+        completeListingDTO.append('images', imageStore.imageToSend[i])
+      }
+
+      // const keyInfoListString = keyInfoList.value.split(" ")
+      // for(const word in keyInfoListString) {
+      //   completeListingDTO.append('keyInfoList', word)
+      // }
+
+      await userStore.fetchUser()
+
+      console.log(completeListingDTO)
+
+      await createNewListing(completeListingDTO).then(async response => {
+        console.log('Response')
+        console.log(response)
+        await router.push("/my-profile") //TODO: where to go? View of item?
+      }).catch(error => {
+        console.warn('error', error)
+      })
 
       imageStore.$reset();
     });
@@ -189,7 +229,7 @@ export default {
       console.log("me", this.imageStore.test)
     },
 
-    handleSubmit() {
+    findAddressByLatLng() {
       const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(this.address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
       fetch(url)
           .then(response => response.json())

@@ -11,6 +11,7 @@ public interface ICategoryService {
     CategoryDTO loadAllCategory();
     void addCategory(CategoryEditDTO categoryDTO);
     void deleteCategory(CategoryEditDTO categoryEditDTO);
-    CategoryDTO loadSubCategories(String mainCategory);
+    CategoryDTO loadSubCategories(Long mainCategoryId);
+    List<CategoryDTO> loadSubCategoriesShallow(Long mainCategoryId);
 
 }

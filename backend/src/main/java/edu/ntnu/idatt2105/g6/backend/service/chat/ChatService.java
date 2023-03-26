@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2105.g6.backend.service.chat;
 
+import edu.ntnu.idatt2105.g6.backend.controller.ChatController;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.ConversationLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.chat.MessageDTO;
@@ -14,6 +15,8 @@ import edu.ntnu.idatt2105.g6.backend.repo.chat.ConversationRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.chat.MessageRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,8 @@ public class ChatService implements IChatService{
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final Logger logger = LoggerFactory.getLogger(ChatController.class);
+
 
     @Transactional
     @Override
@@ -42,15 +47,17 @@ public class ChatService implements IChatService{
 
     @Override
     public ConversationLoadDTO loadConversation(Long conversationId) {
+        logger.info("loading conversations with this conversationID");
         Conversation conversation = conversationRepository.findByConversationId(conversationId).orElseThrow(() -> new ConversationNotFoundException(conversationId));
-
         return ConversationMapper.loadConversation(conversation);
     }
 
     @Override
     public List<ConversationLoadDTO> loadAllConversations(String username) {
+        logger.info("User: " + username + " is trying to load his conversations");
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
         List<Conversation> conversationList = conversationRepository.findAllByUser1OrUser2(user, user).orElseThrow(() -> new ConversationNotFoundException(username));
+        logger.info("All conversation for the user: " + conversationList);
         return conversationList.stream().map(ConversationMapper::loadConversation).toList();
     }
 
@@ -61,6 +68,12 @@ public class ChatService implements IChatService{
         User user = userRepository.findByUsername(messageDTO.username()).orElseThrow(() -> new UserNotFoundException(messageDTO.username()));
         Message message = MessageMapper.toMessage(conversation, user, messageDTO.message());
         messageRepository.save(message);
+    }
 
+    @Override
+    public void deleteConversation(Long conversationId) {
+        Conversation conversationToDelete = conversationRepository.findByConversationId(conversationId)
+                .orElseThrow(() -> new ConversationNotFoundException(conversationId));
+        conversationRepository.delete(conversationToDelete);
     }
 }

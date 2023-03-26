@@ -4,7 +4,7 @@
       <h2>Category</h2>
     </div>
     <div class="category-container">
-      <div v-for="category in categories" :category="category" key="category.id" class="category-list">
+      <div v-for="category in mainCategories" :category="category" key="category.categoryId" class="category-list">
         <router-link :to="`category/${category.categoryName}`" class="link">
           <CategoryCard :category="category.categoryName"/>
         </router-link>
@@ -16,6 +16,9 @@
 
 <script>
 import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
+import { useCategoryStore } from "@/store/store";
+import {watch} from "vue";
+
 export default {
   name: "mainpageCategory",
   components: {
@@ -24,21 +27,36 @@ export default {
   data(){
     return{
       category: {},
-      categories: [{
-        id:1,
-        categoryName:"Cars",
+      // categories: [{
+      //   id:1,
+      //   categoryName:"Cars",
+      //
+      // },
+      // {
+      // id:2,
+      // categoryName: "Guns",
+      // },
+      //   {
+      //     id:3,
+      //     categoryName: "Humans",
+      //   },
+      //
+      // ]
+    }
+  },
+  setup() {
 
-      },
-      {
-      id:2,
-      categoryName: "Guns",
-      },
-        {
-          id:3,
-          categoryName: "Humans",
-        },
+    const store = useCategoryStore();
+    store.fetchMainCategories()
 
-      ]
+    const mainCategories = store.getMainCategories
+    watch(mainCategories, (newMainCategories) => {
+      console.log(newMainCategories)
+      this.mainCategories = newMainCategories;
+    });
+
+    return {
+      mainCategories
     }
   }
 }
