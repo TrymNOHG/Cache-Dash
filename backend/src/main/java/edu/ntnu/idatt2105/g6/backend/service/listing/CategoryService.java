@@ -19,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Objects;
 
+/**
+ This service class handles the business logic for category-related operations.
+ It implements the ICategoryService interface.
+ */
 @RequiredArgsConstructor
 @Service
 public class CategoryService implements ICategoryService{
@@ -28,6 +32,12 @@ public class CategoryService implements ICategoryService{
 
     //TODO: Should admin be able to change an already existing Category? Then, need new DTO maybe.
 
+    /**
+     This method loads all the categories available in the application.
+
+     @return CategoryDTO object representing the root category.
+     @throws CategoryNotFound If no root category exists in the database.
+     */
     @Override
     public CategoryDTO loadAllCategory() {
         return CategoryMapper
@@ -35,6 +45,16 @@ public class CategoryService implements ICategoryService{
                 .orElseThrow(() -> new CategoryNotFound("Root")).get(0));
     }
 
+    /**
+
+     This method adds a new category to the application.
+
+     @param categoryDTO The CategoryEditDTO object representing the new category.
+     @throws CategoryExistsException If the given category name already exists for the same parent category.
+     @throws UserNotFoundException If the user trying to add the category is not found in the database.
+     @throws UnauthorizedException If the user trying to add the category is not an admin.
+     @throws CategoryNotFound If the main category for the new category is not found in the database.
+     */
     @Transactional
     @Override
     public void addCategory(CategoryEditDTO categoryDTO) {
@@ -93,6 +113,13 @@ public class CategoryService implements ICategoryService{
 
     //TODO: add to categoryID 1 or create new root
 
+    /**
+     This method deletes a category from the application.
+
+     @param categoryDTO The CategoryEditDTO object representing the category to be deleted.
+     @throws UserNotFoundException If the user trying to delete the category is not found in the database.
+     @throws UnauthorizedException If the user trying to delete the category is not an admin.
+     */
     @Transactional
     @Override
     public void deleteCategory(CategoryEditDTO categoryDTO) {
@@ -103,11 +130,14 @@ public class CategoryService implements ICategoryService{
         userRepository.deleteById(categoryDTO.categoryId());
     }
 
+
+
     /**
-     * This method finds the root category, given as a String. This root category holds a list of its
-     * sub-categories, which continues downwards.
-     * @param mainCategory  Name of root category, given as a String.
-     * @return              Main category, wrapped in a CategoryDTO object.
+     This method loads all the subcategories of a given root category.
+
+     @param mainCategory The name of the root category as a String.
+     @return The CategoryDTO object representing the root category and its subcategories.
+     @throws CategoryNotFound If the root category is not found in the database.
      */
     @Override
     public CategoryDTO loadSubCategories(String mainCategory) {

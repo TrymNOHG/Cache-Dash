@@ -19,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ This service class handles the business logic for chat-related operations.
+ It implements the IChatService interface.
+ */
 @Service
 @RequiredArgsConstructor
 public class ChatService implements IChatService{
@@ -27,6 +31,12 @@ public class ChatService implements IChatService{
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
 
+    /**
+     Starts a new conversation between two users.
+
+     @param conversationDTO The conversation data transfer object containing the two usernames and the initial message.
+     @throws UserNotFoundException if one of the users does not exist in the system.
+     */
     @Transactional
     @Override
     public void startConversation(ConversationDTO conversationDTO) {
@@ -40,6 +50,13 @@ public class ChatService implements IChatService{
         addMessage(messageDTO);
     }
 
+    /**
+     Loads a conversation by its ID.
+
+     @param conversationId The ID of the conversation to load.
+     @return A conversation data transfer object containing information about the conversation and its messages.
+     @throws ConversationNotFoundException if no conversation with the given ID exists in the system.
+     */
     @Override
     public ConversationLoadDTO loadConversation(Long conversationId) {
         Conversation conversation = conversationRepository.findByConversationId(conversationId).orElseThrow(() -> new ConversationNotFoundException(conversationId));
@@ -47,6 +64,14 @@ public class ChatService implements IChatService{
         return ConversationMapper.loadConversation(conversation);
     }
 
+    /**
+     Loads all conversations for a given user.
+
+     @param username The username of the user to load conversations for.
+     @return A list of conversation data transfer objects containing information about the conversations and their messages.
+     @throws UserNotFoundException if the given user does not exist in the system.
+     @throws ConversationNotFoundException if the given user does not have any conversations in the system.
+     */
     @Override
     public List<ConversationLoadDTO> loadAllConversations(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
@@ -54,6 +79,13 @@ public class ChatService implements IChatService{
         return conversationList.stream().map(ConversationMapper::loadConversation).toList();
     }
 
+    /**
+     Adds a new message to a conversation.
+
+     @param messageDTO The message data transfer object containing the conversation ID, the sender username, and the message content.
+     @throws ConversationNotFoundException if no conversation with the given ID exists in the system.
+     @throws UserNotFoundException if the sender username does not exist in the system.
+     */
     @Transactional
     @Override
     public void addMessage(MessageDTO messageDTO) {
