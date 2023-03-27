@@ -245,7 +245,7 @@ public class ItemServiceIntegrationTest {
 
             ListingDTO expectedListingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", 1L, 100);
             itemService.addListing(expectedListingDTO);
-            ListingUpdateDTO listingUpdateDTO = new ListingUpdateDTO("Test", 1L, "newInfo", null,null,null,null,null,null,null);
+            ListingUpdateDTO listingUpdateDTO = new ListingUpdateDTO("Test", 1L, "newInfo", null,null,null,null,null,null,null, null);
             itemService.updateListing(listingUpdateDTO);
             Item item = itemRepository.findByItemId(1L).orElseThrow();
             assertEquals("newInfo", item.getBriefDesc());
