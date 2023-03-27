@@ -143,16 +143,19 @@ export default {
 
     userToFormData(user){
       const userDTO = {
-        'username' : this.store.getUser.username,
+        'username' : this.store.getUser.data.username,
         'newUsername' : user.username,
         'fullName' : user.fullName,
         'email' : user.email,
         'birthDate' : user.birthDate,
         'phone' : user.phone,
+        'role' : user.role
       }
 
+      console.log("name:" +  userDTO.username)
       const completeUserDTO = new FormData();
       completeUserDTO.append('userUpdateDTO', JSON.stringify(userDTO))
+      console.log('User picture: ' + user.picture)
       completeUserDTO.append('profilePicture', user.picture)
 
       return completeUserDTO;

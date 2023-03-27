@@ -58,7 +58,7 @@ public class User implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "profile_picture")
+    @Column(name = "profile_picture", columnDefinition="longblob")
     @Lob
     private byte[] picture;
 
