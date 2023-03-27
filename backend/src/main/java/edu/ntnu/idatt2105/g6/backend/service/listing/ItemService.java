@@ -28,6 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ This service class handles the business logic for item-related operations.
+ It implements the IItemService interface.
+
+ */
 @Service
 @RequiredArgsConstructor
 public class ItemService implements IItemService{
@@ -37,12 +42,26 @@ public class ItemService implements IItemService{
     private final CategoryRepository categoryRepository;
     private final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
+    /**
+     * Load a single listing based on the provided item ID.
+     *
+     * @param itemId The ID of the item to load.
+     * @return The loaded item as a ListingLoadDTO.
+     * @throws ItemNotFoundException if the item with the provided ID does not exist in the database.
+     */
     @Override
     public ListingLoadDTO loadListing(Long itemId) {
         return ListingMapper.toListing(itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemNotFoundException(itemId)));
     }
 
+    /**
+     * Load all listings associated with the provided username.
+     *
+     * @param username The username associated with the listings to load.
+     * @return A list of all listings associated with the provided username as ListingLoadDTOs.
+     * @throws UsernameNotFoundException if the provided username does not exist in the database.
+     */
     @Override
     public List<ListingLoadDTO> loadAllListingsByUsername(String username) {
         List<Item> listings = itemRepository.findItemsByUser_Username(username)
@@ -52,6 +71,11 @@ public class ItemService implements IItemService{
                 .toList();
     }
 
+    /**
+     * Load all listings.
+     *
+     * @return A list of all listings as ListingLoadDTOs.
+     */
     @Override
     public List<ListingLoadDTO> loadAllListingsByCategoryId(Long categoryId) {
         List<ListingLoadDTO> listings = new ArrayList<>();
@@ -78,6 +102,14 @@ public class ItemService implements IItemService{
     }
 
 
+    /**
+     * Load all archived listings associated with the provided user ID.
+     *
+     * @param userId The ID of the user associated with the archived listings to load.
+     * @return A list of all archived listings associated with the provided user ID as ListingLoadDTOs.
+     * @throws UserNotFoundException if the user with the provided ID does not exist in the database.
+     * @throws NotFoundException if no archived listings exist for the user with the provided ID.
+     */
     @Override
     public List<ListingLoadDTO> loadArchive(Long userId) {
         User user = userRepository.findById(userId)
@@ -88,6 +120,13 @@ public class ItemService implements IItemService{
         return archivedItems.stream().map(ListingMapper::toListing).toList();
     }
 
+    /**
+     * Add a new listing to the database.
+     *
+     * @param listing The listing to add as a ListingDTO.
+     * @throws UsernameNotFoundException if the username associated with the listing does not exist in the database.
+     * @throws CategoryNotFound if the category associated with the listing does not exist in the database.
+     */
     @Transactional
     @Override
     public void addListing(ListingDTO listing) {
@@ -108,12 +147,21 @@ public class ItemService implements IItemService{
         logger.info("The listing has been saved!");
     }
 
+    /**
+     * Update an existing listing in the database.
+     *
+     * @param listingUpdateDTO The updated listing information as a ListingUpdateDTO.
+     * @throws ItemNotFoundException if the item with the provided ID does not exist in the database.
+     * @throws CategoryNotFound if the updated category associated with the listing does not exist in the database.
+     */
     @Transactional
     @Override
     public void updateListing(ListingUpdateDTO listingUpdateDTO) {
         Item item = itemRepository.findByItemId(listingUpdateDTO.itemId())
                     .orElseThrow(() -> new ItemNotFoundException(listingUpdateDTO.itemId()));
         item = Item.builder()
+                .itemId(item.getItemId())
+                .user(item.getUser())
                 .briefDesc(listingUpdateDTO.briefDesc() != null ? listingUpdateDTO.briefDesc() : item.getBriefDesc())
                 .fullDesc(listingUpdateDTO.fullDesc() != null ? listingUpdateDTO.fullDesc() : item.getFullDesc())
                 .address(listingUpdateDTO.address() != null ? listingUpdateDTO.address() : item.getAddress())
@@ -126,11 +174,20 @@ public class ItemService implements IItemService{
                 .status(item.getStatus())
                 .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
                 .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
+                .bookmarkerList(item.getBookmarkerList())
                 .build();
 
         itemRepository.save(item);
     }
 
+    /**
+     * Change the status of an existing listing in the database when sold.
+     *
+     * @param listingStatusDTO The updated listing status information as a ListingStatusDTO.
+     * @throws ItemNotFoundException if the item with the provided ID does not exist in the database.
+     * @throws UserNotFoundException if the user associated with the item does not exist in the database.
+     * @throws UnauthorizedException if the user associated with the item is not authorized to change its status.
+     */
     @Transactional
     @Override
     public void sellListing(ListingStatusDTO listingStatusDTO) {
@@ -144,6 +201,14 @@ public class ItemService implements IItemService{
         itemRepository.save(item);
     }
 
+    /**
+     Deletes a listing from the system.
+
+     @param listingDeletionDTO the DTO containing the ID of the item to be deleted and the username of the user requesting the deletion.
+     @throws ItemNotFoundException if the item with the given ID is not found in the system.
+     @throws UserNotFoundException if the user with the given username is not found in the system.
+     @throws UnauthorizedException if the user does not have authorization to delete the listing.
+     */
     @Transactional
     @Override
     public void deleteListing(ListingDeletionDTO listingDeletionDTO) {
@@ -159,6 +224,13 @@ public class ItemService implements IItemService{
 
     }
 
+    /**
+     * Checks if a user is authorized to perform a certain action on an item.
+     *
+     * @param user the user to check.
+     * @param item the item to check.
+     * @return true if the user is authorized to perform the action, false otherwise.
+     */
     public boolean userAuthorized(User user, Item item) {
         return user.getRole() == Role.ADMIN || Objects.equals(item.getUser().getUserId(), user.getUserId());
     }

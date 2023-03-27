@@ -1,11 +1,9 @@
 package edu.ntnu.idatt2105.g6.backend.service;
 
-import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryEditDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.*;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
+import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
@@ -73,8 +71,6 @@ public class ItemServiceIntegrationTest {
 
             CategoryEditDTO categoryEditDTO = new CategoryEditDTO(user.getUserId(), "Mercedes", null);
             categoryService.addCategory(categoryEditDTO);
-
-            System.out.println(categoryRepository.findAll().get(1).getMainCategory());
 
             return ListingDTO
                     .builder()
@@ -167,26 +163,95 @@ public class ItemServiceIntegrationTest {
 
         }
 
-//        @Test
-//        void added_to_database() {
-//
-//        }
-
-//        @Test
-//        void removed_from_database() {
-//
-//        }
-
-    }
-
-    @Nested
-    @SpringBootTest
-    class Updating_listing_variables {
 
         @Test
-        void county_is_successful(){
+        void removed_from_database() {
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.ADMIN)
+                    .build();
+            Category category = Category
+                    .builder()
+                    .subCategory("Mercedes")
+                    .mainCategory(null)
+                    .build();
 
+            CategoryEditDTO categoryEditDTO = new CategoryEditDTO(1L, "Mercedes", null);
+            userRepository.save(user);
+            categoryService.addCategory(categoryEditDTO);
+
+
+            ListingDTO expectedListingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", 1L, 100);
+            itemService.addListing(expectedListingDTO);
+            ListingDeletionDTO listingDeletionDTO = new ListingDeletionDTO("Test", 1L);
+            assertDoesNotThrow(() -> {
+                itemService.deleteListing(listingDeletionDTO);
+            });
+        }
+
+        @Test
+        void sold(){
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.ADMIN)
+                    .build();
+            Category category = Category
+                    .builder()
+                    .subCategory("Mercedes")
+                    .mainCategory(null)
+                    .build();
+
+            CategoryEditDTO categoryEditDTO = new CategoryEditDTO(1L, "Mercedes", null);
+            userRepository.save(user);
+            categoryService.addCategory(categoryEditDTO);
+
+
+            ListingDTO expectedListingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", 1L, 100);
+            itemService.addListing(expectedListingDTO);
+            ListingStatusDTO listingStatusDTO = new ListingStatusDTO(1L, 1L, ListingStatus.SOLD);
+            itemService.sellListing(listingStatusDTO);
+            Item item = itemRepository.findByItemId(1L).orElseThrow();
+            assertEquals(ListingStatus.SOLD, item.getStatus());
+        }
+
+        @Test
+        void updated(){
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.ADMIN)
+                    .build();
+            Category category = Category
+                    .builder()
+                    .subCategory("Mercedes")
+                    .mainCategory(null)
+                    .build();
+
+            CategoryEditDTO categoryEditDTO = new CategoryEditDTO(1L, "Mercedes", null);
+            userRepository.save(user);
+            categoryService.addCategory(categoryEditDTO);
+
+
+            ListingDTO expectedListingDTO = new ListingDTO("Test", "desc", "Nordkapp", "Troms og Finnmark", 1L, 100);
+            itemService.addListing(expectedListingDTO);
+            ListingUpdateDTO listingUpdateDTO = new ListingUpdateDTO("Test", 1L, "newInfo", null,null,null,null,null,null,null);
+            itemService.updateListing(listingUpdateDTO);
+            Item item = itemRepository.findByItemId(1L).orElseThrow();
+            assertEquals("newInfo", item.getBriefDesc());
         }
     }
+
+
 
 }

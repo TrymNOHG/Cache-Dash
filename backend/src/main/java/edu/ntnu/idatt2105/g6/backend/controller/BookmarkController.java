@@ -45,7 +45,9 @@ public class BookmarkController {
     @Operation(summary = "Delete a item from bookmarks")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody BookmarkDeletionDTO bookmark) {
+        logger.info("Deleting bookmarks");
         bookmarkService.deleteBookmark(bookmark);
+        logger.info("Bookmark deleted");
         return ResponseEntity.ok().build();
     }
 
@@ -59,7 +61,9 @@ public class BookmarkController {
     @Operation(summary = "Load all bookmarks")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllBookmarks(@ParameterObject @RequestBody UserDeletionDTO user) {
+        logger.info("Loading all bookmarks from " + user.username());
         BookmarkLoadDTO bookmarks = bookmarkService.loadBookmarks(user);
+        logger.info("Loaded all bookmarks from " + user.username());
         return ResponseEntity.ok(bookmarks);
     }
 

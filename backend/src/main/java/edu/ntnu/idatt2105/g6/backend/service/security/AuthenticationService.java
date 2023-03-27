@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2105.g6.backend.service.security;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreateDTO;
+import edu.ntnu.idatt2105.g6.backend.exception.exists.UserExistsException;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.security.AuthenticationResponse;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
@@ -17,7 +18,11 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ This service class handles the business logic for authentication-related operations.
+ It implements the IAuthenticationService interface.
 
+ */
 @RequiredArgsConstructor
 @Service
 public class AuthenticationService implements IAuthenticationService {
@@ -32,6 +37,13 @@ public class AuthenticationService implements IAuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
+    /**
+     * Registers a user to the system.
+     *
+     * @param userCreateDTO the information of the user to be registered.
+     * @return an AuthenticationResponse containing the JWT token of the user.
+     * @throws UserExistsException if the username of the user already exists in the database.
+     */
     @Transactional
     public AuthenticationResponse register(UserCreateDTO userCreateDTO) {
         User user = User
@@ -43,7 +55,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .email(userCreateDTO.email())
                 .build();
         if (userRepository.findByUsername(userCreateDTO.username()).isPresent())
-            throw new IllegalStateException("Username already exists");
+            throw new UserExistsException("Username already exists");
         userRepository.save(user);
 
         logger.info(String.format("User %s has been saved in the DB!", user.getUsername()));
@@ -57,6 +69,13 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+    /**
+     * Authenticates a user with the given credentials.
+     *
+     * @param request the authentication request containing the username and password of the user.
+     * @return an AuthenticationResponse containing the JWT token of the authenticated user.
+     * @throws UsernameNotFoundException if the username of the user is not found in the database.
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
