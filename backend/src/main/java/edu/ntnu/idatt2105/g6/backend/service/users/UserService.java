@@ -27,7 +27,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public void updateUser(UserUpdateDTO userUpdateDTO){
+    public void updateUser(UserUpdateDTO userUpdateDTO, byte[] profilePicture){
 
         User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow(() -> new UserNotFoundException(userUpdateDTO.username()));
 
@@ -43,6 +43,7 @@ public class UserService implements IUserService {
         user.setRole(userUpdateDTO.role() != null ? userUpdateDTO.role() : user.getRole());
         user.setBookmarks(user.getBookmarks());
         user.setListedItems(user.getListedItems());
+        user.setPicture(profilePicture != null ? profilePicture : user.getPicture());
 
         userRepository.save(user);
 
