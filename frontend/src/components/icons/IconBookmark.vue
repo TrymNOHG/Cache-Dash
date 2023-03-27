@@ -39,6 +39,7 @@ export default {
           console.log("Bookmark was successfully saved!")
         }).catch(error => {
           console.warn('Error', error)
+          alert("You have already bookmarked this item!")
         })
       }
 

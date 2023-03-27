@@ -13,5 +13,6 @@ public interface ICategoryService {
     void deleteCategory(CategoryEditDTO categoryEditDTO);
     CategoryDTO loadSubCategories(Long mainCategoryId);
     List<CategoryDTO> loadSubCategoriesShallow(Long mainCategoryId);
+    CategoryDTO loadCategoryById(Long categoryId);
 
 }

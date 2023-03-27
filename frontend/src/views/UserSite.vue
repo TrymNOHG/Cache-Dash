@@ -13,7 +13,7 @@
       <div v-else-if="pageDisplay === 2">
         <user-archive style="overflow-y:auto" :items="archivedItems"/>
       </div>
-      <div v-else-if="pageDisplay === 3">
+      <div v-else-if="pageDisplay === 3 && bookmarkedItems !== null" >
         <bookmark-component style="overflow-y:auto" :items="bookmarkedItems"/>
       </div>
     </div>
@@ -25,9 +25,10 @@ import PersonalInformation from "@/components/pagesComponents/UserPage/PersonalI
 import MyItems from "@/components/pagesComponents/UserPage/MyItemsComponent.vue";
 import UserArchive from "@/components/pagesComponents/UserPage/UserArchive.vue";
 import {useLoggedInStore} from "@/store/store";
-import {loadListingByUser} from "@/services/ItemService";
+import {loadListingByItemId, loadListingByUser} from "@/services/ItemService";
 import { ref, computed } from 'vue';
 import BookmarkComponent from "@/components/pagesComponents/UserPage/BookmarkComponent.vue";
+import { loadBookmarks } from "@/services/BookmarkService"
 
 
 export default {
@@ -39,6 +40,7 @@ export default {
     const store = useLoggedInStore();
     store.fetchUser();
     const user = store.getUser.data;
+
     const userItems = ref([]);
 
     async function loadItems() {
@@ -64,9 +66,21 @@ export default {
     });
 
     // filter out bookmarked items
-    const bookmarkedItems = computed(() => {
-      return userItems.value.filter(item => item.listingStatus !== 'ARCHIVED' );
-    });
+
+    const bookmarkedItems = ref([]);
+
+    loadBookmarks().then(response => {
+      for(let {itemId, username, briefDesc, fullDesc,
+        address, county, categoryId, price,
+        listingStatus, thumbnail, keyInfoList} of response.bookmarkedItems){
+
+        bookmarkedItems.value.push({itemId, username, briefDesc, fullDesc,
+          address, county, categoryId, price,
+          listingStatus, thumbnail, keyInfoList})
+      }
+    }).catch(error => {
+      console.log('error: ', error)
+    })
 
     return {
       store,

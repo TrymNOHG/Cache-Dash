@@ -107,22 +107,16 @@ public class BookmarkService implements IBookmarkService{
     /**
      * Loads all bookmarks for a given user.
      *
-     * @param userDeletionDTO DTO containing the username of the user requesting the bookmarks and the username of the user whose bookmarks are to be loaded.
+     * @param username String containing the username of the user requesting the bookmarks and the username of the user whose bookmarks are to be loaded.
      * @return a DTO containing a list of bookmarked items for the given user.
      * @throws UnauthorizedException if the acting user is not an admin and is not loading their own bookmarks.
      * @throws UserNotFoundException if either the acting user or the user to be loaded is not found.
      * @throws BookmarkNotFoundException if no bookmarks are found for the given user.
      */
     @Override
-    public BookmarkLoadDTO loadBookmarks(UserDeletionDTO userDeletionDTO) {
-        User actingUser = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.username()));
-        User user = userRepository.findByUsername(userDeletionDTO.userToDelete()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.userToDelete()));
-
-        if (actingUser.getRole() == Role.ADMIN || actingUser.getUsername().equals(user.getUsername())) {
-            List<Bookmark> bookmarkList = bookmarkRepository.findAllByUser(user).orElseThrow(() -> new BookmarkNotFoundException(userDeletionDTO.userToDelete()));
-            BookmarkLoadDTO bookmarkLoadDTO = BookmarkMapper.loadBookmarkDTO(bookmarkList);
-            return bookmarkLoadDTO;
-        }
-        else throw new UnauthorizedException(actingUser.getUsername());
+    public BookmarkLoadDTO loadBookmarks(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+        List<Bookmark> bookmarkList = bookmarkRepository.findAllByUser(user).orElseThrow(() -> new BookmarkNotFoundException(username));
+        return BookmarkMapper.loadBookmarkDTO(bookmarkList);
     }
 }
