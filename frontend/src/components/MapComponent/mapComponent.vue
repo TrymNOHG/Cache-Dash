@@ -44,6 +44,12 @@ export default {
     itemCoordinates: Array,
   },
 
+  /**
+   * information about how to use leaflet was used from this web page and some code can therefor be similar
+   * https://github.com/vue-leaflet/vue-leaflet/tree/master/src/playground/views
+   * if the map isnt working I advice to use the original api url se that it works, and then use this code
+   * @returns {{polygonCoordinates: *[], attribution: string, coordinatesToShow: *[], zoom: number, url: string}}
+   */
   data() {
     return {
       zoom: 4,

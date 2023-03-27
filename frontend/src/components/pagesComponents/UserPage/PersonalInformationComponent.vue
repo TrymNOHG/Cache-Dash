@@ -145,6 +145,12 @@ export default {
       this.showModal = true;
     },
 
+    /**
+     * This method was use from a webpage about picture uploading
+     * https://levelup.gitconnected.com/how-to-preview-images-before-uploading-them-in-vue-4964803adb64
+     * this is the link with the provaded code
+     * @returns {Promise<void>}
+     */
     async whenSelected() {
       const input = this.$refs.fileInput
       const files = input.files

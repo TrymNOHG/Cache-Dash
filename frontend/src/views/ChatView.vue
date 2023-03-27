@@ -216,7 +216,7 @@ export default {
         this.addNewConversation(false);
         this.error.errorBool = false;
 
-        loadConversations(username)
+        loadConversations(this.user.username)
             .then(response => {
               console.log(response.data)
               this.changeConversations(response.data);
@@ -233,10 +233,9 @@ export default {
     },
 
 
-    async deleteConversation(conversationId){
-      console.log(conversationId)
+    async deleteConversation(){
       await deleteConversationId({
-        conversationId: conversationId
+        conversationId: this.currentConversation.conversationId
       });
     },
 
