@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,7 +68,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping(value = "/update", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Update user")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestPart("userUpdateDTO") String userUpdateDTO,
