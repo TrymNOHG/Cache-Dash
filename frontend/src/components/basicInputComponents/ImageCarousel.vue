@@ -2,12 +2,10 @@
   <!-- template based on https://www.w3schools.com/howto/howto_js_slideshow.asp -->
   <div class="container" v-if="pictures">
     <div class="slides">
-      <div v-for="(picture, index) in pictures" v-bind:key="index">
-        <img v-bind:src="picture" alt="Slide" width="200" height="200">
-      </div>
+        <img v-bind:src="pictures[this.slideIndex]" alt="Slide" width="200" height="200">
     </div>
-    <a class="prev" onclick="changeSlides(-1)">&#10094;</a>
-    <a class="next" onclick="changeSlides(1)">&#10095;</a>
+    <a class="prev" @click="changeSlides(-1)">&#10094;</a>
+    <a class="next" @click="changeSlides(1)">&#10095;</a>
   </div>
 </template>
 
@@ -26,10 +24,14 @@ export default {
     },
   },
   methods: {
+
     changeSlides(n) {
+      console.log("Inne")
       this.slideIndex = (this.slideIndex + n) % this.pictures.length
+      console.log(this.slideIndex)
       this.currentPicture = this.pictures[this.slideIndex];
-    }
+      console.log(this.currentPicture)
+    },
   },
   setup(props) {
     const pictures = ref([])
