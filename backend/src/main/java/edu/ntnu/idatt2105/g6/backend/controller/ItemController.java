@@ -35,7 +35,6 @@ public class ItemController {
 
     @PostMapping(value="/user/create", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Create a listing")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> create(@ParameterObject @RequestPart("listingDTO") String listingDTO,
                                          @ParameterObject @RequestPart("images") List<MultipartFile> images) throws JsonProcessingException {
         //TODO: add exception handling in this method, remove throws exception
@@ -60,7 +59,6 @@ public class ItemController {
 
     @PostMapping("/user/delete")
     @Operation(summary = "Delete a listing")
-//    @ExceptionHandler(UserNotFoundException.class)
     //TODO: make this take in token or something
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody ListingDeletionDTO listing) {
         logger.info(listing.toString() + " is being deleted!");
@@ -71,7 +69,6 @@ public class ItemController {
 
     @PostMapping("/user/update")
     @Operation(summary = "Update a listing")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
         logger.info(listing.toString() + " is being updated!");
         itemService.updateListing(listing);
@@ -87,7 +84,6 @@ public class ItemController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
             )
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestParam String username) {
         logger.info("All listings by "+ username + " is being loaded!");
         List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
@@ -102,7 +98,6 @@ public class ItemController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
     )
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAll() {
         logger.info("All listings are being loaded!");
         itemService.loadAllListings();
@@ -117,12 +112,26 @@ public class ItemController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
     )
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<List<ListingLoadDTO>> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
         logger.info("Looking for items under category Id: " + categoryId);
         List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
         logger.info("Items found: " + listings);
         return ResponseEntity.ok(listings);
     }
+
+    @GetMapping("/load/{itemId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Load item by item Id",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
+    )
+    public ResponseEntity<ListingLoadDTO> loadItemById(@ParameterObject @PathVariable Long itemId) {
+        logger.info("Looking for item with Id: " + itemId);
+        ListingLoadDTO listing = itemService.loadListing(itemId);
+        logger.info("Item found: " + listing);
+        return ResponseEntity.ok(listing);
+    }
+
+
 
 }

@@ -72,7 +72,6 @@ public class UserController {
 
     @PutMapping(value = "/update", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Update user")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestPart("userUpdateDTO") String userUpdateDTO,
                                          @ParameterObject @RequestPart("profilePicture") MultipartFile profilePicture) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -93,7 +92,6 @@ public class UserController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserLoadDTO.class)) })}
     )
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> load(@ParameterObject @AuthenticationPrincipal UserDetails user) {
         logger.info("Attempting to load user!");
         UserLoadDTO userLoadDTO = userService.loadUserDTOByUsername(user.getUsername());
