@@ -1,7 +1,7 @@
 <template>
   <div class="itemsView-window" >
     <div class="filter-section">
-      <filter-component class="filter"></filter-component>
+      <filter-component class="filter" :categoryId=this.categoryId :categoryName=this.categoryName></filter-component>
     </div>
     <div class="searchbar-itemlisting">
       <mainpage-search-bar class="search"></mainpage-search-bar>

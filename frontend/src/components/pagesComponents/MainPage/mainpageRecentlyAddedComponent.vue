@@ -1,7 +1,7 @@
 <template>
   <div class="recentAdded-window">
     <div class="label">
-      <label>Recently added</label>
+      <h3>{{ $t('recentItems') }}</h3>
     </div>
     <div class="recent-list">
       <ul>
@@ -34,4 +34,5 @@ export default {
     font-family: sans-serif;
     font-size: xx-large;
   }
+
 </style>
