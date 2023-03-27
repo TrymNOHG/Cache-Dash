@@ -51,13 +51,13 @@
         <label v-else>{{ user.phone }}</label>
       </div>
 
-      <div class="profile-picture-window">
-        <div class="base-image-input" v-if="user.picture" :style="{ 'background-image': `url(${user.picture})` }">
-          <img :src="user.picture ? user.picture : ''" alt="Profile picture" />
-          <span v-if="!user.picture" class="placeholder">Choose an Image</span>
-        </div>
-        <input v-if="edit" class="input-image" ref="fileInput" type="file" @input="whenSelected"/>
-      </div>
+<!--      <div class="profile-picture-window">-->
+<!--        <div class="base-image-input" v-if="user.picture" :style="{ 'background-image': `url(${user.picture})` }">-->
+<!--          <img :src="user.picture ? user.picture : ''" alt="Profile picture" />-->
+<!--          <span v-if="!user.picture" class="placeholder">Choose an Image</span>-->
+<!--        </div>-->
+<!--        <input v-if="edit" class="input-image" ref="fileInput" type="file" @input="whenSelected"/>-->
+<!--      </div>-->
 
       <div class="edit-button">
         <button id="edit-info" @click="editUser()" >{{ button_name }}</button>
@@ -94,10 +94,10 @@ export default {
 
   setup(){
     const store = useLoggedInStore()
-    const itemStore = useItemStore();
+    // const itemStore = useItemStore();
     store.fetchUser();
     const user = store.getUser.data
-    user.picture = itemStore.convertImageBackToUrl(user.picture);
+    // user.picture = itemStore.convertImageBackToUrl(user.picture);
 
     return {
       store,
@@ -173,13 +173,13 @@ export default {
         'role' : user.role
       }
 
-      console.log("name:" +  userDTO.username)
-      const completeUserDTO = new FormData();
-      completeUserDTO.append('userUpdateDTO', JSON.stringify(userDTO))
-      console.log('User picture: ' + user.picture)
-      completeUserDTO.set('profilePicture', user.picture)
+      // console.log("name:" +  userDTO.username)
+      // const completeUserDTO = new FormData();
+      // completeUserDTO.append('userUpdateDTO', JSON.stringify(userDTO))
+      // console.log('User picture: ' + user.picture)
+      // completeUserDTO.set('profilePicture', user.picture)
 
-      return completeUserDTO;
+      return userDTO;
     },
 
     saveNewPassword() {

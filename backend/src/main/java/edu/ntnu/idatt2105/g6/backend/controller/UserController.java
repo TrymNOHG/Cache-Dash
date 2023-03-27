@@ -73,26 +73,28 @@ public class UserController {
 
     }
 
-    @PutMapping(value = "/update/user", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/update/user"
+//            , consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE}
+    )
     @Operation(summary = "Update user")
-    public ResponseEntity<Object> update(@ParameterObject @RequestPart("userUpdateDTO") String userUpdateDTO,
-                                         @ParameterObject @RequestPart("profilePicture") List<MultipartFile> profilePicture,
+    public ResponseEntity<Object> update(@ParameterObject @RequestBody UserUpdateDTO userUpdateDTO,
+//                                         @ParameterObject @RequestPart("profilePicture") List<MultipartFile> profilePicture,
                                          Authentication authentication) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        UserUpdateDTO user = objectMapper.readValue(userUpdateDTO, UserUpdateDTO.class);
-        if(!Objects.equals(authentication.getName(), user.username())) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        UserUpdateDTO user = objectMapper.readValue(userUpdateDTO, UserUpdateDTO.class);
+        if(!Objects.equals(authentication.getName(), userUpdateDTO.username())) {
             logger.info("The user who sent the request is not the same as the one being changed.");
             throw new UnauthorizedException(authentication.getName());
         }
 
-        byte[] profilePic;
+//        byte[] profilePic;
+//
+//        if(!profilePicture.isEmpty()) profilePic = profilePicture.get(0).getBytes();
+//        else profilePic = null;
 
-        if(!profilePicture.isEmpty()) profilePic = profilePicture.get(0).getBytes();
-        else profilePic = null;
-
-        logger.info(String.format("User %s wants to been updated!", user.username()));
-        userService.updateUser(user, profilePic);
-        logger.info(String.format("User %s has been updated!", user.username()));
+        logger.info(String.format("User %s wants to been updated!", userUpdateDTO.username()));
+        userService.updateUser(userUpdateDTO, null); //To work on profile picture, undo null
+        logger.info(String.format("User %s has been updated!", userUpdateDTO.username()));
 
         return ResponseEntity.ok().build();
     }

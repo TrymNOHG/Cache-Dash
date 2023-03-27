@@ -63,11 +63,17 @@ public class UserService implements IUserService {
     public void updateUser(UserUpdateDTO userUpdateDTO, byte[] profilePicture){
 
         User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow(() -> new UserNotFoundException(userUpdateDTO.username()));
-
+        logger.info("User " + user.getUsername() + " was found!");
         Optional<User> newUser = userRepository.findByUsername(userUpdateDTO.newUsername());
-        if (newUser.isPresent()) throw new UserExistsException(userUpdateDTO.newUsername());
 
-        user.setUsername(userUpdateDTO.newUsername() != null ? userUpdateDTO.username() : user.getUsername());
+        if(!user.getUsername().equals(userUpdateDTO.newUsername())){
+            if (newUser.isPresent()) {
+                logger.info("User " + user.getUsername() + " with same name found!");
+                throw new UserExistsException(userUpdateDTO.newUsername());
+            }
+            user.setUsername(userUpdateDTO.newUsername() != null ? userUpdateDTO.username() : user.getUsername());
+        }
+
         user.setFullName(userUpdateDTO.fullName() != null ? userUpdateDTO.fullName() : user.getFullName());
         user.setEmail(userUpdateDTO.email() != null ? userUpdateDTO.email() : user.getEmail());
         user.setBirthDate(userUpdateDTO.birthDate() != null ? userUpdateDTO.birthDate() : user.getBirthDate());
@@ -76,7 +82,7 @@ public class UserService implements IUserService {
         user.setRole(userUpdateDTO.role() != null ? userUpdateDTO.role() : user.getRole());
         user.setBookmarks(user.getBookmarks());
         user.setListedItems(user.getListedItems());
-        user.setPicture(profilePicture != null ? profilePicture : user.getPicture());
+//        user.setPicture(profilePicture != null ? profilePicture : user.getPicture());
 
         userRepository.save(user);
 
