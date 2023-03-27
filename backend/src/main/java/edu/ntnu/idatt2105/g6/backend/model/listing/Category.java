@@ -44,7 +44,7 @@ public class Category {
     /**
      The set of sub-categories under this category.
      */
-    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private Set<Category> subCategories = new HashSet<>();
@@ -52,7 +52,7 @@ public class Category {
     /**
      The parent category of this category. If this is a root category, this field will be null.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "main_category_id", referencedColumnName = "category_id", nullable = true)
     @ToString.Exclude
     private Category mainCategory;

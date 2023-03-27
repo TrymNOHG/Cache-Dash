@@ -42,7 +42,11 @@ public class ItemController {
         ListingDTO listing = objectMapper.readValue(listingDTO, ListingDTO.class);
 //        listing.setKeyInfoList(keyInfoList); //TODO: in service convert back to actual keyInfo while saving to db, remember transactional
         List<byte[]> byteImages = images.stream().map(image -> {
-            return image.getBytes();
+            try {
+                return image.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }).toList();
         listing.setPictures(byteImages);
         System.out.println(listing);
@@ -76,6 +80,7 @@ public class ItemController {
 
     //TODO: maybe just add user id to the path?
     @GetMapping("/user/load")
+    @Operation(summary = "Load all listings by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading items of a given user",
                     content = { @Content(mediaType = "application/json",
@@ -83,38 +88,28 @@ public class ItemController {
             )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestParam String username) {
-        logger.info("All listing by "+ username + " is being loaded!");
+        logger.info("All listings by "+ username + " is being loaded!");
         List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
-        logger.info("All listing by "+ username + " was loaded");
+        logger.info("All listings by "+ username + " were loaded");
         return ResponseEntity.ok(items);
     }
 
     @GetMapping("/load")
+    @Operation(summary = "Load all listings")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading all items",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
     )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> loadAllByUser() {
+    public ResponseEntity<Object> loadAll() {
         logger.info("All listings are being loaded!");
         itemService.loadAllListings();
         logger.info("All listings were loaded!");
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/category/{categoryId}/load")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Loading items of a given user",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
-    )
-//    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<List<ListingLoadDTO>> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
-        logger.info("Looking for items under category Id: " + categoryId);
-        List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
-        logger.info("Items found: " + listings);
-        return ResponseEntity.ok(listings);
-    }
+
+
 
 }
