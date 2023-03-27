@@ -150,10 +150,13 @@ public class ItemService implements IItemService{
         Item savedItem = itemRepository.save(item);
         logger.info("The listing has been saved!");
 
-        logger.info("Saving the pictures to gallery...");
-        listing.getPictures().forEach(picture -> {
-            pictureGalleryRepository.save(PictureMapper.toPictureGallery(picture, savedItem));
-        });
+        if(listing.getPictures() != null) {
+            logger.info("Saving the pictures to gallery...");
+            listing.getPictures().forEach(picture -> {
+                pictureGalleryRepository.save(PictureMapper.toPictureGallery(picture, savedItem));
+            });
+        }
+
 
     }
 

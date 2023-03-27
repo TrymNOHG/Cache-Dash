@@ -150,7 +150,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(1L, item.getItemId());
         }
 
@@ -161,7 +161,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(user, item.getUser());
         }
 
@@ -172,7 +172,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals("test", item.getBriefDesc());
         }
 
@@ -183,7 +183,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals("test1", item.getFullDesc());
         }
 
@@ -194,7 +194,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals("Nordkapp", item.getAddress());
         }
 
@@ -206,7 +206,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals("Troms og Finnmark", item.getCounty());
         }
 
@@ -217,7 +217,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(category, item.getCategory());
         }
 
@@ -228,7 +228,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(200000, item.getPrice());
         }
 
@@ -239,7 +239,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(thumbnail, item.getThumbnail());
         }
 
@@ -250,7 +250,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(keyInfoList, item.getKeyInfoList());
         }
 
@@ -261,7 +261,7 @@ class ItemTest {
             byte[] thumbnail = new byte[5];
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, ListingStatus.ACTIVE, keyInfoList, bookmarkerList);
             assertEquals(bookmarkerList, item.getBookmarkerList());
         }
 
@@ -273,7 +273,7 @@ class ItemTest {
             List<KeyInfo> keyInfoList = new ArrayList<>();
             List<Bookmark> bookmarkerList = new ArrayList<>();
             ListingStatus expectedStatus = ListingStatus.ACTIVE;
-            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, expectedStatus, keyInfoList, bookmarkerList);
+            Item item = new Item(1L, user, "test", "test1", "Nordkapp", "Troms og Finnmark", category, 200000, thumbnail, null, expectedStatus, keyInfoList, bookmarkerList);
             assertEquals(expectedStatus, item.getStatus());
         }
     }
