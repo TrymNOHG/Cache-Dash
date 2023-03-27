@@ -46,7 +46,6 @@ public class Category {
     private Category mainCategory;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private List<Item> itemsWithCategory = new ArrayList<>();
 
