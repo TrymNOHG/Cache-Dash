@@ -1,15 +1,17 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import {useLoggedInStore} from "@/store/store";
 import i18n from "@/locales/i18n";
+
 </script>
 
 <template>
-  <header v-if="isAdmin && isLoggedIn">
-    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
+  <header v-if="(store.isLoggedIn && store.getUser.data.role === 'ADMIN')">
+    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.png" width="100" height="100" />
     <div class="wrapper">
       <ul>
         <RouterLink to="/admin/users">{{ $t ("users") }}</RouterLink>
-        <RouterLink to="/admin">{{ $t ("admin") }}</RouterLink>
+        <RouterLink to="/admin/categories_and_items">{{ $t ("categories and listings") }}</RouterLink>
         <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>
         <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
@@ -50,6 +52,8 @@ import i18n from "@/locales/i18n";
 
 
 <script>
+
+import {computed} from "vue";
 import {useLoggedInStore} from "@/store/store";
 
 export default {
@@ -57,6 +61,9 @@ export default {
     return{
       store: useLoggedInStore(),
       language: "NO",
+      isAdmin: false,
+      isLoggedIn: false,
+      adminHeader:false,
     }
   },
   methods: {
@@ -68,24 +75,41 @@ export default {
         i18n.global.locale = "en"
         this.language = "NO"
 
+
       }
     }
   },
   setup() {
-    const store = useLoggedInStore();
     const isAdmin = computed(() => {
-      return store.getUser.data.role === 'ADMIN'
+      return this.store.getUser.data.role === 'ADMIN';
+
     })
 
     const isLoggedIn = computed(() => {
-      return store.isLoggedIn
+      return this.store.isLoggedIn
     })
 
     return {
       isAdmin,
       isLoggedIn
     }
-  }
+  },
+
+  // beforeMount: {
+  //   isAdmin: useLoggedInStore().getUser.data.role === 'ADMIN',
+  //   isLoggedIn: this.store.isLoggedIn,
+  //
+  // },
+
+  watch:{
+    isAdmin(){
+      if(this.isLoggedIn){
+        if(this.store.getUser.data.role === 'ADMIN'){
+          this.isAdmin = true;
+        }
+      }
+    }
+  },
 }
 </script>
 
