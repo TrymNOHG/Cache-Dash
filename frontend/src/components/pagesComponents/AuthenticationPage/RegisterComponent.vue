@@ -41,29 +41,25 @@
               id="dateInput"
               v-model="dateOfBirth"
               :error="errors.dateOfBirth"
-              required
           />
           <label for="phoneNumber">{{$t('phoneNumber')}}</label>
           <PhoneInput
               id="phoneNumber"
               v-model="phonenumber"
               :error="errors.phoneNumber"
-              required
           />
-        <div>
-            <BasicCheckbox
-                v-model="termOfService"
-                :error="errors.termOfService"
-            >
-            </BasicCheckbox>
+          <BasicCheckbox
+              id="checkBox"
+              v-model="termOfService"
+              :error="errors.termOfService"
+              data-cy="terms-checkbox"
+          />
 
             <label id="termsInput" for="termsInput" @click="$router.push('/register/terms')">{{ $t('termsOfService') }}</label>
           </div>
-        </div>
         <div class="button-group">
           <button
               id="submit_button"
-              :disabled="hasErrors"
               type="submit"
               class="-fill-gradient"
           >
@@ -85,8 +81,7 @@ import {useField, useForm } from "vee-validate";
 import { useLoggedInStore } from "@/store/store";
 import {ref} from "vue";
 import router from "@/router/router";
-import {registerUser} from "@/services/Authenticator";
-import { useStorage } from 'vue3-storage';
+import {registerUser} from "@/services/UserService";
 import PhoneInput from "@/components/basicInputComponents/PhoneInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
@@ -103,7 +98,6 @@ export default {
   setup () {
     const store = useLoggedInStore();
     const submitMessage = ref('');
-    const storage = useStorage();
 
     const validationSchema = yup.object({
       fullname: yup.string()
@@ -115,10 +109,10 @@ export default {
           .min(8),
       email: yup.string()
           .required('Email required'),
-      dateOfBirth: yup.date()
-          .required('Date is required'),
-      phonenumber: yup.string()
-          .required('Phone number is required'),
+      // dateOfBirth: yup.date()
+      //     .required('Date is required'),
+      // phonenumber: yup.string()
+      //     .required('Phone number is required'),
       termOfService: yup.bool()
           .required("Terms and Conditions must be checked")
     });
@@ -133,7 +127,6 @@ export default {
     const { value: termOfService } = useField('termOfService')
 
     const submit = handleSubmit(async () => {
-      console.log("let me innnnnnnnnnnn!!!!!!!")
       const userData = {
         username: username.value,
         password: password.value,
@@ -145,34 +138,29 @@ export default {
         role: "USER"
       }
 
-      const token = await registerUser(userData)
-      if (token !== undefined) {
-        console.log(token)
-        storage.setStorageSync('token', token.token);
-        storage.setStorageSync('username', username.value);
+      console.log(userData)
 
-        store.setUser({
-          loggedIn: true,
-          token: token,
-          username: userData.username,
-          fullname: userData.fullName,
-          email: userData.email,
-          dateOfBirth: userData.birthDate,
-          phoneNumber: userData.phone,
-          role: userData.role
-        })
+      await registerUser(userData).then(async response => {
+        if (response !== undefined) {
+          store.setSessionToken(response.data.token)
+          await store.fetchUser()
 
-        submitMessage.value = "Registration Successful";
-        setTimeout(() => {
-          submitMessage.value = "";
-        }, 3000);
-        await router.push("/");
-      } else {
-        submitMessage.value = "Something went wrong. Please try again later.";
-        setTimeout(() => {
-          submitMessage.value = "";
-        }, 3000);
-      }
+          submitMessage.value = "Registration Successful";
+          setTimeout(() => {
+            submitMessage.value = "";
+          }, 3000);
+          await router.push("/");
+        } else {
+          submitMessage.value = "Something went wrong. Please try again later.";
+          setTimeout(() => {
+            submitMessage.value = "";
+          }, 3000);
+        }
+      }).catch(error => {
+        alert(error.body) //TODO: format!!!!
+        console.warn('error1', error) //TODO: add exception handling
+      })
+
     });
 
     return {

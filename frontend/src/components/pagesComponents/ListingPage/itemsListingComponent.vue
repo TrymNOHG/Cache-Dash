@@ -1,8 +1,8 @@
 <template>
   <div class="itemsListing-window">
-    <div v-for="item in items" :item="item" key="listingView.id" class="item-list">
-      <router-link :to="`${item.categoryName}/item/${item.id}`" class="link">
-        <ItemThumbnail :category="item.categoryName"/>
+    <div v-for="item in items" key="listingView.id" class="item-list">
+      <router-link :to="{name : 'itemView', params : { name: this.categoryName.toString(), id: item.itemId}}" class="link">
+        <ItemThumbnail :item="item"/>
       </router-link>
     </div>
   </div>
@@ -10,56 +10,28 @@
 
 <script>
 import ItemThumbnail from "@/components/basicInputComponents/ItemThumbnail.vue";
+import { useItemStore } from "@/store/store";
+import {computed} from "vue";
 
 export default {
   name: "itemsListingComponent",
   components: {ItemThumbnail},
-  data(){
-    return{
-      item: {
-      },
-      items: [{
-        id:1,
-        categoryName: 'Cars',
-        itemName: 'Selling car'
-      },
-      {
-        id:2,
-        categoryName: 'Cars',
-        itemName: 'Selling Mercedes'
-      },
-      {
-        id:3,
-        categoryName: 'Cars',
-        itemName: 'Selling Mercedes'
-      },
-        {
-          id:4,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-        {
-          id:5,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-
-      ]
+  props: {
+    items: {
+        type: Array,
+        required: true
+    },
+    categoryName: {
+      type: String,
+      required: true
     }
   },
-  /*props:{
-    item:{
-      id:'',
-      categoryName:'',
-      itemName:'',
-      cost:''
+  data(){
+    return{
 
-    },
-    items:[
-
-    ]
+    }
   }
-   */
+
 }
 </script>
 

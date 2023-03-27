@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import newItemComponent from "@/components/NewItemComponent.vue";
+import newItemComponent from "@/components/pagesComponents/ItemPage/NewItemComponent.vue";
 export default {
   name: "newItemView",
   components: {newItemComponent}

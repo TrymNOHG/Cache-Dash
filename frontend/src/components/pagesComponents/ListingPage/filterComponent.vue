@@ -1,35 +1,21 @@
 <template>
   <div class="filter-window">
-    <map-component></map-component>
+    <map-component :chosenCounty="chosenCounty" :itemCoordinates="coordsLit"/>
     <div>
-      <h2>placeholder </h2>
-      <div v-for="category in categories" key="category.id" class="category-list">
-          <BasicCheckbox
-              v-model="category.checked"
-              label="{{category}}"
-          />
-        </div>
-    </div>
-    <div>
-      <h2>Area</h2>
-        <basic-input
-            id="searchArea"
-            type="search"
-            label="Search for area"
-            v-model="search.searchArea"
-        />
+      <h2>Category</h2>
+      <BasicCheckbox
+          name="Categories"
+          options="categories"/>
     </div>
     <div>
       <h2>Search for county</h2>
         <BasicSelect
             class="dropDown"
             :options="countyStore.allCounties"
-            v-model="search.county"
+            v-model="chosenCounty"
+            @change="updateCounty(); updateItemCoordinates();"
             label="Choose a county"
           />
-    </div>
-    <div class="searchButton">
-      <button @click="checkBoxChecked">Search</button>
     </div>
   </div>
 </template>
@@ -38,47 +24,90 @@
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
-import {useCountyStore} from "@/store/store";
+import {useCountyStore, useItemStore} from "@/store/store";
 import MapComponent from "@/components/MapComponent/mapComponent.vue";
+import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
+import {computed} from "vue";
 
 export default {
   name: "filterComponent",
-  components: {MapComponent, BasicSelect, BasicCheckbox, BasicInput},
+  components: {BasicRadioGroup, MapComponent, BasicSelect, BasicCheckbox, BasicInput},
+
+  props: {
+    categoryId: {
+      type: Number,
+      required: true
+    },
+    categoryName: {
+      type: String,
+      required: true
+    }
+  },
+
   data(){
     return{
-      search:{
-        county:'',
-        searchArea:'',
-        checkedCatagories:[]
-
-      }
+      chosenCounty: '',
+      categories:[],
+      coordsLit: [],
     }
   },
-  setup(){
+
+  setup(props){
     const countyStore = useCountyStore();
-    countyStore.$reset();
+    const store = useItemStore();
+    const items = computed(() => {
+      return store.getItems;
+    });
+
+    store.fetchItemsByCategoryId(props.categoryId);
+
+
     return{
-      countyStore
+      countyStore,
+      store,
+      items
     }
   },
-  props: {
-    category:{
-      catName: '',
-      checked: false,
 
-    },
-    categories:[],
-
-  },
   methods: {
-    checkBoxChecked(category){
-      for(let i = 0; i < this.categories.length; i++){
-        if(this.categories[i].checked){
-          this.search.checkedCatagories.push(this.categories[i].catName)
-        }
-      }
+    updateCounty() {
+      this.$emit("update:ChooseCounty", this.ChooseCounty);
+    },
+
+    updateItemCoordinates() {
+      this.$emit("update:itemCoordinates", this.itemCoordinates)
+    },
+
+    findAddressByLatLng(address) {
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            this.coordsLit.push([data.features[0].center[1], data.features[0].center[0]])
+            console.log(this.coordsLit)
+          })
+          .catch(error => console.error(error));
     }
-  }
+  },
+  watch: {
+    ChooseCounty: function (newVal) {
+      this.$emit("update:ChooseCounty", newVal);
+    },
+
+    itemCoordinates: function (newVal) {
+      this.$emit("update:itemCoordinates", newVal)
+    },
+
+    // Watch for changes to the items computed property
+    items: function(newItems, oldItems) {
+      // Loop through the new items
+      newItems.forEach(item => {
+        // Call the findAddressByLatLng method for each item
+        console.log(item.address)
+        this.findAddressByLatLng(item.address);
+      });
+    }
+  },
 }
 </script>
 

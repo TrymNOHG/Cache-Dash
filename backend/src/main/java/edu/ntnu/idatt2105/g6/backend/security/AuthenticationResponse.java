@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class represents the response sent by the server after a successful authentication.
+ * It contains a single field `token`, which is a string representing the JWT (JSON Web Token) used for authentication.
+ */
 @Data
 @Builder
 @AllArgsConstructor

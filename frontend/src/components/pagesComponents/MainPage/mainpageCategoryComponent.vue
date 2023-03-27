@@ -1,11 +1,11 @@
 <template>
   <div class="catergory-window">
     <div class="label">
-      <h2>Category</h2>
+      <h3>{{ $t('category') }}</h3>
     </div>
     <div class="category-container">
-      <div v-for="category in categories" :category="category" key="category.id" class="category-list">
-        <router-link :to="`category/${category.categoryName}`" class="link">
+      <div v-for="category in mainCategories" :key=category.categoryId class="category-list">
+        <router-link :to="{ name : 'listingView', params: { categoryName : category.categoryName, categoryId: category.categoryId}}" class="link">
           <CategoryCard :category="category.categoryName"/>
         </router-link>
       </div>
@@ -16,6 +16,9 @@
 
 <script>
 import CategoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
+import { useCategoryStore } from "@/store/store";
+import {computed} from "vue";
+
 export default {
   name: "mainpageCategory",
   components: {
@@ -23,22 +26,19 @@ export default {
   },
   data(){
     return{
-      category: {},
-      categories: [{
-        id:1,
-        categoryName:"Cars",
+    }
+  },
+  setup() {
 
-      },
-      {
-      id:2,
-      categoryName: "Guns",
-      },
-        {
-          id:3,
-          categoryName: "Humans",
-        },
+    const store = useCategoryStore();
+    const mainCategories = computed(() => {
+      return store.getMainCategories;
+    });
 
-      ]
+    store.fetchMainCategories()
+
+    return {
+      mainCategories
     }
   }
 }
@@ -58,7 +58,6 @@ export default {
 
   .category-container {
     background-color: #7EB09B;
-    text-align: left;
   }
 
   .link{

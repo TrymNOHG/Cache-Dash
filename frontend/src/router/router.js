@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import NotFound from "@/components/NotFoundComponent.vue";
-import notFound from "@/components/NotFoundComponent.vue";
-import simpleForm from "@/views/simpleForm.vue";
+import NotFound from "@/components/basicInputComponents/NotFoundComponent.vue";
+import notFound from "@/components/basicInputComponents/NotFoundComponent.vue";
+import simpleForm from "@/views/SimpleForm.vue";
 import notFoundView from "@/views/NotFoundView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
@@ -12,6 +12,9 @@ import newItemView from "@/views/NewItemView.vue";
 import categoryCard from "@/components/pagesComponents/MainPage/CategoryCardComponent.vue";
 import listingView from "@/views/ListingView.vue";
 import itemView from "@/views/ItemView.vue";
+import ChatView from "@/views/ChatView.vue";
+import adminUserView from "@/views/AdminUserView.vue";
+import AdminCategoryView from "@/views/AdminCategoryView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,15 +72,32 @@ const router = createRouter({
             component: userSite
         },
         {
-            path: '/category/:name',
+            path: '/category/:categoryName+_:categoryId',
             name: 'listingView',
-            component: listingView
+            component: listingView,
+            props: true
         },
         {
-            path: '/category/:name/item/:id',
-            name: 'item',
-            component: itemView
+            path: '/category/:name/item?id=:id',
+            name: 'itemView',
+            component: itemView,
+            props: true
+        },
+        {
+            path: '/chat',
+            name: 'chat',
+            component: ChatView
+        },
 
+        {
+            path: '/admin/users',
+            name: 'AdminUserView',
+            component: adminUserView
+        },
+        {
+            path: '/admin/categories_and_items',
+            name: 'AdminCategory',
+            component:AdminCategoryView
         },
 
     ]

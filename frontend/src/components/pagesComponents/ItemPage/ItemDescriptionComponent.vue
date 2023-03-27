@@ -1,17 +1,19 @@
 <template>
   <div class="item-description-window">
     <div>
-      <IconBookmark></IconBookmark>
+      <IconBookmark :item-id="item.itemId"></IconBookmark>
     </div>
     <div>
-      <h2> {{ '#item namn' }} </h2>
-      <h3> {{'item cost'}} </h3>
+      <h2> {{ item.username }} </h2>
+      <h3> {{ item.price }} kr </h3>
     </div>
     <div class="short-description">
-      <p>#short description</p>
+      <h1> Description </h1><hr>
+      <p>{{ item.briefDesc }}</p>
     </div>
     <div class="longer-description">
-      <p>#long description</p>
+      <h1> Full Description </h1><hr>
+      <p>{{ item.fullDesc }}</p>
     </div>
   </div>
 </template>
@@ -25,35 +27,16 @@ export default {
   components: {IconBookmark},
   props:{
     item:{
-      id: null,
-      categoryName: '',
-      itemName:'',
-      cost:'',
-
-    },
-    items:{
-      type: array,
+      type: Object,
+      required: true
     }
   },
   data(){
-    return {
-      items: [{
-        id:1,
-        categoryName: 'Cars',
-        itemName: 'Selling car'
-      },
-        {
-          id:2,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-        {
-          id:3,
-          categoryName: 'Cars',
-          itemName: 'Selling Mercedes'
-        },
-      ]
-    }
+    return {}
+  },
+  setup(props) {
+    console.log(props.item)
+    return null
   }
 }
 </script>

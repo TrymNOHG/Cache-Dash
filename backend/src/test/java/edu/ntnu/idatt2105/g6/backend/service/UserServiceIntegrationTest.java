@@ -1,7 +1,8 @@
 package edu.ntnu.idatt2105.g6.backend.service;
 
-import edu.ntnu.idatt2105.g6.backend.dto.users.UserDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreateDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.exists.UserExistsException;
@@ -44,11 +45,11 @@ public class UserServiceIntegrationTest {
 
         @Test
         public void updateUser_updates_correct_field(){
-            UserDTO userDTO = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            authenticationService.register(userDTO);
+            UserCreateDTO userCreateDTO = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            authenticationService.register(userCreateDTO);
 
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Test", null, "Mr Test", null, null, null, null, null);
-            userService.updateUser(userUpdateDTO);
+            userService.updateUser(userUpdateDTO, null);
 
             User user = userRepository.findByUsername("Test").orElseThrow();
             System.out.println(user);
@@ -59,11 +60,11 @@ public class UserServiceIntegrationTest {
         @Test
         public void updateUser_does_not_update_if_only_null(){
 
-            UserDTO userDTO = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            authenticationService.register(userDTO);
+            UserCreateDTO userCreateDTO = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            authenticationService.register(userCreateDTO);
             User user1 = userRepository.findByUsername("Test").orElseThrow();
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Test", null, null, null, null, null, null, null);
-            userService.updateUser(userUpdateDTO);
+            userService.updateUser(userUpdateDTO, null);
             User user2 = userRepository.findByUsername("Test").orElseThrow();
 
             assertEquals(user1, user2);
@@ -72,28 +73,28 @@ public class UserServiceIntegrationTest {
         @Test
         public void updateUser_throws_UserNotFoundException_for_non_existing_user(){
 
-            UserDTO userDTO = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            authenticationService.register(userDTO);
+            UserCreateDTO userCreateDTO = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            authenticationService.register(userCreateDTO);
 
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Nothing here", null, null, null, null, null, null, null);
 
             assertThrows(UserNotFoundException.class, () -> {
-                userService.updateUser(userUpdateDTO);
+                userService.updateUser(userUpdateDTO, null);
             });
 
         }
 
         @Test
         public void updateUser_throws_UserExistsException_for_already_existing_user(){
-            UserDTO userDTO1 = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            UserDTO userDTO2 = new UserDTO("Existing", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            authenticationService.register(userDTO1);
-            authenticationService.register(userDTO2);
+            UserCreateDTO userCreateDTO1 = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            UserCreateDTO userCreateDTO2 = new UserCreateDTO("Existing", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            authenticationService.register(userCreateDTO1);
+            authenticationService.register(userCreateDTO2);
 
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Test", "Existing", null, null, null, null, null, null);
 
             assertThrows(UserExistsException.class, () -> {
-                userService.updateUser(userUpdateDTO);
+                userService.updateUser(userUpdateDTO, null);
             });
 
         }
@@ -114,8 +115,8 @@ public class UserServiceIntegrationTest {
         @Test
         public void deleteUser_deletes_user(){
 
-            UserDTO userDTO1 = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            authenticationService.register(userDTO1);
+            UserCreateDTO userCreateDTO1 = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            authenticationService.register(userCreateDTO1);
             assertDoesNotThrow(() -> {
                 userRepository.findByUsername("Test");
             });
@@ -130,10 +131,10 @@ public class UserServiceIntegrationTest {
 
         @Test
         public void deleteUser_throws_UnauthorizedException(){
-            UserDTO userDTO1 = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            UserDTO userDTO2 = new UserDTO("Mr Test", "124", "Mr test", "Mrtest@gmail.com",null,null,null, Role.USER);
-            authenticationService.register(userDTO1);
-            authenticationService.register(userDTO2);
+            UserCreateDTO userCreateDTO1 = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            UserCreateDTO userCreateDTO2 = new UserCreateDTO("Mr Test", "124", "Mr test", "Mrtest@gmail.com",null,null,null, Role.USER);
+            authenticationService.register(userCreateDTO1);
+            authenticationService.register(userCreateDTO2);
 
             UserDeletionDTO userDeletionDTO = new UserDeletionDTO("Mr Test", "Test");
 
@@ -144,16 +145,78 @@ public class UserServiceIntegrationTest {
 
         @Test
         public void admin_can_delete_user(){
-            UserDTO userDTO1 = new UserDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
-            UserDTO userDTO2 = new UserDTO("Mr Test", "124", "Mr test", "Mrtest@gmail.com",null,null,null, Role.ADMIN);
-            authenticationService.register(userDTO1);
-            authenticationService.register(userDTO2);
+            UserCreateDTO userCreateDTO1 = new UserCreateDTO("Test", "123", "Test test", "test@gmail.com",null,null,null, Role.USER);
+            UserCreateDTO userCreateDTO2 = new UserCreateDTO("Mr Test", "124", "Mr test", "Mrtest@gmail.com",null,null,null, Role.ADMIN);
+            authenticationService.register(userCreateDTO1);
+            authenticationService.register(userCreateDTO2);
 
             UserDeletionDTO userDeletionDTO = new UserDeletionDTO("Mr Test", "Test");
             System.out.println(userRepository.findByUsername("Mr Test").orElseThrow().getRole());
             assertDoesNotThrow(() -> {
                 userService.deleteUser(userDeletionDTO);
             });
+        }
+    }
+
+    @Nested
+    @SpringBootTest
+    class LoadByUsername{
+        @Autowired
+        AuthenticationService authenticationService;
+
+        @Autowired
+        UserService userService;
+
+        @Autowired
+        UserRepository userRepository;
+
+        @Test
+        public void loadByUsername_loads_correct_user(){
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.USER)
+                    .build();
+
+            userRepository.save(user);
+
+            User returnUser = userService.loadByUsername("Test");
+
+            assertEquals(user, returnUser);
+        }
+    }
+
+    @Nested
+    @SpringBootTest
+    class LoadUserDTOByUsername{
+        @Autowired
+        AuthenticationService authenticationService;
+
+        @Autowired
+        UserService userService;
+
+        @Autowired
+        UserRepository userRepository;
+
+        @Test
+        public void loadUserDTOByUsername_loads_correct_userDTO(){
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.USER)
+                    .build();
+
+            userRepository.save(user);
+
+            UserLoadDTO returnUserDTO = userService.loadUserDTOByUsername("Test");
+
+            assertEquals("Test", returnUserDTO.username());
         }
     }
 

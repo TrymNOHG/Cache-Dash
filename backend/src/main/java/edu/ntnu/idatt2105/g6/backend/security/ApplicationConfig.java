@@ -15,18 +15,34 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ This class provides application configuration for Spring Security. It sets up the user details service to
+ fetch user details from the user repository, creates an authentication provider that uses the user details service,
+ and provides a password encoder to be used for password hashing.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
     private final UserRepository userRepository;
 
+    /**
+     * This method returns a UserDetailsService that retrieves user details from the user repository.
+     *
+     * @return  a UserDetailsService that retrieves user details from the user repository.
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
     }
 
+    /**
+     * This method returns an AuthenticationProvider that uses the user details service and password encoder to
+     * authenticate users.
+     *
+     * @return  an AuthenticationProvider that uses the user details service and password encoder to authenticate users.
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -35,6 +51,13 @@ public class ApplicationConfig {
         return provider;
     }
 
+    /**
+     * This method returns an AuthenticationManager bean that can be used to authenticate users.
+     *
+     * @param config    the AuthenticationConfiguration to use
+     * @return          an AuthenticationManager bean that can be used to authenticate users.
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -47,6 +70,7 @@ public class ApplicationConfig {
      *
      * @return  BCrypt password encoder, given as a PasswordEncoder object.
      */
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

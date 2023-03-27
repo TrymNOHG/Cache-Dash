@@ -8,8 +8,19 @@ import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 
+/**
+ This class provides mapping methods to map between Listing DTOs and Listing entities.
+ */
 public class ListingMapper {
 
+    /**
+     * Map ListingDTO to an Item entity.
+     *
+     * @param user the user creating the item
+     * @param category the category of the item
+     * @param listingDTO the DTO containing the information to be mapped
+     * @return an Item entity with the mapped information
+     */
     public static Item toItem(User user, Category category, ListingDTO listingDTO){
         Item item = Item
                 .builder()
@@ -21,12 +32,18 @@ public class ListingMapper {
                 .category(category)
                 .price(listingDTO.getPrice())
                 .status(ListingStatus.ACTIVE)
-                .thumbnail(listingDTO.getThumbnail())
-                .keyInfoList(listingDTO.getKeyInfoList())
+                .thumbnail(listingDTO.getPictures() == null || listingDTO.getPictures().isEmpty()  ? null : listingDTO.getPictures().get(0))
+                .keyInfoList(listingDTO.getKeyInfoList()) //TODO: need to give a List<KeyInfo>
                 .build();
         return item;
     }
 
+    /**
+     * Map an Item entity to a ListingLoadDTO.
+     *
+     * @param item the Item entity to be mapped
+     * @return a ListingLoadDTO with the mapped information
+     */
     public static ListingLoadDTO toListing(Item item) {
         return ListingLoadDTO
                 .builder()

@@ -8,24 +8,46 @@
     <div class="profile-picture">
       <figure></figure>
     </div>
-    <div>
+    <div v-if="user">
       <label>User name:</label>
-      <p></p>
+      <p>{{ user.fullName }}</p>
       <label>Email:</label>
-      <p></p>
+      <p> {{ user.email }} </p>
       <label>Phone number:</label>
-      <p></p>
+      <p> {{ user.phone }} </p>
       <label>Address:</label>
-      <p></p>
-      <label>Zip-code:</label>
-      <p></p>
+      <p> {{ user.address }} </p>
     </div>
   </div>
 </template>
 
 <script>
+import {ref} from "vue";
+import { loadUserByUsername } from "@/services/UserService";
+
 export default {
-  name: "SellerInformation"
+  name: "SellerInformation",
+  props: {
+    username: {
+      type: String,
+      required: true
+    }
+  },
+  setup(props) {
+    const user = ref(null)
+
+    loadUserByUsername(props.username).then(response => {
+      const {userId, username, fullName, email, birthDate, phone, picture } = response.data
+      user.value = {userId, username, fullName, email, birthDate, phone, picture}
+    }).catch(error => {
+      console.log('error: ', error)
+    })
+
+    return {
+      user
+    }
+
+  }
 }
 </script>
 

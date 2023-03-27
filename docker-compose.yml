@@ -1,0 +1,30 @@
+
+version: '3.6'
+services:
+
+  back:
+    build:
+      context: ./backend
+      target:  backApp
+    image: e-commerce/back
+    container_name: e-backend
+    ports:
+      - 8080:8080
+    networks:
+      - frontback
+
+
+  front:
+    build: ./frontend
+    image: e-commerce/front
+    container_name: e-frontend
+    ports:
+      - 5173:5173
+    depends_on:
+      - back
+    networks:
+      - frontback
+
+networks:
+  frontback:
+    driver: bridge
