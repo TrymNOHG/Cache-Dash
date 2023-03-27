@@ -60,10 +60,11 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @Operation(summary = "Update user")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody UserUpdateDTO user) {
+        logger.info(String.format("User %s wants to been updated!", user.username()));
         userService.updateUser(user);
         logger.info(String.format("User %s has been updated!", user.username()));
         return ResponseEntity.ok().build();

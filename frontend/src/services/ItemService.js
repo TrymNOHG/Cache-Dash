@@ -20,7 +20,8 @@ export const deleteListing = async (listingDeletionDTO) => {
 }
 
 export const updateListing = async (listingUpdateDTO) => {
-    return await axios.post(`${BASE_LISTING_URL}/user/update`, listingUpdateDTO, {
+    console.log(listingUpdateDTO)
+    return await axios.put(`${BASE_LISTING_URL}/user/update`, listingUpdateDTO, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
         }

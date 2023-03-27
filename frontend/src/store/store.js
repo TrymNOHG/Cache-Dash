@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
 import {loadAllCategories, loadMainCategories} from "@/services/CategoryService";
 import {loadListingsByCategoryId} from "@/services/ItemService";
+import { ref, computed, watch } from "vue"
 
 export const useLoggedInStore = defineStore('user', {
-
 
     state: () => ({
         sessionToken: null,
@@ -15,7 +15,7 @@ export const useLoggedInStore = defineStore('user', {
             email: null,
             birthDate: null,
             phone: null,
-            picture: [],
+            picture: null,
             role: null,
         },
     }),
@@ -28,13 +28,15 @@ export const useLoggedInStore = defineStore('user', {
             return this.user;
         },
         getSessionToken() {
+            if (this.sessionToken === null) return localStorage.getItem("sessionToken")
             return this.sessionToken;
         }
     },
 
     actions: {
         setSessionToken(sessionToken) {
-            this.sessionToken = sessionToken
+            this.sessionToken = sessionToken;
+            if (localStorage.getItem("sessionToken") === null) localStorage.setItem("sessionToken", sessionToken)
         },
         async fetchUser() {
             await getUser()
@@ -46,7 +48,7 @@ export const useLoggedInStore = defineStore('user', {
                     console.warn('error', error)
                     //TODO: handle error
                 })
-        }
+        },
     }
 });
 
@@ -80,9 +82,12 @@ export const useItemStore = defineStore('item', {
                 .then(response => {
                     this.items = [];
 
-                    for(const {itemId, username, briefDesc, fullDesc,
+                    for(let {itemId, username, briefDesc, fullDesc,
                             address, county, categoryId, price,
                             listingStatus, thumbnail, keyInfoList} of response.data){
+
+                        thumbnail = this.convertImageBackToUrl(thumbnail);
+
                         this.items.push({itemId, username, briefDesc, fullDesc,
                             address, county, categoryId, price,
                             listingStatus, thumbnail, keyInfoList})
@@ -93,6 +98,9 @@ export const useItemStore = defineStore('item', {
                     console.warn('error', error)
                     //TODO: handle error
                 })
+        },
+        convertImageBackToUrl(image) {
+            return `data:image/png;base64,${image}`;
         }
     }
 });
@@ -100,26 +108,16 @@ export const useItemStore = defineStore('item', {
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
         mainCategories: [],
-        category: {
-            categoryId: null,
-            mainCategoryId: null,
-            subCategory: "",
-        },
-        categoryList: [
-            {categoryId: 2, mainCategoryID: 1, subCategory: "Sport"},
-            {categoryId: 5, mainCategoryID: 4, subCategory: "Cars"},
-        ]
+        chosenCategory: null,
+        chosenCategoryId: null
     }),
 
     getters: {
-        allCategories(){
-            return this.categoryList;
-        },
-
         allCategoryNames(){
             let categoryNames = []
-            this.categoryList.forEach(category => categoryNames.push(category.subCategory))
+            this.mainCategories.forEach(category => categoryNames.push(category.categoryName))
             return categoryNames;
+
         },
         getMainCategories() {
             return this.mainCategories;
@@ -152,13 +150,16 @@ export const useCategoryStore = defineStore('categoryStore', {
                 }
             })
         },
-        setCorrectCategory(categoryName){
-            for (let i = 0; i < this.categoryList.length; i++) {
-                if (this.categoryList.at(i).subCategory === categoryName){
-                    this.category = this.categoryList.at(i);
+
+        getCategoryId(){
+            for (let i = 0; i < this.mainCategories.length; i++) {
+                if (this.mainCategories[i].categoryName === this.chosenCategory){
+                    this.chosenCategoryId = this.mainCategories[i].categoryId;
+                    return this.chosenCategoryId;
                 }
             }
-        }
+        },
+
     }
 });
 
@@ -168,7 +169,7 @@ export const useCountyStore = defineStore('countyStore', {
         county: {
             countyName: "",
         },
-        categoryList: [
+        countyList: [
             'None',
             'Troms og Finnmark',
             'Nordland',
@@ -186,15 +187,9 @@ export const useCountyStore = defineStore('countyStore', {
 
     getters: {
         allCounties(){
-            return this.categoryList;
+            return this.countyList;
         },
     },
-
-    actions: {
-        setSelected(county){
-            this.county = county;
-        }
-    }
 });
 
 export const useImageStore = defineStore('imageStore', {
