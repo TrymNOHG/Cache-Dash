@@ -73,10 +73,10 @@ public class UserController {
 
     }
 
-    @PutMapping(value = "/update", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/update/user", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Update user")
     public ResponseEntity<Object> update(@ParameterObject @RequestPart("userUpdateDTO") String userUpdateDTO,
-                                         @ParameterObject @RequestPart("profilePicture") MultipartFile profilePicture,
+                                         @ParameterObject @RequestPart("profilePicture") List<MultipartFile> profilePicture,
                                          Authentication authentication) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         UserUpdateDTO user = objectMapper.readValue(userUpdateDTO, UserUpdateDTO.class);
@@ -85,7 +85,10 @@ public class UserController {
             throw new UnauthorizedException(authentication.getName());
         }
 
-        byte[] profilePic = profilePicture.getBytes();
+        byte[] profilePic;
+
+        if(!profilePicture.isEmpty()) profilePic = profilePicture.get(0).getBytes();
+        else profilePic = null;
 
         logger.info(String.format("User %s wants to been updated!", user.username()));
         userService.updateUser(user, profilePic);

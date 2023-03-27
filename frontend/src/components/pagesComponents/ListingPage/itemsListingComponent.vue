@@ -17,9 +17,9 @@ export default {
   name: "itemsListingComponent",
   components: {ItemThumbnail},
   props: {
-    categoryId: {
-      type: Number,
-      required: true
+    items: {
+        type: Array,
+        required: true
     },
     categoryName: {
       type: String,
@@ -29,24 +29,6 @@ export default {
   data(){
     return{
 
-    }
-  },
-  setup(props) {
-
-    const store = useItemStore();
-    const items = computed(() => {
-      return store.getItems;
-    });
-
-    store.fetchItemsByCategoryId(props.categoryId)
-    // console.log("Items: ")
-    //
-    // for(let item of this.items.value) {
-    //   console.log(item)
-    // }
-
-    return {
-      items
     }
   }
 
