@@ -116,6 +116,9 @@ export default {
 
 <style>
 
+app{
+  height: 100vh;
+}
 header, footer{
   display: flex;
   justify-content: space-between;

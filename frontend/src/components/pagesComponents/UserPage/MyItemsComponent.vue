@@ -1,5 +1,20 @@
 <template>
-  <div>
+  <div v-if="userRole === 'ADMIN'">
+    <ul class="container">
+      <h3>Items</h3>
+      <hr>
+      <li v-for="item in items" :key="item.id" class="list-item">
+        <img :src='imageStore.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>
+        <span class="text">{{ item.briefDesc }}</span>
+        <div class="buttons" >
+          <button class="listing-button" @click="deleteItem(item, username)">Delete</button>
+          <router-link :to="{name : 'itemView', params : { name: itemCategoryName(item), id: item.itemId}}" tag="button" class="listing-button">Open</router-link>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div v-else>
     <ul class="container">
       <h3>My Items</h3>
       <hr>
@@ -10,7 +25,7 @@
           <button class="listing-button" @click="changeToArchive(item)">Sell</button>
           <button class="listing-button" @click="showUpdateModal(item)">Update</button>
         </div>
-        <div class="delete-button" @click="deleteItem(item)">X</div>
+        <div class="delete-button" @click="deleteItem(item, this.user.username)">X</div>
       </li>
     </ul>
 
@@ -47,13 +62,16 @@ const imageStore = useItemStore();
 
 <script>
 import { useLoggedInStore } from "@/store/store";
-import { deleteListing, loadListingByUser, updateListing } from "@/services/ItemService";
+import {deleteListing, loadListingByItemId, loadListingByUser, updateListing} from "@/services/ItemService";
+import {loadAllCategories} from "@/services/CategoryService";
 
 export default {
   name: "myItems",
 
   props: {
     items: Array,
+    userRole: '',
+    username:'',
   },
 
   data() {
@@ -107,9 +125,9 @@ export default {
       }
     },
 
-    async deleteItem(item) {
+    async deleteItem(item, user) {
       const listingDeletionDTO = {
-        username: this.user.username,
+        username: user,
         itemId: item.itemId
       };
       await deleteListing(listingDeletionDTO);
@@ -155,7 +173,13 @@ export default {
         thumbnail: "",
         keyInfoList: []
       };
+    },
+    async itemCategoryName(item) {
+      const itemToCheck = await loadListingByItemId(item.id);
+      const category = await loadAllCategories(itemToCheck.categoryId)
+      return category.name
     }
+
   }
 };
 </script>
