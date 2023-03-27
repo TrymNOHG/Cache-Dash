@@ -1,13 +1,21 @@
 <template>
   <div class="userSite-window">
     <div class="buttons">
-      <div class="link" @click="whatToShow(false)">Items</div>
-      <div class="link" @click="whatToShow(true)">Archive</div>
+      <div class="link" @click="whatToShow(1)">{{ $t('items') }}</div>
+      <div class="link" @click="whatToShow(2)">{{ $t('archive') }}</div>
+      <div class="link" @click="whatToShow(3)">{{ $t('bookmarks') }}</div>
     </div>
     <div class="userInformation-window">
       <personal-information/>
-      <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="nonArchivedItems" />
-      <user-archive v-else style="overflow-y:auto" :items="archivedItems"/>
+      <div v-if="pageDisplay === 1">
+        <my-items style="overflow-y:auto" :items="nonArchivedItems" />
+      </div>
+      <div v-else-if="pageDisplay === 2">
+        <user-archive style="overflow-y:auto" :items="archivedItems"/>
+      </div>
+      <div v-else-if="pageDisplay === 3 && bookmarkedItems !== null" >
+        <bookmark-component style="overflow-y:auto" :items="bookmarkedItems"/>
+      </div>
     </div>
   </div>
 </template>
@@ -17,19 +25,22 @@ import PersonalInformation from "@/components/pagesComponents/UserPage/PersonalI
 import MyItems from "@/components/pagesComponents/UserPage/MyItemsComponent.vue";
 import UserArchive from "@/components/pagesComponents/UserPage/UserArchive.vue";
 import {useLoggedInStore} from "@/store/store";
-import {loadListingByUser} from "@/services/ItemService";
+import {loadListingByItemId, loadListingByUser} from "@/services/ItemService";
 import { ref, computed } from 'vue';
+import BookmarkComponent from "@/components/pagesComponents/UserPage/BookmarkComponent.vue";
+import { loadBookmarks } from "@/services/BookmarkService"
 
 
 export default {
   name: "myProfile",
-  components: {UserArchive, MyItems, PersonalInformation},
+  components: {BookmarkComponent, UserArchive, MyItems, PersonalInformation},
 
 
   setup() {
     const store = useLoggedInStore();
     store.fetchUser();
     const user = store.getUser.data;
+
     const userItems = ref([]);
 
     async function loadItems() {
@@ -54,29 +65,46 @@ export default {
       return userItems.value.filter(item => item.listingStatus === 'ARCHIVED');
     });
 
+    // filter out bookmarked items
+
+    const bookmarkedItems = ref([]);
+
+    loadBookmarks().then(response => {
+      for(let {itemId, username, briefDesc, fullDesc,
+        address, county, categoryId, price,
+        listingStatus, thumbnail, keyInfoList} of response.bookmarkedItems){
+
+        bookmarkedItems.value.push({itemId, username, briefDesc, fullDesc,
+          address, county, categoryId, price,
+          listingStatus, thumbnail, keyInfoList})
+      }
+    }).catch(error => {
+      console.log('error: ', error)
+    })
+
     return {
       store,
       user,
       userItems,
       nonArchivedItems,
-      archivedItems
+      archivedItems,
+      bookmarkedItems
     };
   },
 
   data() {
     return {
-      pageDisplay: false,
+      pageDisplay: null,
     }
   },
 
   methods: {
-    whatToShow(bool) {
-      this.pageDisplay = bool;
+    whatToShow(numb) {
+      this.pageDisplay = numb;
     },
   },
 };
 </script>
-
 
 <style scoped>
 
@@ -91,15 +119,23 @@ export default {
 .link {
   text-align: center;
   border-radius: 2px;
-  min-width: 200px;
+  min-width: 120px;
   max-height: 40px;
-  margin: 10px;
+  margin: 5px;
   background-color: #3f9293;
   color: white;
+  font-size: 0.9rem;
 }
 
 .link:hover {
   background-color: #55a4e4;
+}
+
+.userInformation-window {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 10px;
+  max-height: 600px;
 }
 
 .userSite-window{
@@ -108,18 +144,11 @@ export default {
   overflow-y: auto;
 }
 
-.userInformation-window {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 10px;
-  max-height: 600px;
-
-}
-
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .userInformation-window {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    max-height: none;
   }
 }
+
 </style>
