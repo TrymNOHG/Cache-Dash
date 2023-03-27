@@ -46,31 +46,25 @@ public class UserService implements IUserService {
      */
     @Transactional
     @Override
-    public void updateUser(UserUpdateDTO userUpdateDTO){
+    public void updateUser(UserUpdateDTO userUpdateDTO, byte[] profilePicture){
 
-            User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow(() -> new UserNotFoundException(userUpdateDTO.username()));
+        User user = userRepository.findByUsername(userUpdateDTO.username()).orElseThrow(() -> new UserNotFoundException(userUpdateDTO.username()));
 
-            Optional<User> newUser = userRepository.findByUsername(userUpdateDTO.newUsername());
-            if (newUser.isPresent()) throw new UserExistsException(userUpdateDTO.newUsername());
+        Optional<User> newUser = userRepository.findByUsername(userUpdateDTO.newUsername());
+        if (newUser.isPresent()) throw new UserExistsException(userUpdateDTO.newUsername());
 
-            user = User
-                    .builder()
-                    .userId(user.getUserId())
-                    .password(user.getPassword())
-                    .username(userUpdateDTO.newUsername() != null ? userUpdateDTO.username() : user.getUsername())
-                    .fullName(userUpdateDTO.fullName() != null ? userUpdateDTO.fullName() : user.getFullName())
-                    .email(userUpdateDTO.email() != null ? userUpdateDTO.email() : user.getEmail())
-                    .birthDate(userUpdateDTO.birthDate() != null ? userUpdateDTO.birthDate() : user.getBirthDate())
-                    .phone(userUpdateDTO.phone() != null ? userUpdateDTO.phone() : user.getPhone())
-                    .picture(userUpdateDTO.picture() != null ? userUpdateDTO.picture() : user.getPicture())
-                    .role(userUpdateDTO.role() != null ? userUpdateDTO.role() : user.getRole())
-                    .bookmarks(user.getBookmarks())
-                    .listedItems(user.getListedItems())
-                    .build();
+        user.setUsername(userUpdateDTO.newUsername() != null ? userUpdateDTO.username() : user.getUsername());
+        user.setFullName(userUpdateDTO.fullName() != null ? userUpdateDTO.fullName() : user.getFullName());
+        user.setEmail(userUpdateDTO.email() != null ? userUpdateDTO.email() : user.getEmail());
+        user.setBirthDate(userUpdateDTO.birthDate() != null ? userUpdateDTO.birthDate() : user.getBirthDate());
+        user.setPhone(userUpdateDTO.phone() != null ? userUpdateDTO.phone() : user.getPhone());
+        user.setPicture(userUpdateDTO.picture() != null ? userUpdateDTO.picture() : user.getPicture());
+        user.setRole(userUpdateDTO.role() != null ? userUpdateDTO.role() : user.getRole());
+        user.setBookmarks(user.getBookmarks());
+        user.setListedItems(user.getListedItems());
+        user.setPicture(profilePicture != null ? profilePicture : user.getPicture());
 
-            System.out.println(user);
-            userRepository.save(user);
-
+        userRepository.save(user);
 
     }
 

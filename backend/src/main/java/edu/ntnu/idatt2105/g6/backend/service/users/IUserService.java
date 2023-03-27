@@ -6,7 +6,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 
 public interface IUserService {
 
-    void updateUser(UserUpdateDTO userUpdateDTO);
+    void updateUser(UserUpdateDTO userUpdateDTO, byte[] profilePicture);
     void deleteUser(UserDeletionDTO userDeletionDTO);
 
     UserLoadDTO loadUserDTOByUsername(String username);

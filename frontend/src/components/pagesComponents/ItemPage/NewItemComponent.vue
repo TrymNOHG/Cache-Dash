@@ -22,7 +22,7 @@
       <BasicSelect
           class="CategorySelect"
           :options="catStore.allCategoryNames"
-          v-model="catStore.category.subCategory"
+          v-model="catStore.chosenCategory"
       />
       <label for="categoryInput">{{$t('county')}}</label>
       <BasicSelect
@@ -111,6 +111,7 @@ export default {
     const imageStore = useImageStore();
     countyStore.$reset();
     catStore.$reset();
+    catStore.fetchMainCategories();
 
     if(!userStore.isLoggedIn) {
       //TODO: *** give user feedback on needing to login ****
@@ -147,12 +148,6 @@ export default {
 
 
     const submit = handleSubmit(async () => {
-      if(!userStore.isLoggedIn) {
-        //TODO: give user feedback on needing to login ****
-        alert("You need to login first to create a listing!")
-        await router.push("/login")
-      }
-      catStore.setCorrectCategory(catStore.category.subCategory);
 
       const listingDTO =  {
         'username': userStore.getUser.data.username,
@@ -160,7 +155,7 @@ export default {
         'fullDesc': full.value === undefined ? null : full.value,
         'address': address.value,
         'county': countyStore.county.countyName,
-        'categoryId': catStore.category.categoryId,
+        'categoryId': catStore.getCategoryId(),
         'price': price.value,
         'thumbnail': null,
         'keyInfoList': null
@@ -224,9 +219,9 @@ export default {
   },
   methods: {
     addToImageList(theNewImage){
-      console.log("kill", theNewImage)
+      console.log("New Image: ", theNewImage)
       this.imageStore.addImage(theNewImage)
-      console.log("me", this.imageStore.test)
+      console.log("Image test:", this.imageStore.test)
     },
 
     findAddressByLatLng() {

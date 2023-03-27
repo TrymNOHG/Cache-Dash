@@ -1,9 +1,8 @@
 <template>
   <div class="itemsListing-window">
     <div v-for="item in items" key="listingView.id" class="item-list">
-      <router-link :to="{name : 'item', params : { name: this.categoryName.toString(), id: item.itemId}, props: { item: item }}" class="link">
+      <router-link :to="{name : 'itemView', params : { name: this.categoryName.toString(), id: item.itemId, item: item}}" class="link">
         <ItemThumbnail :item="item"/>
-<!--        TODO: Send item into ^^^ -->
       </router-link>
     </div>
   </div>

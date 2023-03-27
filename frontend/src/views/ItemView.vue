@@ -1,7 +1,8 @@
 <template>
   <div class="item-window">
-    <ImageCarousel class="image-carousel" />
-    <ItemDescription class="item-description" :item="this.item"/>
+    <ImageCarousel class="image-carousel" :pictures="null"/>
+    <ItemDescription class="item-description" :item="item"/>
+    <p>Hello qwerqwer {{ item }}</p>
     <SellerInformation class="seller-information"/>
     <div class="map"></div>
   </div>
@@ -20,6 +21,9 @@ export default {
       type: Object,
       required: true
     }
+  },
+  setup(props) {
+    console.log()
   }
 }
 </script>
