@@ -10,7 +10,7 @@ import i18n from "@/locales/i18n";
     <div class="wrapper">
       <ul>
         <RouterLink to="/admin/users">{{ $t ("users") }}</RouterLink>
-        <RouterLink to="/admin/categories_and_items">{{ $t ("categories and listings") }}</RouterLink>
+        <RouterLink to="/admin/categories_and_items">{{ $t ("Categories & Listings") }}</RouterLink>
         <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>
         <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
