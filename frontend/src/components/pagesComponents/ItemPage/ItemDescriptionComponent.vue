@@ -5,12 +5,14 @@
     </div>
     <div>
       <h2> {{ item.username }} </h2>
-      <h3> {{ item.price }} </h3>
+      <h3> {{ item.price }} kr </h3>
     </div>
     <div class="short-description">
+      <h1> Description </h1><hr>
       <p>{{ item.briefDesc }}</p>
     </div>
     <div class="longer-description">
+      <h1> Full Description </h1><hr>
       <p>{{ item.fullDesc }}</p>
     </div>
   </div>
