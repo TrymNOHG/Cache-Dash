@@ -1,9 +1,8 @@
 <template>
-  <div class="item-window">
-    <ImageCarousel class="image-carousel" :pictures="null"/>
+  <div v-if="item" class="item-window">
+    <ImageCarousel class="image-carousel" :itemId="item.itemId"/>
     <ItemDescription class="item-description" :item="item"/>
-    <p>Hello qwerqwer {{ item }}</p>
-    <SellerInformation class="seller-information"/>
+    <SellerInformation class="seller-information" :username="item.username"/>
     <div class="map"></div>
   </div>
 </template>
@@ -12,18 +11,36 @@
 import ImageCarousel from "@/components/basicInputComponents/ImageCarousel.vue";
 import ItemDescription from "@/components/pagesComponents/ItemPage/ItemDescriptionComponent.vue";
 import SellerInformation from "@/components/pagesComponents/ItemPage/SellerInformationComponent.vue";
+import { loadListingByItemId } from "@/services/ItemService";
+import { useRoute } from 'vue-router'
+import { ref } from 'vue'
+
 
 export default {
   name: "item",
   components: {SellerInformation, ItemDescription, ImageCarousel},
-  props: {
-    item: {
-      type: Object,
-      required: true
+  setup() {
+    const route = useRoute()
+    const itemId = route.params.id
+
+    const item = ref(null)
+
+    loadListingByItemId(itemId).then(response => {
+      const {itemId, username, briefDesc, fullDesc,
+        address, county, categoryId, price,
+        listingStatus, thumbnail, keyInfoList} = response.data
+
+      item.value = {itemId, username, briefDesc, fullDesc,
+        address, county, categoryId, price,
+        listingStatus, thumbnail, keyInfoList}
+    }).catch(error => {
+      console.log('error: ', error)
+    })
+
+    return {
+      item
     }
-  },
-  setup(props) {
-    console.log()
+
   }
 }
 </script>

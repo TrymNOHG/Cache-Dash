@@ -1,6 +1,6 @@
 <template>
   <div class="filter-window">
-    <map-component :chosenCounty="chosenCounty" :itemCoordinates="itemCoordinates"/>
+    <map-component :chosenCounty="chosenCounty" />
     <div>
       <h2>Category</h2>
       <BasicCheckbox
@@ -9,13 +9,13 @@
     </div>
     <div>
       <h2>Search for county</h2>
-        <BasicSelect
-            class="dropDown"
-            :options="countyStore.allCounties"
-            v-model="chosenCounty"
-            @change="updateCounty(); updateItemCoordinates();"
-            label="Choose a county"
-          />
+<!--        <BasicSelect-->
+<!--            class="dropDown"-->
+<!--            :options="countyStore.allCounties"-->
+<!--            v-model="chosenCounty"-->
+<!--            @change="updateCounty(); updateItemCoordinates();"-->
+<!--            label="Choose a county"-->
+<!--          />-->
     </div>
   </div>
 </template>
@@ -24,51 +24,67 @@
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import BasicSelect from "@/components/basicInputComponents/BasicSelect.vue";
-import {useCountyStore} from "@/store/store";
+import {useCountyStore, useItemStore} from "@/store/store";
 import MapComponent from "@/components/MapComponent/mapComponent.vue";
 import BasicRadioGroup from "@/components/basicInputComponents/BasicRadioGroup.vue";
+import {computed} from "vue";
 
 export default {
   name: "filterComponent",
   components: {BasicRadioGroup, MapComponent, BasicSelect, BasicCheckbox, BasicInput},
+
+  props: {
+    categoryId: {
+      type: Number,
+      required: true
+    },
+    categoryName: {
+      type: String,
+      required: true
+    }
+  },
+
   data(){
     return{
-      itemCoordinates: [
-        [60, 10],
-        [51.507222, -0.1275],
-        [35.689722, 139.691667],
-      ],
       chosenCounty: '',
       categories:[],
-    }
-  },
-  setup(){
-    const countyStore = useCountyStore();
-    countyStore.$reset();
-    return{
-      countyStore
-    }
-  },
-  props: {
-    category:{
-      catName: '',
-      checked: false,
 
-    },
+    }
   },
+  setup(props){
+    const countyStore = useCountyStore();
+    const store = useItemStore();
+    const items = computed(() => {
+      return store.getItems;
+    });
+
+    store.fetchItemsByCategoryId(props.categoryId);
+
+
+    return{
+      store,
+      items,
+    }
+  },
+
   methods: {
-    checkBoxChecked(category){
-      for(let i = 0; i < this.categories.length; i++){
-        if(this.categories[i].checked){
-          this.search.checkedCatagories.push(this.categories[i].catName)
-        }
-      }
-    },
     updateCounty() {
       this.$emit("update:ChooseCounty", this.ChooseCounty);
     },
+
     updateItemCoordinates() {
       this.$emit("update:itemCoordinates", this.itemCoordinates)
+    },
+
+    findAddressByLatLng() {
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(this.address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            this.latitude = data.features[0].center[1];
+            this.longitude = data.features[0].center[0];
+          })
+          .catch(error => console.error(error));
     }
   },
   watch: {

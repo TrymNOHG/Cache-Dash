@@ -29,7 +29,7 @@ export const deleteConversationId = async (conversationId) => {
 
 //TODO: change the load of conversation to just load the authenticated user's conversations.
 export const loadConversations = async (username) => {
-    return axios.post(`${BASE_USER_URL}/load`, username, {
+    return axios.get(`${BASE_USER_URL}/load/${username}`, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
         }

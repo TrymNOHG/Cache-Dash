@@ -45,3 +45,12 @@ export const loadListingsByCategoryId = async (categoryId) => {
     return await axios.get(`${BASE_LISTING_URL}/category/${categoryId}/load`)
 }
 
+export const loadListingByItemId = async(itemId) => {
+    return await axios.get(`${BASE_LISTING_URL}/load/${itemId}`)
+}
+
+
+export const loadImagesByItemId = async(itemId) => {
+    return await axios.get(`${BASE_LISTING_URL}/load/pictures/${itemId}`)
+}
+

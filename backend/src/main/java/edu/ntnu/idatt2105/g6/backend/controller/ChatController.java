@@ -31,7 +31,6 @@ public class ChatController {
 
     @PostMapping("/new")
     @Operation(summary = "Create new conversation")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> startConversation(@ParameterObject @RequestBody ConversationDTO conversation) {
         logger.info("User with username: "  + conversation.getUsername1());
         logger.info("Is trying to start a conversation with: " + conversation.getUsername2());
@@ -44,14 +43,13 @@ public class ChatController {
 
     @PostMapping("/send")
     @Operation(summary = "Send message")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> saveMessage(@ParameterObject @RequestBody MessageDTO message) {
         chatService.addMessage(message);
         logger.info("A message was sent from " + message.username());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/load", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/load/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Load conversation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading conversations",
@@ -59,7 +57,7 @@ public class ChatController {
                             schema = @Schema(implementation = ConversationLoadDTO.class)) })
     })
     @ResponseBody
-    public ResponseEntity<Object> loadConversations(@ParameterObject @RequestBody String username) {
+    public ResponseEntity<Object> loadConversations(@ParameterObject @PathVariable String username) {
         logger.info("All conversations with " +username + " is being loaded");
         List<ConversationLoadDTO> conversations = chatService.loadAllConversations(username);
         logger.info("All conversations with " +username + " was loaded");

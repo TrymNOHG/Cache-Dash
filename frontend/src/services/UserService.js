@@ -20,6 +20,10 @@ export const getUser = async () => {
     })
 }
 
+export const loadUserByUsername = async (username) => {
+    return axios.get(`${BASE_USER_URL}/load/${username}`)
+}
+
 export const updateUser = async (userUpdateDTO) => {
     console.log(userUpdateDTO)
     return axios.put(`${BASE_USER_URL}/update`, userUpdateDTO, {

@@ -223,17 +223,6 @@ export default {
       this.imageStore.addImage(theNewImage)
       console.log("Image test:", this.imageStore.test)
     },
-
-    findAddressByLatLng() {
-      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(this.address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
-      fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            this.latitude = data.features[0].center[1];
-            this.longitude = data.features[0].center[0];
-          })
-          .catch(error => console.error(error));
-    }
   },
 }
 </script>

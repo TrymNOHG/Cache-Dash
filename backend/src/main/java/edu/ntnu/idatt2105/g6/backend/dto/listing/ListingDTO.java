@@ -34,6 +34,7 @@ public class ListingDTO {
     @NonNull
     private double price;
 
+    @ToString.Exclude
     private byte[] thumbnail;
     private List<byte[]> pictures = new ArrayList<>();
     private List<KeyInfo> keyInfoList = new ArrayList<>(); //TODO: change to String?

@@ -33,7 +33,6 @@ public class BookmarkController {
 
     @PostMapping("/save")
     @Operation(summary = "Save a item to bookmarks")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> save(@ParameterObject @RequestBody BookmarkDTO bookmark) {
         logger.info(bookmark.username() + " wants to save " + bookmark.itemId() + " in their bookmarks!");
         bookmarkService.addBookmark(bookmark);
@@ -43,7 +42,6 @@ public class BookmarkController {
 
     @PostMapping("/delete")
     @Operation(summary = "Delete a item from bookmarks")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody BookmarkDeletionDTO bookmark) {
         logger.info("Deleting bookmarks");
         bookmarkService.deleteBookmark(bookmark);
@@ -59,7 +57,6 @@ public class BookmarkController {
                             schema = @Schema(implementation = BookmarkLoadDTO.class)) })}
     )
     @Operation(summary = "Load all bookmarks")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllBookmarks(@ParameterObject @RequestBody UserDeletionDTO user) {
         logger.info("Loading all bookmarks from " + user.username());
         BookmarkLoadDTO bookmarks = bookmarkService.loadBookmarks(user);
