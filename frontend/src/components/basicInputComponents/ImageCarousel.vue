@@ -2,20 +2,10 @@
   <!-- template based on https://www.w3schools.com/howto/howto_js_slideshow.asp -->
   <div class="container" v-if="pictures">
     <div class="slides">
-      <div v-for="(picture, index) in pictures" v-bind:key="index">
-        <img v-bind:src="picture" alt="Slide" width="200" height="200">
-      </div>
+        <img v-bind:src="pictures[this.slideIndex]" alt="Slide" width="200" height="200">
     </div>
-    <IconArrow
-        class="prev"
-        v-on:click="changeSlides(-1)"
-        direction="left"
-    />
-    <IconArrow
-        class="next"
-        v-on:click="changeSlides(1)"
-        direction="right"
-    />
+    <a class="prev" @click="changeSlides(-1)">&#10094;</a>
+    <a class="next" @click="changeSlides(1)">&#10095;</a>
   </div>
 </template>
 
@@ -34,10 +24,14 @@ export default {
     },
   },
   methods: {
+
     changeSlides(n) {
+      console.log("Inne")
       this.slideIndex = (this.slideIndex + n) % this.pictures.length
+      console.log(this.slideIndex)
       this.currentPicture = this.pictures[this.slideIndex];
-    }
+      console.log(this.currentPicture)
+    },
   },
   setup(props) {
     const pictures = ref([])
@@ -77,26 +71,26 @@ export default {
    margin: auto;
 }
 
- /*
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
-}
-*/
-.prev {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-.next {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 1;
 }
 
 .numPictures{

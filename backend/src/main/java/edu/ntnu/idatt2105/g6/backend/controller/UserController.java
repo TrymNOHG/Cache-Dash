@@ -123,6 +123,20 @@ public class UserController {
         return ResponseEntity.ok(userLoadDTO);
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Load users of likeness")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading users",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserLoadDTO.class)) })}
+    )
+    public ResponseEntity<List<UserLoadDTO>> search(@ParameterObject @AuthenticationPrincipal UserDetails user) {
+        logger.info("Attempting to load users!");
+        List<UserLoadDTO> userLoadDTOList = userService.loadUsersByUsername(user.getUsername());
+        logger.info("Users has been loaded!");
+        return ResponseEntity.ok(userLoadDTOList);
+    }
+
     @GetMapping("/load/{username}")
     @Operation(summary = "Load user using current session token")
     @ApiResponses(value = {

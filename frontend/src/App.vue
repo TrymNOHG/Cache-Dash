@@ -9,8 +9,8 @@ import i18n from "@/locales/i18n";
     <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.png" width="100" height="100" />
     <div class="wrapper">
       <ul>
-        <RouterLink to="/admin/users">{{ $t ("users") }}</RouterLink>
-        <RouterLink to="/admin/categories_and_items">{{ $t ("categories and listings") }}</RouterLink>
+        <RouterLink to="/admin/users">{{ $t ("Users") }}</RouterLink>
+        <RouterLink to="/admin/categories_and_items">{{ $t ("Categories & Listings") }}</RouterLink>
         <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>
         <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
@@ -116,6 +116,9 @@ export default {
 
 <style>
 
+app{
+  height: 100vh;
+}
 header, footer{
   display: flex;
   justify-content: space-between;

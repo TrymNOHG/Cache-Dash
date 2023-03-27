@@ -26,6 +26,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -145,6 +146,18 @@ public class UserService implements IUserService {
     public UserLoadDTO loadUserDTOByUsername(String username) {
         return UserMapper.userLoadDTO(userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username)));
+    }
+
+    /**
+     Loads several users DTO information based on likeness.
+
+     @param username The username of the users to load.
+     @return The DTO containing the user's information.
+     @throws UsernameNotFoundException If the users is not found in the database.
+     */
+    public List<UserLoadDTO> loadUsersByUsername(String username) {
+        List<User> userList = userRepository.findByUsernameLike(username).orElseThrow(() -> new UserNotFoundException(username));
+        return userList.stream().map(UserMapper::userLoadDTO).toList();
     }
 
     /**

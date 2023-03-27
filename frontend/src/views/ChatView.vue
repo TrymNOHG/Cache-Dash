@@ -247,7 +247,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .page-layout {
   display: grid;

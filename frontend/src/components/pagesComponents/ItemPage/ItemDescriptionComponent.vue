@@ -46,12 +46,18 @@ export default {
     display: grid;
     grid-template-rows: 1fr 1fr 2fr 4fr;
     grid-gap: 10px;
+    border: black solid 2px;
+    background-color: #7EB09B;
+    opacity: 70%;
+
   }
   .short-description{
     border: #181818 solid 3px;
+    background-color: white;
   }
   .longer-description{
     border: #181818 solid 3px;
+    background-color: white;
 
   }
 </style>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
 import {loadAllCategories, loadMainCategories} from "@/services/CategoryService";
-import {filterByFullDesc, loadListingsByCategoryId} from "@/services/ItemService";
+import {loadListingsByCategoryId} from "@/services/ItemService";
 import { ref, computed, watch } from "vue"
 
 export const useLoggedInStore = defineStore('user', {
@@ -152,6 +152,7 @@ export const useItemStore = defineStore('item', {
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
         mainCategories: [],
+        categoryList: [],
         chosenCategory: null,
         chosenCategoryId: null
     }),
@@ -165,10 +166,19 @@ export const useCategoryStore = defineStore('categoryStore', {
         },
         getMainCategories() {
             return this.mainCategories;
+        },
+
+        async getSubCategories() {
+            return this.categoryList
         }
     },
 
     actions: {
+        async addNewCategory(userId, parent, newName) {
+            const category = { userId: userId, subCategory: newName, categoryId: parent}
+            await addCategory(category)
+        },
+
         async fetchMainCategories() {
             await loadMainCategories().then(response => {
                 this.mainCategories = []
@@ -188,11 +198,27 @@ export const useCategoryStore = defineStore('categoryStore', {
                 for(const category of subCategories) {
                     const { categoryId, categoryName, subCategories} = category
                     if(categoryId === mainCategoryId){
-                        this.categoryList.push({ categoryId, categoryName, subCategories })
+                        //this.categoryList.push(this.category)
+                        console.log("CategoryList" + this.categoryList)
+                        //this.categoryList.push({ categoryId, categoryName, subCategories })
                         console.log(categoryName)
                     }
                 }
+                this.categoryList = response.data.subCategories
+                console.log(response.data.subCategories)
+                console.log("CategoryList = " + this.categoryList)
             })
+        },
+
+
+        async fetchSubs(mainCategory){
+            await loadSubCategories(mainCategory).then((response => {
+                this.categoryList = []
+                for(const category of response.data) {
+                    const { categoryId, categoryName, subCategories } = category
+                    this.categoryList.push({ categoryId, categoryName, subCategories })
+                }
+            }))
         },
 
         getCategoryId(){

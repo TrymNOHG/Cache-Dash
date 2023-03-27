@@ -3,13 +3,19 @@
     <div>
     <mainpage-search-bar
       class="search"
+      v-model="searchField"
     />
     </div>
     <div class="user-side">
       <AdminEditUserComponent/>
     </div>
     <div class="items">
+      <MyItems
 
+          items=""
+          userRole='ADMIN'
+          user="admin"
+      />
     </div>
   </div>
 </template>
@@ -17,10 +23,18 @@
 <script>
 import AdminEditUserComponent from "@/components/pagesComponents/AdminPages/AdminEditUserComponent.vue";
 import MainpageSearchBar from "@/components/basicInputComponents/MainpageSearchBar.vue";
+import MyItems from "@/components/pagesComponents/UserPage/MyItemsComponent.vue";
 
 export default {
   name: "AdminUserView",
-  components: {MainpageSearchBar, AdminEditUserComponent}
+  components: {MyItems, MainpageSearchBar, AdminEditUserComponent},
+
+  data() {
+    return {
+      searchField: '',
+
+    }
+  }
 }
 </script>
 

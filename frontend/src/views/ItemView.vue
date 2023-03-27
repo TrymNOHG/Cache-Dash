@@ -50,6 +50,8 @@ export default {
   display: grid;
   grid-template-rows: 2fr 3fr 1fr;
   grid-template-columns: 1fr 3fr 2fr 1fr;
+  grid-gap: 5px;
+
 }
 
   .image-carousel{
@@ -63,8 +65,11 @@ export default {
   .item-description{
     grid-row: 2;
     grid-column: 2/3;
+    border: black solid 2px;
   }
   .seller-information{
+    border: black solid 2px;
+
     grid-row: 2 / 4;
     grid-column: 3;
   }
