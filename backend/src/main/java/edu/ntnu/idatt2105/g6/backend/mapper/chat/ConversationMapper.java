@@ -41,13 +41,12 @@ public class ConversationMapper {
      @return a new ConversationLoadDTO object with the conversation ID, messages, and usernames of the two users
      */
     public static ConversationLoadDTO loadConversation(Conversation conversation){
-        ConversationLoadDTO conversationLoadDTO = ConversationLoadDTO
+        return ConversationLoadDTO
                 .builder()
                 .conversationId(conversation.getConversationId())
-                .messages(conversation.getMessages())
+                .messages(conversation.getMessages().stream().map(MessageMapper::toMessageLoadDTO).toList())
                 .username1(conversation.getUser1().getUsername())
                 .username2(conversation.getUser2().getUsername())
                 .build();
-        return conversationLoadDTO;
     }
 }

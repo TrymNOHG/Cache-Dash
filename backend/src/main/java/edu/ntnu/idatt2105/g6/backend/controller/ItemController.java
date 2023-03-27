@@ -1,9 +1,9 @@
 package edu.ntnu.idatt2105.g6.backend.controller;
 
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDeletionDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingUpdateDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.*;
+import edu.ntnu.idatt2105.g6.backend.service.listing.CategoryService;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,9 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -25,12 +29,24 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     private final ItemService itemService;
+    private final CategoryService categoryService;
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
-    @PostMapping("/user/create")
+    @PostMapping(value="/user/create", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Create a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> create(@ParameterObject @RequestBody ListingDTO listing) {
+    public ResponseEntity<Object> create(@ParameterObject @RequestPart("listingDTO") String listingDTO,
+                                         @ParameterObject @RequestPart("images") List<MultipartFile> images) throws JsonProcessingException {
+        //TODO: add exception handling in this method, remove throws exception
+        ObjectMapper objectMapper = new ObjectMapper();
+        ListingDTO listing = objectMapper.readValue(listingDTO, ListingDTO.class);
+//        listing.setKeyInfoList(keyInfoList); //TODO: in service convert back to actual keyInfo while saving to db, remember transactional
+        List<byte[]> byteImages = images.stream().map(image -> {
+            return image.getBytes();
+        }).toList();
+        listing.setPictures(byteImages);
+        System.out.println(listing);
+//        listing.getPictures().add(thumbnail.getBytes());
         logger.info("A new listing is being created by: " + listing.toString());
         itemService.addListing(listing);
         logger.info("New listing has been added!");
@@ -66,11 +82,11 @@ public class ItemController {
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
             )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestBody String username) {
+    public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestParam String username) {
         logger.info("All listing by "+ username + " is being loaded!");
-        itemService.loadAllListingsByUsername(username);
+        List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
         logger.info("All listing by "+ username + " was loaded");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(items);
     }
 
     @GetMapping("/load")
@@ -87,7 +103,18 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-
-
+    @GetMapping("/category/{categoryId}/load")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading items of a given user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
+    )
+//    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<List<ListingLoadDTO>> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
+        logger.info("Looking for items under category Id: " + categoryId);
+        List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
+        logger.info("Items found: " + listings);
+        return ResponseEntity.ok(listings);
+    }
 
 }

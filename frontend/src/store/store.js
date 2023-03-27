@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
+import {loadMainCategories} from "@/services/CategoryService";
+import {loadListingsByCategoryId} from "@/services/ItemService";
 
 export const useLoggedInStore = defineStore('user', {
 
@@ -48,8 +50,56 @@ export const useLoggedInStore = defineStore('user', {
     }
 });
 
+export const useItemStore = defineStore('item', {
+    state: () => ({
+        item: {
+            "username": "Eirik",
+            "briefDesc": "Razor computer",
+            "fullDesc" : null,
+            "address" : "Tjome",
+            "county" :  "Vestfold",
+            "categoryId" : 2,
+            "price" : 3000,
+            "thumbnail" : null,
+            "keyInfoList" : []
+        },
+        items: [],
+        currentCategoryId: null
+    }),
+
+    getters: {
+        getItems() {
+            return this.items;
+        }
+    },
+
+    actions: {
+        async fetchItemsByCategoryId(categoryId) {
+            if(this.currentCategoryId === categoryId) return this.items
+            await loadListingsByCategoryId(categoryId)
+                .then(response => {
+                    this.items = [];
+
+                    for(const {itemId, username, briefDesc, fullDesc,
+                            address, county, categoryId, price,
+                            listingStatus, thumbnail, keyInfoList} of response.data){
+                        this.items.push({itemId, username, briefDesc, fullDesc,
+                            address, county, categoryId, price,
+                            listingStatus, thumbnail, keyInfoList})
+                    }
+
+                    this.currentCategoryId = categoryId
+                }).catch(error => {
+                    console.warn('error', error)
+                    //TODO: handle error
+                })
+        }
+    }
+});
+
 export const useCategoryStore = defineStore('categoryStore', {
     state: () => ({
+        mainCategories: [],
         category: {
             categoryId: null,
             mainCategoryId: null,
@@ -67,13 +117,30 @@ export const useCategoryStore = defineStore('categoryStore', {
         },
 
         allCategoryNames(){
-          let categoryNames = []
-          this.categoryList.forEach(category => categoryNames.push(category.subCategory))
-          return categoryNames;
+            let categoryNames = []
+            this.categoryList.forEach(category => categoryNames.push(category.subCategory))
+            return categoryNames;
+        },
+        getMainCategories() {
+            return this.mainCategories;
         }
     },
 
     actions: {
+        async fetchMainCategories() {
+            await loadMainCategories().then(response => {
+                this.mainCategories = []
+                for(const category of response.data) {
+                    const { categoryId, categoryName, subCategories } = category
+                    this.mainCategories.push({ categoryId, categoryName, subCategories })
+                }
+            }).catch(error => {
+                console.log('error' , error)
+            })
+        },
+        async fetchSubCategoriesByMainId(categoryId) {
+            //TODO: this...
+        },
         setCorrectCategory(categoryName){
             for (let i = 0; i < this.categoryList.length; i++) {
                 if (this.categoryList.at(i).subCategory === categoryName){

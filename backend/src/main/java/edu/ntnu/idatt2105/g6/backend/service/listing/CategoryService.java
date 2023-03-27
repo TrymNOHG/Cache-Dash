@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -130,8 +131,6 @@ public class CategoryService implements ICategoryService{
         categoryRepository.deleteById(categoryDTO.categoryId());
     }
 
-
-
     /**
      This method loads all the subcategories of a given root category.
 
@@ -140,11 +139,22 @@ public class CategoryService implements ICategoryService{
      @throws CategoryNotFound If the root category is not found in the database.
      */
     @Override
-    public CategoryDTO loadSubCategories(String mainCategory) {
-        return CategoryMapper.toCategoryDTO(
-                categoryRepository.findBySubCategory(mainCategory)
-                .orElseThrow(() -> new CategoryNotFound(mainCategory))
-        );
+    public CategoryDTO loadSubCategories(Long mainCategoryId) {
+        return CategoryMapper.toCategoryDTO(categoryRepository.findById(mainCategoryId)
+                        .orElseThrow(() -> new CategoryNotFound(mainCategoryId)));
+    }
+
+    /**
+     * This method finds the root category, given as the id 0. This root category holds a list of its
+     * sub-categories, which continues downwards.
+     * @param mainCategoryId  Name of root category, given as a String.
+     * @return              Main category, wrapped in a CategoryDTO object.
+     */
+    @Override
+    public List<CategoryDTO> loadSubCategoriesShallow(Long mainCategoryId) {
+        return categoryRepository.findById(mainCategoryId)
+                .orElseThrow(() -> new CategoryNotFound(mainCategoryId)).getSubCategories()
+                .stream().map(CategoryMapper::toShallowCategoryDTO).toList();
     }
 
 }

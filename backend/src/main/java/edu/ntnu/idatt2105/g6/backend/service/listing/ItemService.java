@@ -15,13 +15,16 @@ import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.ItemRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import edu.ntnu.idatt2105.g6.backend.specification.ItemSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,6 +77,23 @@ public class ItemService implements IItemService{
      * @return A list of all listings as ListingLoadDTOs.
      */
     @Override
+    public List<ListingLoadDTO> loadAllListingsByCategoryId(Long categoryId) {
+        List<ListingLoadDTO> listings = new ArrayList<>();
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFound(categoryId));
+        Specification<Item> specification = ItemSpecifications.itemsUnderCategory(category);
+
+        logger.info("Sub categories of " + categoryId + ": " + category.getSubCategory());
+        category.getSubCategories()
+                .forEach(subCategory -> listings.addAll(loadAllListingsByCategoryId(subCategory.getCategoryId())));
+        listings.addAll(itemRepository.findAll(specification)
+                .stream().map(ListingMapper::toListing).toList());
+
+        return listings;
+    }
+
+
+    @Override
     public List<ListingLoadDTO> loadAllListings() {
         List<Item> listings = itemRepository.findAll();
         return listings.stream()
@@ -121,6 +141,8 @@ public class ItemService implements IItemService{
         Item item = ListingMapper.toItem(user, category, listing);
         item.setStatus(ListingStatus.ACTIVE);
         itemRepository.save(item);
+
+        //TODO: save the pictures to picture gallery
 
         logger.info("The listing has been saved!");
     }

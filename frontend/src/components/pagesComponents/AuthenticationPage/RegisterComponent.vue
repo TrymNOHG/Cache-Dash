@@ -48,20 +48,18 @@
               v-model="phonenumber"
               :error="errors.phoneNumber"
           />
-        <div>
-            <BasicCheckbox
-                v-model="termOfService"
-                :error="errors.termOfService"
-            >
-            </BasicCheckbox>
+          <BasicCheckbox
+              id="checkBox"
+              v-model="termOfService"
+              :error="errors.termOfService"
+              data-cy="terms-checkbox"
+          />
 
             <label id="termsInput" for="termsInput" @click="$router.push('/register/terms')">{{ $t('termsOfService') }}</label>
           </div>
-        </div>
         <div class="button-group">
           <button
               id="submit_button"
-              :disabled="hasErrors"
               type="submit"
               class="-fill-gradient"
           >

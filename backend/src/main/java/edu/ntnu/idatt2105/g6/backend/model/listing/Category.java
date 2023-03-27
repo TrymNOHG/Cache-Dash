@@ -2,8 +2,12 @@ package edu.ntnu.idatt2105.g6.backend.model.listing;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,6 +45,7 @@ public class Category {
      The set of sub-categories under this category.
      */
     @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private Set<Category> subCategories = new HashSet<>();
 
@@ -51,5 +56,10 @@ public class Category {
     @JoinColumn(name = "main_category_id", referencedColumnName = "category_id", nullable = true)
     @ToString.Exclude
     private Category mainCategory;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
+    private List<Item> itemsWithCategory = new ArrayList<>();
 
 }

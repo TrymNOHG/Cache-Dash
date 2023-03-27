@@ -14,4 +14,6 @@ public interface IChatService {
     List<ConversationLoadDTO> loadAllConversations(String username);
     void addMessage(MessageDTO messageDTO);
 
+    void deleteConversation(Long conversationId);
+
 }

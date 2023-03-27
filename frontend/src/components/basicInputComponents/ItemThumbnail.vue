@@ -1,8 +1,8 @@
 <template>
   <div class="thumbnail">
-    <figure class="picture"> {{picture}} </figure>
-    <label class="description"> {{description}} </label>
-    <label class="cost"> {{cost}} </label>
+    <figure class="picture"> {{}} </figure>
+    <label class="description"> {{item.briefDesc}} </label>
+    <label class="cost"> {{item.price}} </label>
   </div>
 </template>
 
@@ -11,9 +11,10 @@ export default {
   name: "ItemThumbnail",
 
   props: {
-    picture: null,
-    description:'',
-    cost:''
+    item: {
+      type: Object,
+      required: true
+    }
   }
 }
 </script>

@@ -101,7 +101,7 @@ public class ChatServiceIntegrationTest {
             userRepository.save(user1);
             userRepository.save(user2);
             chatService.startConversation(conversationDTO);
-            String message = chatService.loadConversation(1L).getMessages().get(0).getMessage();
+            String message = chatService.loadConversation(1L).getMessages().get(0).message();
             assertEquals("Hello World", message);
 
         }

@@ -5,10 +5,10 @@ import i18n from "@/locales/i18n";
 
 <template>
   <header>
-    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="100" height="100" />
+    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.png" width="100" height="100" />
     <div class="wrapper">
       <ul>
-        <RouterLink to="/simpleForm">{{ $t ("chat") }}</RouterLink>
+        <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>
         <RouterLink to="/newItem">{{ $t ("newItem") }}</RouterLink>
         <RouterLink to="/auction">{{ $t ("auctions") }}</RouterLink>
         <div class="language" @click="changeLanguage()">{{language}}</div>
@@ -72,7 +72,8 @@ header, footer{
 }
 
 .logo:hover{
-  background-color: #D9D9D9;
+  background-color: rgba(18, 33, 34, 0.81);
+  color: #818b96;
 }
 
 nav {

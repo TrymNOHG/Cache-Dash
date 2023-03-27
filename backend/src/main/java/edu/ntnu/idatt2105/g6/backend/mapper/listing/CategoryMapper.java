@@ -37,11 +37,28 @@ public class CategoryMapper {
     /**
      * Maps a Category object to a CategoryDTO object.
      *
-     * @param rootCategory The Category object to map.
+     * @param Category The Category object to map.
      * @return The newly created CategoryDTO object.
      */
-    public static CategoryDTO toCategoryDTO(Category rootCategory) {
-        CategoryDTO categoryDTO = new CategoryDTO(rootCategory);
+
+    public static CategoryDTO toCategoryDTO(Category category) {
+        CategoryDTO categoryDTO = CategoryDTO
+                .builder()
+                .categoryId(category.getCategoryId())
+                .categoryName(category.getSubCategory())
+                .subCategories(category.getSubCategories().stream().map(CategoryMapper::toCategoryDTO).toList())
+                .build();
+
+        return categoryDTO;
+    }
+
+    public static CategoryDTO toShallowCategoryDTO(Category category) {
+        CategoryDTO categoryDTO = CategoryDTO
+                .builder()
+                .categoryId(category.getCategoryId())
+                .categoryName(category.getSubCategory())
+                .subCategories(null)
+                .build();
 
         return categoryDTO;
     }

@@ -11,7 +11,7 @@
 
     <div class="profile-information">
       <label>{{$t('username')}}</label>
-        <textarea v-if="edit">{{ user.username }}</textarea>
+        <basic-input v-if="edit">{{ user.username }}</basic-input>
         <label v-else>{{user.username}}</label>
       <label>{{$t('fullName')}}:</label>
         <textarea v-if="edit">{{ user.fullName }}</textarea>
@@ -31,10 +31,7 @@
       <label>{{$t('zipCode')}}:</label>
         <textarea v-if="edit">{{ zipCode }}</textarea>
         <label v-else>{{  }}</label>
-      <div class="contact-Checkbox">
-        <basic-checkbox
-            label=' Show contact information and address in your listings'></basic-checkbox>
-      </div>
+
 
     </div>
     <div class="edit-button">
@@ -45,6 +42,7 @@
 
 <script setup>
 import { useLoggedInStore } from "@/store/store";
+import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 
 const store = useLoggedInStore()
 store.fetchUser()

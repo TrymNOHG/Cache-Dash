@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.metamodel.StaticMetamodel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +91,9 @@ public class Item {
     /**
      * The thumbnail image for this item.
      */
-    @Column(name = "thumbnail")
+    @Lob
+    @Column(name = "thumbnail", columnDefinition="longblob")
+    @ToString.Exclude
     private byte[] thumbnail;
 
     /**

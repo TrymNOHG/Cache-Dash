@@ -3,6 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.repo.listing;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import java.util.Optional;
  search functionality using specifications.
  */
 @Repository
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
 
     /**
      * Finds an item by its item ID.
@@ -27,6 +28,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      */
     Optional<Item> findByItemId(Long itemId);
 
+
+    Optional<List<Item>> findItemsByCategory_CategoryId(Long categoryId);
     /**
      * Finds a list of items by their main category.
      *

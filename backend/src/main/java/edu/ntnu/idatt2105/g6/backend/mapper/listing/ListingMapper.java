@@ -32,8 +32,8 @@ public class ListingMapper {
                 .category(category)
                 .price(listingDTO.getPrice())
                 .status(ListingStatus.ACTIVE)
-                .thumbnail(listingDTO.getThumbnail())
-                .keyInfoList(listingDTO.getKeyInfoList())
+                .thumbnail(listingDTO.getPictures() == null || listingDTO.getPictures().isEmpty()  ? null : listingDTO.getPictures().get(0))
+                .keyInfoList(listingDTO.getKeyInfoList()) //TODO: need to give a List<KeyInfo>
                 .build();
         return item;
     }
