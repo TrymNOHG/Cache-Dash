@@ -1,7 +1,7 @@
 <template>
   <div class="item-description-window">
     <div>
-      <IconBookmark></IconBookmark>
+      <IconBookmark :item-id="item.itemId"></IconBookmark>
     </div>
     <div>
       <h2> {{ item.username }} </h2>

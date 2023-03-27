@@ -5,6 +5,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
+import edu.ntnu.idatt2105.g6.backend.exception.exists.BookmarkExistsException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.BookmarkNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.ItemNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
@@ -17,6 +18,8 @@ import edu.ntnu.idatt2105.g6.backend.repo.listing.ItemRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.BookmarkRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +37,7 @@ public class BookmarkService implements IBookmarkService{
     private final BookmarkRepository bookmarkRepository;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final Logger logger = LoggerFactory.getLogger(BookmarkService.class);
 
     /**
      * Adds a bookmark to an item for a user.
@@ -47,7 +51,13 @@ public class BookmarkService implements IBookmarkService{
     public void addBookmark(BookmarkDTO bookmarkDTO) {
         Item item = itemRepository.findByItemId(bookmarkDTO.itemId()).orElseThrow(() -> new ItemNotFoundException(bookmarkDTO.itemId()));
         User user = userRepository.findByUsername(bookmarkDTO.username()).orElseThrow(() -> new UserNotFoundException(bookmarkDTO.username()));
+
+        logger.info("Checking if bookmark already exists");
+        if(bookmarkRepository.findByItemAndUser(item, user).isPresent()) throw new BookmarkExistsException();
+
         Bookmark bookmark = BookmarkMapper.toBookmark(item, user);
+        logger.info("Saving bookmark: " + bookmark);
+
         bookmarkRepository.save(bookmark);
     }
 
