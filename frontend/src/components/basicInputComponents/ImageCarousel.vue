@@ -22,15 +22,38 @@
 
 <script>
 import IconArrow from "@/components/icons/IconArrow.vue";
+import {useRoute} from "vue-router";
+import {ref} from "vue";
+import {loadListingByItemId} from "@/services/ItemService";
 
 export default {
   name: "imageCarousel",
   components: {IconArrow},
   props: {
-    pictures: {
-      type: Array,
+    itemId: {
+      type: Number,
       required: true
     },
+  },
+  setup(props) {
+    const item = ref(null)
+
+    loadListingByItemId(props.itemId).then(response => {
+      const {itemId, username, briefDesc, fullDesc,
+        address, county, categoryId, price,
+        listingStatus, thumbnail, keyInfoList} = response.data
+
+      item.value = {itemId, username, briefDesc, fullDesc,
+        address, county, categoryId, price,
+        listingStatus, thumbnail, keyInfoList}
+    }).catch(error => {
+      console.log('error: ', error)
+    })
+
+    return {
+      item
+    }
+
   },
   data(){
     return{

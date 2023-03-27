@@ -86,6 +86,9 @@ public class User implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
+    /**
+     * The profile picture of the user, can be null
+     */
     @Column(name = "profile_picture", columnDefinition="longblob")
     @Lob
     private byte[] picture;

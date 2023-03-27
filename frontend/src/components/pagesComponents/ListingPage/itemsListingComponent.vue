@@ -1,7 +1,7 @@
 <template>
   <div class="itemsListing-window">
     <div v-for="item in items" key="listingView.id" class="item-list">
-      <router-link :to="{name : 'itemView', params : { name: this.categoryName.toString(), id: item.itemId, item: item}}" class="link">
+      <router-link :to="{name : 'itemView', params : { name: this.categoryName.toString(), id: item.itemId}}" class="link">
         <ItemThumbnail :item="item"/>
       </router-link>
     </div>

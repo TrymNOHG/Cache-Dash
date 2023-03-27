@@ -26,7 +26,6 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-//    @ExceptionHandler(UserNotFoundException.class)
     @PostMapping("/admin/save")
     @Operation(summary = "Create a new category")
     public ResponseEntity<Object> save(@ParameterObject @RequestBody CategoryEditDTO category) {
@@ -38,7 +37,6 @@ public class CategoryController {
 
     @PostMapping("/admin/delete")
     @Operation(summary = "Delete a category")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody CategoryEditDTO category) {
         logger.info("Attempting to delete category");
         //TODO add func
@@ -46,7 +44,6 @@ public class CategoryController {
         return ResponseEntity.ok().build();
     }
 
-    //TODO: fix DTO for loadBookmarks why UserDeletionDTO
     @GetMapping("/load/all")
     @Operation(summary = "Load all categories")
     @ApiResponses(value = {
@@ -54,7 +51,6 @@ public class CategoryController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = CategoryDTO.class)) })}
     )
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestBody Long categoryId) {
         logger.info("Attempting to load all categories");
         CategoryDTO mainCategory = categoryService.loadSubCategories(categoryId);
@@ -69,7 +65,6 @@ public class CategoryController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = CategoryDTO.class)) })}
     )
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<List<CategoryDTO>> loadMainCategories() {
         logger.info("Retrieving main categories...");
         List<CategoryDTO> mainCategories = categoryService.loadSubCategoriesShallow(1L);

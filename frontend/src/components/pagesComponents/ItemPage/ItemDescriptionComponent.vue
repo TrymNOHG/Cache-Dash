@@ -4,14 +4,14 @@
       <IconBookmark></IconBookmark>
     </div>
     <div>
-      <h2> {{ item }} </h2>
-      <h3> {{ item }} </h3>
+      <h2> {{ item.username }} </h2>
+      <h3> {{ item.price }} </h3>
     </div>
     <div class="short-description">
-      <p>{{ item }}</p>
+      <p>{{ item.briefDesc }}</p>
     </div>
     <div class="longer-description">
-      <p>#long description</p>
+      <p>{{ item.fullDesc }}</p>
     </div>
   </div>
 </template>

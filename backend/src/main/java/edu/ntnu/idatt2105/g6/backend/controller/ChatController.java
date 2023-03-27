@@ -31,7 +31,6 @@ public class ChatController {
 
     @PostMapping("/new")
     @Operation(summary = "Create new conversation")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> startConversation(@ParameterObject @RequestBody ConversationDTO conversation) {
         logger.info("User with username: "  + conversation.getUsername1());
         logger.info("Is trying to start a conversation with: " + conversation.getUsername2());
@@ -44,7 +43,6 @@ public class ChatController {
 
     @PostMapping("/send")
     @Operation(summary = "Send message")
-//    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> saveMessage(@ParameterObject @RequestBody MessageDTO message) {
         chatService.addMessage(message);
         logger.info("A message was sent from " + message.username());
