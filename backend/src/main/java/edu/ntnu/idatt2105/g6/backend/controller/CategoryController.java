@@ -44,18 +44,32 @@ public class CategoryController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/load/all")
+    @GetMapping("/load/all/{categoryId}")
     @Operation(summary = "Load all categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading categories",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = CategoryDTO.class)) })}
     )
-    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestBody Long categoryId) {
+    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @PathVariable Long categoryId) {
         logger.info("Attempting to load all categories");
         CategoryDTO mainCategory = categoryService.loadSubCategories(categoryId);
         logger.info("All categories were loaded");
         return ResponseEntity.ok(mainCategory);
+    }
+
+    @GetMapping("/load/sub/{categoryId}")
+    @Operation(summary = "Load level 1 sub categories of a category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading 1 level 1 sub categories of a category",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CategoryDTO.class)) })}
+    )
+    public ResponseEntity<List<CategoryDTO>> loadSubCategoriesShall(@ParameterObject @PathVariable Long categoryId) {
+        logger.info("Retrieving level 1 sub categories...");
+        List<CategoryDTO> subCategories = categoryService.loadSubCategoriesShallow(categoryId);
+        logger.info("The sub categories are: " + subCategories);
+        return ResponseEntity.ok().body(subCategories);
     }
 
     @GetMapping("/load/main")

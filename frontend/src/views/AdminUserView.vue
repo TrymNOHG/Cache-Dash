@@ -12,7 +12,7 @@
     <div class="items">
       <MyItems
 
-
+          items=""
           userRole='ADMIN'
           user="admin"
       />
