@@ -37,7 +37,7 @@ public class PictureGallery {
     /**
      The picture of the item in the picture gallery, stored as a byte array.
      */
-    @Column(name = "picture", nullable = false)
+    @Column(name = "picture", nullable = false, columnDefinition="longblob")
     @Lob
     private byte @NonNull [] picture;
 

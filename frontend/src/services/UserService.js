@@ -21,12 +21,11 @@ export const getUser = async () => {
 }
 
 export const updateUser = async (userUpdateDTO) => {
-    return axios.post(`${BASE_USER_URL}/update`, {
+    console.log(userUpdateDTO)
+    return axios.put(`${BASE_USER_URL}/update`, userUpdateDTO, {
         headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${await SessionToken()}`
         },
-        body: {
-            userUpdateDTO
-        }
     });
 }

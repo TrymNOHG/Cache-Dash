@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.dto.listing;
 
 
 import edu.ntnu.idatt2105.g6.backend.model.listing.KeyInfo;
+import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
 import lombok.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -15,6 +16,7 @@ public record ListingUpdateDTO(@NonNull String username,
                                @Nullable String county,
                                @Nullable String category,
                                @Nullable Double price,
+                               @Nullable ListingStatus listingStatus,
                                @Nullable byte[] thumbnail,
                                @Nullable List<KeyInfo> keyInfoList
                             ) {

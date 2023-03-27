@@ -2,8 +2,6 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 
 import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.CategoryEditDTO;
-import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
-import edu.ntnu.idatt2105.g6.backend.repo.chat.ConversationRepository;
 import edu.ntnu.idatt2105.g6.backend.service.listing.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

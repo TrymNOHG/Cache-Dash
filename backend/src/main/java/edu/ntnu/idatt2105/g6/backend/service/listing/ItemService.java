@@ -157,25 +157,25 @@ public class ItemService implements IItemService{
     @Transactional
     @Override
     public void updateListing(ListingUpdateDTO listingUpdateDTO) {
+        User user = userRepository.findByUsername(listingUpdateDTO.username())
+                .orElseThrow(() -> new UserNotFoundException(listingUpdateDTO.username()));
         Item item = itemRepository.findByItemId(listingUpdateDTO.itemId())
                     .orElseThrow(() -> new ItemNotFoundException(listingUpdateDTO.itemId()));
-        item = Item.builder()
-                .itemId(item.getItemId())
-                .user(item.getUser())
-                .briefDesc(listingUpdateDTO.briefDesc() != null ? listingUpdateDTO.briefDesc() : item.getBriefDesc())
-                .fullDesc(listingUpdateDTO.fullDesc() != null ? listingUpdateDTO.fullDesc() : item.getFullDesc())
-                .address(listingUpdateDTO.address() != null ? listingUpdateDTO.address() : item.getAddress())
-                .county(listingUpdateDTO.county() != null ? listingUpdateDTO.county() : item.getCounty())
-                .category(listingUpdateDTO.category() != null
+        item.setBriefDesc(listingUpdateDTO.briefDesc() != null ? listingUpdateDTO.briefDesc() : item.getBriefDesc());
+        item.setFullDesc(listingUpdateDTO.fullDesc() != null ? listingUpdateDTO.fullDesc() : item.getFullDesc());
+        item.setAddress(listingUpdateDTO.address() != null ? listingUpdateDTO.address() : item.getAddress());
+        item.setCounty(listingUpdateDTO.county() != null ? listingUpdateDTO.county() : item.getCounty());
+        item.setCategory(listingUpdateDTO.category() != null
                         ? categoryRepository.findBySubCategory(listingUpdateDTO.category())
                             .orElseThrow(() -> new CategoryNotFound(listingUpdateDTO.category()))
-                        : item.getCategory())
-                .price(listingUpdateDTO.price() != null ? listingUpdateDTO.price() : item.getPrice())
-                .status(item.getStatus())
-                .thumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail())
-                .keyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList())
-                .bookmarkerList(item.getBookmarkerList())
-                .build();
+                        : item.getCategory());
+        item.setPrice(listingUpdateDTO.price() != null ? listingUpdateDTO.price() : item.getPrice());
+        item.setStatus(listingUpdateDTO.listingStatus() != null ? listingUpdateDTO.listingStatus() : item.getStatus());
+        item.setThumbnail(listingUpdateDTO.thumbnail() != null ? listingUpdateDTO.thumbnail() : item.getThumbnail());
+        item.setKeyInfoList(listingUpdateDTO.keyInfoList() != null ? listingUpdateDTO.keyInfoList() : item.getKeyInfoList());
+        item.setUser(user);
+
+        logger.info("New item: " + item.toString());
 
         itemRepository.save(item);
     }

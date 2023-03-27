@@ -49,7 +49,7 @@ public class UserServiceIntegrationTest {
             authenticationService.register(userCreateDTO);
 
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Test", null, "Mr Test", null, null, null, null, null);
-            userService.updateUser(userUpdateDTO);
+            userService.updateUser(userUpdateDTO, null);
 
             User user = userRepository.findByUsername("Test").orElseThrow();
             System.out.println(user);
@@ -64,7 +64,7 @@ public class UserServiceIntegrationTest {
             authenticationService.register(userCreateDTO);
             User user1 = userRepository.findByUsername("Test").orElseThrow();
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Test", null, null, null, null, null, null, null);
-            userService.updateUser(userUpdateDTO);
+            userService.updateUser(userUpdateDTO, null);
             User user2 = userRepository.findByUsername("Test").orElseThrow();
 
             assertEquals(user1, user2);
@@ -79,7 +79,7 @@ public class UserServiceIntegrationTest {
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Nothing here", null, null, null, null, null, null, null);
 
             assertThrows(UserNotFoundException.class, () -> {
-                userService.updateUser(userUpdateDTO);
+                userService.updateUser(userUpdateDTO, null);
             });
 
         }
@@ -94,7 +94,7 @@ public class UserServiceIntegrationTest {
             UserUpdateDTO userUpdateDTO = new UserUpdateDTO("Test", "Existing", null, null, null, null, null, null);
 
             assertThrows(UserExistsException.class, () -> {
-                userService.updateUser(userUpdateDTO);
+                userService.updateUser(userUpdateDTO, null);
             });
 
         }
