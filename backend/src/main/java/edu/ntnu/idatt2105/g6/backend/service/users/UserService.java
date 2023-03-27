@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.service.users;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserLoadDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserPasswordUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.exists.UserExistsException;
@@ -10,8 +11,17 @@ import edu.ntnu.idatt2105.g6.backend.mapper.users.UserMapper;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
+import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
+import edu.ntnu.idatt2105.g6.backend.service.security.AuthenticationService;
+import edu.ntnu.idatt2105.g6.backend.service.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +42,11 @@ public class UserService implements IUserService {
      * The UserRepository used to access the user database.
      */
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationProvider authenticationProvider;
 
+
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
     /**
      * This method updates a user's information.
      * It first checks if the given user exists in the database. It then checks if the new username already exists,
@@ -66,6 +80,33 @@ public class UserService implements IUserService {
 
         userRepository.save(user);
 
+    }
+
+    /**
+     * This method allows a user to update their password; however, only if the user provided the correct
+     * old password. Additionally, the new password is hashed and salted using BCrypt.
+     * @param userPasswordUpdateDTO Old and new password, given as a UserPasswordUpdateDTO
+     * @param username              Username of the user, given as a String
+     */
+    @Transactional
+    @Override
+    public void updateUserPassword(UserPasswordUpdateDTO userPasswordUpdateDTO, String username){
+
+        logger.info("Checking if " + username + " is a registered username");
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+
+        logger.info("Authenticating " + username);
+        authenticationProvider.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        username,
+                        userPasswordUpdateDTO.oldPassword()
+                )
+        );
+
+        user.setPassword(passwordEncoder.encode(userPasswordUpdateDTO.newPassword()));
+        userRepository.save(user);
+
+        logger.info("New Password Set");
     }
 
     /**

@@ -83,7 +83,7 @@
 
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
-import { updateUser } from "@/services/UserService"
+import {updateUser, updateUserPassword} from "@/services/UserService"
 import * as store from "@/services/UserService";
 import {useItemStore, useLoggedInStore} from "@/store/store";
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
@@ -177,19 +177,25 @@ export default {
       const completeUserDTO = new FormData();
       completeUserDTO.append('userUpdateDTO', JSON.stringify(userDTO))
       console.log('User picture: ' + user.picture)
-      completeUserDTO.append('profilePicture', user.picture)
+      completeUserDTO.set('profilePicture', user.picture)
 
       return completeUserDTO;
     },
 
     saveNewPassword() {
-      console.log(this.updatedPassword.newPassword)
-      console.log(this.updatedPassword.oldPassword)
 
-      //TODO: OLD PASSWORD MÅ SJEKKES OM STEMMER, IF JAZZ, SETTE NEW PASSWORD
-      //Trymmær skriv kode her!
+      const userPasswordUpdateDTO = {
+        oldPassword: this.updatedPassword.oldPassword,
+        newPassword: this.updatedPassword.newPassword
+      }
 
-      //TODO: PÅ SLUTTEN MÅ DU RESETTE VERIENE
+      updateUserPassword(userPasswordUpdateDTO).then(response => {
+        alert("Password has successfully been changed")
+      }).catch(error => {
+        alert("Something went wrong. Try writing old password again or logging out and in.")
+      })
+
+
       this.updatedPassword = {
         oldPassword: '',
         newPassword: ''
