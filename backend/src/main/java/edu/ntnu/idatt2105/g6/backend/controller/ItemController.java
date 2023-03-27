@@ -66,7 +66,7 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/update")
+    @PutMapping("/user/update")
     @Operation(summary = "Update a listing")
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
         logger.info(listing.toString() + " is being updated!");

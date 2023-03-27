@@ -13,6 +13,8 @@ import categoryCard from "@/components/pagesComponents/MainPage/CategoryCardComp
 import listingView from "@/views/ListingView.vue";
 import itemView from "@/views/ItemView.vue";
 import ChatView from "@/views/ChatView.vue";
+import adminUserView from "@/views/AdminUserView.vue";
+import AdminCategoryView from "@/views/AdminCategoryView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -85,7 +87,18 @@ const router = createRouter({
             path: '/chat',
             name: 'chat',
             component: ChatView
-        }
+        },
+
+        {
+            path: '/admin/users',
+            name: 'AdminUserView',
+            component: adminUserView
+        },
+        {
+            path: '/admin/categories_and_items',
+            name: 'AdminCategory',
+            component:AdminCategoryView
+        },
 
     ]
 })

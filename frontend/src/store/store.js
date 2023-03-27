@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
-import {loadMainCategories} from "@/services/CategoryService";
+import {loadAllCategories, loadMainCategories} from "@/services/CategoryService";
 import {loadListingsByCategoryId} from "@/services/ItemService";
+import { ref, computed, watch } from "vue"
 
 export const useLoggedInStore = defineStore('user', {
-
 
     state: () => ({
         sessionToken: null,
@@ -28,13 +28,15 @@ export const useLoggedInStore = defineStore('user', {
             return this.user;
         },
         getSessionToken() {
+            if (this.sessionToken === null) return localStorage.getItem("sessionToken")
             return this.sessionToken;
         }
     },
 
     actions: {
         setSessionToken(sessionToken) {
-            this.sessionToken = sessionToken
+            this.sessionToken = sessionToken;
+            if (localStorage.getItem("sessionToken") === null) localStorage.setItem("sessionToken", sessionToken)
         },
         async fetchUser() {
             await getUser()
@@ -134,8 +136,19 @@ export const useCategoryStore = defineStore('categoryStore', {
                 console.log('error' , error)
             })
         },
-        async fetchSubCategoriesByMainId(categoryId) {
-            //TODO: this...
+        async fetchSubCategoriesByMainId(mainCategoryId) {
+            await loadAllCategories(mainCategoryId).then(response => {
+                this.categoryList = []
+                const { categoryId, categoryName, subCategories } = response.data
+                this.categoryList.push({ categoryId, categoryName, "mainCategoryId" : null })
+                for(const category of subCategories) {
+                    const { categoryId, categoryName, subCategories} = category
+                    if(categoryId === mainCategoryId){
+                        this.categoryList.push({ categoryId, categoryName, subCategories })
+                        console.log(categoryName)
+                    }
+                }
+            })
         },
 
         getCategoryId(){
