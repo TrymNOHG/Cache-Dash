@@ -9,6 +9,7 @@ public interface IUserService {
     void updateUser(UserUpdateDTO userUpdateDTO, byte[] profilePicture);
     void deleteUser(UserDeletionDTO userDeletionDTO);
 
+
     UserLoadDTO loadUserDTOByUsername(String username);
 
 

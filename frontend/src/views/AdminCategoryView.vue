@@ -39,7 +39,12 @@ export default {
 </script>
 
 <style scoped>
+  body{
+    margin: 0px;
+    height: 100%;
+  }
   .admin-catagory-window{
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
