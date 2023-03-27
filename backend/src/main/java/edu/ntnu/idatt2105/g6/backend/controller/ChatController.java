@@ -49,7 +49,7 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/load", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/load/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Load conversation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading conversations",
@@ -57,7 +57,7 @@ public class ChatController {
                             schema = @Schema(implementation = ConversationLoadDTO.class)) })
     })
     @ResponseBody
-    public ResponseEntity<Object> loadConversations(@ParameterObject @RequestBody String username) {
+    public ResponseEntity<Object> loadConversations(@ParameterObject @PathVariable String username) {
         logger.info("All conversations with " +username + " is being loaded");
         List<ConversationLoadDTO> conversations = chatService.loadAllConversations(username);
         logger.info("All conversations with " +username + " was loaded");
