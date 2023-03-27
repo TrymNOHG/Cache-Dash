@@ -6,16 +6,8 @@
         <img v-bind:src="picture" alt="Slide" width="200" height="200">
       </div>
     </div>
-    <IconArrow
-        class="prev"
-        v-on:click="changeSlides(-1)"
-        direction="left"
-    />
-    <IconArrow
-        class="next"
-        v-on:click="changeSlides(1)"
-        direction="right"
-    />
+    <a class="prev" onclick="changeSlides(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlides(1)">&#10095;</a>
   </div>
 </template>
 
@@ -77,26 +69,26 @@ export default {
    margin: auto;
 }
 
- /*
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
-}
-*/
-.prev {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-.next {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 1;
 }
 
 .numPictures{
