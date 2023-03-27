@@ -52,27 +52,18 @@
       </div>
 
       <div class="profile-picture-window">
-        <div v-if="edit">
-          <div
-              class="base-image-input"
-              :style="{ 'background-image': `url(${user.picture})` }"
-          >
-            <span
-                v-if="!user.picture"
-                class="placeholder"
-            >
-              Choose an Image
-            </span>
-            <input class="input-image" ref="fileInput" type="file" @input="whenSelected"/>
-          </div>
-          <div/>
+        <div class="base-image-input" v-if="user.picture" :style="{ 'background-image': `url(${user.picture})` }">
+          <img :src="user.picture ? user.picture : ''" alt="Profile picture" />
+          <span v-if="!user.picture" class="placeholder">Choose an Image</span>
         </div>
+        <input v-if="edit" class="input-image" ref="fileInput" type="file" @input="whenSelected"/>
       </div>
-    <div class="edit-button">
-      <button id="edit-info" @click="editUser()" >{{ button_name }}</button>
+
+      <div class="edit-button">
+        <button id="edit-info" @click="editUser()" >{{ button_name }}</button>
+      </div>
     </div>
   </div>
-    </div>
 </template>
 
 <script>
@@ -165,6 +156,11 @@ export default {
 </script>
 
 <style scoped>
+
+img{
+  height: 200px;
+  width: 200px;
+}
 
 .container{
     background-color: #7EB09B;

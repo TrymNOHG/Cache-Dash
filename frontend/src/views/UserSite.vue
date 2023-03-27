@@ -5,8 +5,8 @@
       <div class="link" @click="whatToShow(true)">Archive</div>
     </div>
     <div class="userInformation-window">
-      <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="userItems" />
-      <user-archive v-else style="overflow-y:auto" :items="userItems"/>
+      <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="nonArchivedItems" />
+      <user-archive v-else style="overflow-y:auto" :items="archivedItems"/>
       <personal-information/>
     </div>
   </div>
@@ -18,7 +18,7 @@ import MyItems from "@/components/pagesComponents/UserPage/MyItemsComponent.vue"
 import UserArchive from "@/components/pagesComponents/UserPage/UserArchive.vue";
 import {useLoggedInStore} from "@/store/store";
 import {loadListingByUser} from "@/services/ItemService";
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 
 export default {
@@ -44,10 +44,22 @@ export default {
 
     loadItems();
 
+    // filter out archived items
+    const nonArchivedItems = computed(() => {
+      return userItems.value.filter(item => item.listingStatus === 'ACTIVE' );
+    });
+
+    // filter out non-archived items
+    const archivedItems = computed(() => {
+      return userItems.value.filter(item => item.listingStatus === 'ARCHIVED');
+    });
+
     return {
       store,
       user,
       userItems,
+      nonArchivedItems,
+      archivedItems
     };
   },
 
@@ -64,6 +76,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 
@@ -92,12 +105,15 @@ export default {
 .userSite-window{
   display: grid;
   grid-template-rows: 1fr 7fr;
+  overflow-y: auto;
 }
 
 .userInformation-window {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 10px;
+  max-height: 600px;
+
 }
 
 @media (max-width: 768px) {

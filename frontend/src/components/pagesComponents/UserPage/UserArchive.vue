@@ -5,7 +5,7 @@
     <li v-for="item in items" :key="item.id" class="list-item">
       <img :src='store.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>
       <span class="text">{{ item.briefDesc }}</span>
-      <button class="sell-button">Sell</button>
+      <div class="delete-button" @click="deleteItem(item)">X</div>
     </li>
   </ul>
 </template>
@@ -19,12 +19,36 @@ const store = useItemStore();
 </script>
 
 <script>
+import {deleteListing, loadListingByUser} from "@/services/ItemService";
+
 export default {
   name: "myItems",
 
   props: {
     items: Array,
   },
+
+  methods: {
+
+    async reloadItems() {
+      try {
+        const response = await loadListingByUser(this.user.username);
+        this.items = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async deleteItem(item) {
+      const listingDeletionDTO = {
+        username: this.user.username,
+        itemId: item.itemId
+      };
+      await deleteListing(listingDeletionDTO);
+      await this.reloadItems();
+    },
+
+  }
 }
 </script>
 
@@ -64,36 +88,38 @@ img{
   background-color: white;
 }
 
-.sell-button {
-  border-width: 2px;
-  border-color: black;
-  padding: 10px 20px;
-  background-color: #FFD700;
-  color: black;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
-  -2px -2px 4px rgba(255, 255, 255, 0.5),
-  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
-  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
-  transform: translate(0, -1px);
-  transition: all 0.1s ease-in-out;
+.text {
+  flex: 1;
 }
 
-.sell-button:active {
+.delete-button {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
   background-color: white;
-  color: #1E293B;
-}
-
-.sell-button:hover {
+  color: black;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
   -4px -4px 8px rgba(255, 255, 255, 0.5),
   inset 1px 1px 2px rgba(0, 0, 0, 0.2),
   inset -1px -1px 2px rgba(255, 255, 255, 0.7);
-  transform: translate(0, -2px);
-  color: white !important;
 }
 
-.text {
-  flex: 1;
+.delete-button:hover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: lightgray;
+  color: black;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+  -4px -4px 8px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
 }
 </style>

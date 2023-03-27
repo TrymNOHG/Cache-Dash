@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <mainpage-search-bar class="search"></mainpage-search-bar>
     <mainpage-category class="category"></mainpage-category>
     <MainpageRecentlyAdded class="recAdded"></MainpageRecentlyAdded>
   </div>
@@ -23,12 +22,9 @@ export default {
     display: grid;
     grid-template-columns: 1fr 4fr 4fr 1fr;
     row-gap: 10px;
-    grid-template-rows: 1fr 3fr 3fr;
+    grid-template-rows: 1fr 1fr;
   }
-  .search{
-    grid-column: 2 / 3;
-    grid-row: 1;
-  }
+
   .category{
     grid-column: 2 / 4;
 
