@@ -2,12 +2,6 @@
   <div class="filter-window">
     <map-component :chosenCounty="chosenCounty" :itemCoordinates="coordsLit"/>
     <div>
-      <h2>Category</h2>
-      <BasicCheckbox
-          name="Categories"
-          options="categories"/>
-    </div>
-    <div>
       <h2>Search for county</h2>
         <BasicSelect
             class="dropDown"
