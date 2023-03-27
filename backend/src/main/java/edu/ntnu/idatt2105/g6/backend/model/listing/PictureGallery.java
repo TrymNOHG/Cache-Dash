@@ -25,7 +25,7 @@ public class PictureGallery {
     @ToString.Exclude
     private Item item;
 
-    @Column(name = "picture", nullable = false)
+    @Column(name = "picture", nullable = false, columnDefinition="longblob")
     @Lob
     private byte @NonNull [] picture;
 
