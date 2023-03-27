@@ -1,6 +1,6 @@
 <template>
   <div class="filter-window">
-    <map-component :chosenCounty="chosenCounty" :itemCoordinates=""/>
+    <map-component :chosenCounty="chosenCounty" />
     <div>
       <h2>Category</h2>
       <BasicCheckbox
@@ -9,13 +9,13 @@
     </div>
     <div>
       <h2>Search for county</h2>
-        <BasicSelect
-            class="dropDown"
-            :options="countyStore.allCounties"
-            v-model="chosenCounty"
-            @change="updateCounty(); updateItemCoordinates();"
-            label="Choose a county"
-          />
+<!--        <BasicSelect-->
+<!--            class="dropDown"-->
+<!--            :options="countyStore.allCounties"-->
+<!--            v-model="chosenCounty"-->
+<!--            @change="updateCounty(); updateItemCoordinates();"-->
+<!--            label="Choose a county"-->
+<!--          />-->
     </div>
   </div>
 </template>
