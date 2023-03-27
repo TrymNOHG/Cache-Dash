@@ -19,6 +19,7 @@ export default {
 <style scoped>
   .figure{
     border-radius: 50%;
+    border-color: black;
     width: inherit;
     height: inherit;
     display: flex;

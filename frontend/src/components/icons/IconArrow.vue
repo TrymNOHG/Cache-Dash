@@ -50,8 +50,8 @@ body {
   display: block;
   width: 1.5vw;
   height: 1.5vw;
-  border-bottom: 5px solid white;
-  border-right: 5px solid white;
+  border-bottom: 5px solid #ffd700;
+  border-right: 5px solid #ffd700;
   transform: rotate(45deg);
   margin: -10px;
   animation: animate 2s infinite;
