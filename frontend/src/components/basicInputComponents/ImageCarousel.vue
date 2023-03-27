@@ -3,7 +3,7 @@
   <div class="container" v-if="pictures">
     <div class="slides">
       <div v-for="(picture, index) in pictures" v-bind:key="index">
-        <img v-bind:src="picture" alt="Slide">
+        <img v-bind:src="picture" alt="Slide" width="200" height="200">
       </div>
     </div>
     <IconArrow
@@ -34,24 +34,23 @@ export default {
     },
   },
   methods: {
-    convertImageBackToUrl(image) {
-      return `data:image/png;base64,${image}`;
-    },
     changeSlides(n) {
       this.slideIndex = (this.slideIndex + n) % this.pictures.length
       this.currentPicture = this.pictures[this.slideIndex];
     }
   },
   setup(props) {
-    const pictures = ref(null)
+    const pictures = ref([])
+    function convertImageBackToUrl(image) {
+      return `data:image/png;base64,${image}`;
+    }
 
     loadImagesByItemId(props.itemId).then(response => {
       const listOfDecodedPictures = []
-      for(let i = 0; i < response.data.pictures; i++) {
-        listOfDecodedPictures.push(this.convertImageBackToUrl(response.data.pictures[i]))
+      for(let i = 0; i < response.data.pictures.length; i++) {
+        listOfDecodedPictures.push(convertImageBackToUrl(response.data.pictures[i]))
       }
       pictures.value = listOfDecodedPictures
-      console.log("yo" + listOfDecodedPictures[0]) //TODO: fix pictures
     }).catch(error => {
       console.log('error: ', error)
     })

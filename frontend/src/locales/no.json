@@ -1,6 +1,8 @@
 {
   "chat": "Meldinger",
   "newItem": "Ny Annonse",
+  "items": "Annonser",
+  "archive": "Arkiv",
   "auctions": "Auksjon",
   "notFound": "Siden du leter etter finnes ikke!",
   "trythispage": "Prøv å gå til denne siden istedenfor",
@@ -30,6 +32,8 @@
   "passworderror": "Passord nødvendig",
   "passwordlenght": "minst 8 tegn lagt",
   "emailerror": "Email nødvendig",
+  "allItems": "Alle Annonser",
+  "bookmarks": "Lagret Annonser",
   "briefdescriptionerror": "Kort beskrivelse er nødvendig",
   "descriptionerror": "Full beskrivelse er nødvendig",
   "termsOfService": "Godtar du vilkårene for bruk",

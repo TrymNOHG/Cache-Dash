@@ -5,6 +5,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
+import edu.ntnu.idatt2105.g6.backend.exception.exists.BookmarkExistsException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.BookmarkNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.ItemNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
@@ -17,6 +18,8 @@ import edu.ntnu.idatt2105.g6.backend.repo.listing.ItemRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.BookmarkRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +37,7 @@ public class BookmarkService implements IBookmarkService{
     private final BookmarkRepository bookmarkRepository;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final Logger logger = LoggerFactory.getLogger(BookmarkService.class);
 
     /**
      * Adds a bookmark to an item for a user.
@@ -47,7 +51,13 @@ public class BookmarkService implements IBookmarkService{
     public void addBookmark(BookmarkDTO bookmarkDTO) {
         Item item = itemRepository.findByItemId(bookmarkDTO.itemId()).orElseThrow(() -> new ItemNotFoundException(bookmarkDTO.itemId()));
         User user = userRepository.findByUsername(bookmarkDTO.username()).orElseThrow(() -> new UserNotFoundException(bookmarkDTO.username()));
+
+        logger.info("Checking if bookmark already exists");
+        if(bookmarkRepository.findByItemAndUser(item, user).isPresent()) throw new BookmarkExistsException();
+
         Bookmark bookmark = BookmarkMapper.toBookmark(item, user);
+        logger.info("Saving bookmark: " + bookmark);
+
         bookmarkRepository.save(bookmark);
     }
 
@@ -97,22 +107,16 @@ public class BookmarkService implements IBookmarkService{
     /**
      * Loads all bookmarks for a given user.
      *
-     * @param userDeletionDTO DTO containing the username of the user requesting the bookmarks and the username of the user whose bookmarks are to be loaded.
+     * @param username String containing the username of the user requesting the bookmarks and the username of the user whose bookmarks are to be loaded.
      * @return a DTO containing a list of bookmarked items for the given user.
      * @throws UnauthorizedException if the acting user is not an admin and is not loading their own bookmarks.
      * @throws UserNotFoundException if either the acting user or the user to be loaded is not found.
      * @throws BookmarkNotFoundException if no bookmarks are found for the given user.
      */
     @Override
-    public BookmarkLoadDTO loadBookmarks(UserDeletionDTO userDeletionDTO) {
-        User actingUser = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.username()));
-        User user = userRepository.findByUsername(userDeletionDTO.userToDelete()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.userToDelete()));
-
-        if (actingUser.getRole() == Role.ADMIN || actingUser.getUsername().equals(user.getUsername())) {
-            List<Bookmark> bookmarkList = bookmarkRepository.findAllByUser(user).orElseThrow(() -> new BookmarkNotFoundException(userDeletionDTO.userToDelete()));
-            BookmarkLoadDTO bookmarkLoadDTO = BookmarkMapper.loadBookmarkDTO(bookmarkList);
-            return bookmarkLoadDTO;
-        }
-        else throw new UnauthorizedException(actingUser.getUsername());
+    public BookmarkLoadDTO loadBookmarks(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+        List<Bookmark> bookmarkList = bookmarkRepository.findAllByUser(user).orElseThrow(() -> new BookmarkNotFoundException(username));
+        return BookmarkMapper.loadBookmarkDTO(bookmarkList);
     }
 }

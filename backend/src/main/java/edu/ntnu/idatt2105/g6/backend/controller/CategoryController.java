@@ -15,6 +15,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 
 @RestController
@@ -84,6 +85,20 @@ public class CategoryController {
         List<CategoryDTO> mainCategories = categoryService.loadSubCategoriesShallow(1L);
         logger.info("The main categories are: " + mainCategories);
         return ResponseEntity.ok().body(mainCategories);
+    }
+
+    @GetMapping("/load/{categoryId}")
+    @Operation(summary = "Load main categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading main categories",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CategoryDTO.class)) })}
+    )
+    public ResponseEntity<CategoryDTO> loadCategory(@ParameterObject @PathVariable Long categoryId) {
+        logger.info("Retrieving main categories...");
+        CategoryDTO categoryDTO = categoryService.loadCategoryById(categoryId);
+        logger.info("The main categories are: " + categoryDTO);
+        return ResponseEntity.ok().body(categoryDTO);
     }
 
 }

@@ -35,3 +35,6 @@ export const loadSubCategories = async (categoryId) => {
     console.log(axios.get(`${BASE_USER_URL}/load/sub/${categoryId}`))
     return axios.get(`${BASE_USER_URL}/load/sub/${categoryId}`)
 }
+export const getCategoryById = async(categoryId) => {
+    return axios.get(`${BASE_USER_URL}/load/${categoryId}`)
+}

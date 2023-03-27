@@ -19,9 +19,9 @@ export const deleteBookmark = async (bookmarkDeletionDTO) => {
 }
 
 export const loadBookmarks = async () => {
-    return axios.post(`${BASE_USER_URL}/load`, {
+    return (await axios.get(`${BASE_USER_URL}/load`, {
         headers: {
             Authorization: `Bearer ${await SessionToken()}`,
         },
-    })
+    })).data
 }

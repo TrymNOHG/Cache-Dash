@@ -46,6 +46,14 @@ public class CategoryService implements ICategoryService{
                 .orElseThrow(() -> new CategoryNotFound("Root")).get(0));
     }
 
+    @Override
+    public CategoryDTO loadCategoryById(Long categoryId) {
+        return CategoryMapper
+                .toCategoryDTO(categoryRepository.findById(categoryId)
+                        .orElseThrow(() -> new CategoryNotFound(categoryId)));
+    }
+
+
     /**
 
      This method adds a new category to the application.

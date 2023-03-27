@@ -16,7 +16,7 @@
 
   <div v-else>
     <ul class="container">
-      <h3>My Items</h3>
+      <h3>{{$t('items')}}</h3>
       <hr>
       <li v-for="item in items" :key="item.id" class="list-item">
         <img :src='imageStore.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>

@@ -6,6 +6,7 @@ import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkDeletionDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.BookmarkLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
+import edu.ntnu.idatt2105.g6.backend.security.AuthenticationRequest;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
 import edu.ntnu.idatt2105.g6.backend.service.users.BookmarkService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,17 +52,17 @@ public class BookmarkController {
     }
 
     //TODO: fix DTO for loadBookmarks why UserDeletionDTO
-    @PostMapping("/load")
+    @GetMapping("/load")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading bookmarks",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = BookmarkLoadDTO.class)) })}
     )
     @Operation(summary = "Load all bookmarks")
-    public ResponseEntity<Object> loadAllBookmarks(@ParameterObject @RequestBody UserDeletionDTO user) {
-        logger.info("Loading all bookmarks from " + user.username());
-        BookmarkLoadDTO bookmarks = bookmarkService.loadBookmarks(user);
-        logger.info("Loaded all bookmarks from " + user.username());
+    public ResponseEntity<BookmarkLoadDTO> loadAllBookmarks(Authentication authentication) {
+        logger.info("Loading all bookmarks from " + authentication.getName());
+        BookmarkLoadDTO bookmarks = bookmarkService.loadBookmarks(authentication.getName());
+        logger.info("Loaded all bookmarks from " + authentication.getName());
         return ResponseEntity.ok(bookmarks);
     }
 
