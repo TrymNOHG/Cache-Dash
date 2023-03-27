@@ -62,6 +62,8 @@ export default {
   methods: {
     changeLanguage() {
       if (this.language === "NO"){
+        console.log(this.store.isLoggedIn)
+        console.log(this.store.getUser.data.role)
         i18n.global.locale = "no"
         this.language = "EN";
       } else {

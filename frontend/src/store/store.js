@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
 import {loadAllCategories, loadMainCategories} from "@/services/CategoryService";
 import {loadListingsByCategoryId} from "@/services/ItemService";
+import { ref, computed, watch } from "vue"
 
 export const useLoggedInStore = defineStore('user', {
-
 
     state: () => ({
         sessionToken: null,
@@ -28,13 +28,15 @@ export const useLoggedInStore = defineStore('user', {
             return this.user;
         },
         getSessionToken() {
+            if (this.sessionToken === null) return localStorage.getItem("sessionToken")
             return this.sessionToken;
         }
     },
 
     actions: {
         setSessionToken(sessionToken) {
-            this.sessionToken = sessionToken
+            this.sessionToken = sessionToken;
+            if (localStorage.getItem("sessionToken") === null) localStorage.setItem("sessionToken", sessionToken)
         },
         async fetchUser() {
             await getUser()
