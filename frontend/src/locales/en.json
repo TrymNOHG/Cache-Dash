@@ -1,6 +1,8 @@
 {
   "chat": "Chat",
   "newItem": "New Item",
+  "items": "Items",
+  "archive": "Archive",
   "auctions": "Auctions",
   "notFound": "The page you are looking for doesn't exist!\n",
   "trythispage": "Try this page instead",

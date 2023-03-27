@@ -1,11 +1,11 @@
 <template>
   <ul class="container">
-    <h3>My Archive</h3>
+    <h3>{{$t('bookmarks')}}</h3>
     <hr>
     <li v-for="item in items" :key="item.id" class="list-item">
       <img :src='store.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>
       <span class="text">{{ item.briefDesc }}</span>
-      <RouterLink to="">Go to</RouterLink>
+      <button class="listing-button" @click="$router.push('/')">Go to</button>
       <div class="delete-button" @click="deleteItem(item)">X</div>
     </li>
   </ul>
@@ -13,6 +13,7 @@
 
 <script setup>
 import {useItemStore} from "@/store/store";
+import router from "@/router/router";
 
 const store = useItemStore();
 
@@ -71,6 +72,37 @@ img{
   display: flex;
   flex-direction: column;
   text-align: left;
+}
+
+.listing-button {
+  margin-top: 0px;
+  border-width: 2px;
+  border-color: black;
+  padding: 10px 20px;
+  background-color: #FFD700;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+  -2px -2px 4px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+  transform: translate(0, -1px);
+  transition: all 0.1s ease-in-out;
+}
+
+.listing-button:active {
+  background-color: white;
+  color: #1E293B;
+}
+
+.listing-button:hover {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+  -4px -4px 8px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+  transform: translate(0, -2px);
+  color: white !important;
+  background-color: #4c9fdb;
 }
 
 .list-item {

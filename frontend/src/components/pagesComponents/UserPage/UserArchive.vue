@@ -1,6 +1,6 @@
 <template>
   <ul class="container">
-    <h3>My Archive</h3>
+    <h3>{{$t('archive')}}</h3>
     <hr>
     <li v-for="item in items" :key="item.id" class="list-item">
       <img :src='store.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>

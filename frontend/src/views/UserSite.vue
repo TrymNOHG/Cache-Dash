@@ -1,9 +1,9 @@
 <template>
   <div class="userSite-window">
     <div class="buttons">
-      <div class="link" @click="whatToShow(1)">Items</div>
-      <div class="link" @click="whatToShow(2)">Archive</div>
-      <div class="link" @click="whatToShow(3)">Bookmarks</div>
+      <div class="link" @click="whatToShow(1)">{{ $t('items') }}</div>
+      <div class="link" @click="whatToShow(2)">{{ $t('archive') }}</div>
+      <div class="link" @click="whatToShow(3)">{{ $t('bookmarks') }}</div>
     </div>
     <div class="userInformation-window">
       <personal-information/>
@@ -14,7 +14,7 @@
         <user-archive style="overflow-y:auto" :items="archivedItems"/>
       </div>
       <div v-else-if="pageDisplay === 3">
-        <bookmark-component :items="bookmarkedItems"/>
+        <bookmark-component style="overflow-y:auto" :items="bookmarkedItems"/>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@ export default {
 
     // filter out bookmarked items
     const bookmarkedItems = computed(() => {
-      return userItems.value.filter();
+      return userItems.value.filter(item => item.listingStatus !== 'ARCHIVED' );
     });
 
     return {
@@ -80,7 +80,7 @@ export default {
 
   data() {
     return {
-      pageDisplay: 1,
+      pageDisplay: null,
     }
   },
 
@@ -91,7 +91,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 
@@ -106,15 +105,23 @@ export default {
 .link {
   text-align: center;
   border-radius: 2px;
-  min-width: 200px;
+  min-width: 120px;
   max-height: 40px;
-  margin: 10px;
+  margin: 5px;
   background-color: #3f9293;
   color: white;
+  font-size: 0.9rem;
 }
 
 .link:hover {
   background-color: #55a4e4;
+}
+
+.userInformation-window {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 10px;
+  max-height: 600px;
 }
 
 .userSite-window{
@@ -123,18 +130,11 @@ export default {
   overflow-y: auto;
 }
 
-.userInformation-window {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 10px;
-  max-height: 600px;
-
-}
-
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .userInformation-window {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    max-height: none;
   }
 }
+
 </style>
