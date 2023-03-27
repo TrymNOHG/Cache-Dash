@@ -102,6 +102,12 @@ public class ChatService implements IChatService{
         messageRepository.save(message);
     }
 
+    /**
+     Deletes the conversation with the given conversation ID from the conversation repository.
+
+     @param conversationId the ID of the conversation to be deleted
+     @throws ConversationNotFoundException if the conversation with the given ID does not exist
+     */
     @Override
     public void deleteConversation(Long conversationId) {
         Conversation conversationToDelete = conversationRepository.findByConversationId(conversationId)

@@ -3,6 +3,7 @@ package edu.ntnu.idatt2105.g6.backend.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.listing.ListingLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreateDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;

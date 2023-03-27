@@ -5,7 +5,7 @@ import i18n from "@/locales/i18n";
 
 <template>
   <header>
-    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.png" width="100" height="100" />
+    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/logo.png" width="100" height="100" />
     <div class="wrapper">
       <ul>
         <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>

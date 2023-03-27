@@ -30,6 +30,7 @@ public class ItemController {
 
     private final ItemService itemService;
     private final CategoryService categoryService;
+
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     @PostMapping(value="/user/create", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
@@ -69,6 +70,7 @@ public class ItemController {
     }
 
     @PutMapping("/user/update")
+    @Operation(summary = "Update a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> update(@ParameterObject @RequestBody ListingUpdateDTO listing) {
         logger.info("This listing dto is trying to get an update: " + listing);
@@ -108,7 +110,19 @@ public class ItemController {
         return ResponseEntity.ok().build();
     }
 
-
-
+    @GetMapping("/category/{categoryId}/load")
+    @Operation(summary = "Load all listings by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading items of a given user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
+    )
+//    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<List<ListingLoadDTO>> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
+        logger.info("Looking for items under category Id: " + categoryId);
+        List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
+        logger.info("Items found: " + listings);
+        return ResponseEntity.ok(listings);
+    }
 
 }
