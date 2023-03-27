@@ -21,6 +21,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ This class implements the filter that checks for the validity of a JWT token and sets
+ the authentication of the user accordingly. It extends the OncePerRequestFilter class
+ to ensure that this filter is only executed once per request.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -30,6 +35,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
+    /**
+     * Checks the validity of the JWT token from the HTTP header and sets the authentication
+     * of the user accordingly.
+     *
+     * @param request     The HTTP request.
+     * @param response    The HTTP response.
+     * @param filterChain The filter chain.
+     * @throws ServletException If there is a servlet exception.
+     * @throws IOException      If there is an I/O exception.
+     */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {

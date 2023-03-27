@@ -2,7 +2,6 @@
 import { RouterLink, RouterView } from 'vue-router'
 import {useLoggedInStore} from "@/store/store";
 import i18n from "@/locales/i18n";
-
 </script>
 
 <template>
@@ -27,7 +26,7 @@ import i18n from "@/locales/i18n";
   </header>
 
   <header v-else>
-    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/Logo.png" width="100" height="100" />
+    <img @click="$router.push('/')" alt="Vue logo" class="logo" src="@/assets/logo.png" width="100" height="100" />
     <div class="wrapper">
       <ul>
         <RouterLink to="/chat">{{ $t ("chat") }}</RouterLink>
@@ -40,6 +39,7 @@ import i18n from "@/locales/i18n";
         <RouterLink v-else :to="'/login'">
           <font-awesome-icon icon="fa-solid fa-circle-user" size="2xl"/>
         </RouterLink>
+
       </ul>
     </div>
   </header>
@@ -69,8 +69,6 @@ export default {
   methods: {
     changeLanguage() {
       if (this.language === "NO"){
-        console.log(this.store.isLoggedIn)
-        console.log(this.store.getUser.data.role)
         i18n.global.locale = "no"
         this.language = "EN";
       } else {

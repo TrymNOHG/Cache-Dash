@@ -1,7 +1,7 @@
 <template>
   <button class="bookmark" @click="">
     <div class="a1">
-      <img src="/src/assets/bookmark.png" class="bookmark-tag">
+<!--      <img src="/src/assets/bookmark.png" class="bookmark-tag">-->
     </div>
     <div class="a2">
       <label class="bookmark-text">Add to bookmarks</label>

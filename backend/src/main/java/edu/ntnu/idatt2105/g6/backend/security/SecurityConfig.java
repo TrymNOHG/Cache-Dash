@@ -13,6 +13,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ Configuration class for Spring Security. Enables Web Security and provides a SecurityFilterChain bean.
+ Uses a JwtAuthenticationFilter for authentication and an AuthenticationProvider for authentication management.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -22,6 +26,13 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     Configures the security filter chain.
+
+     @param http HttpSecurity object used for configuration
+     @return A SecurityFilterChain object
+     @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -60,6 +71,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     Configures CORS mapping for the application.
+
+     @return A WebMvcConfigurer object
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

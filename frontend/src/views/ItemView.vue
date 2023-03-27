@@ -2,6 +2,7 @@
   <div class="item-window">
     <ImageCarousel class="image-carousel" :pictures="null"/>
     <ItemDescription class="item-description" :item="item"/>
+    <p>Hello qwerqwer {{ item }}</p>
     <SellerInformation class="seller-information"/>
     <div class="map"></div>
   </div>
@@ -22,8 +23,7 @@ export default {
     }
   },
   setup(props) {
-    console.log("Props:")
-    console.log(props.item)
+    console.log()
   }
 }
 </script>
