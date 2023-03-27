@@ -37,6 +37,8 @@ public class ChatController {
         logger.info("Is trying to start a conversation with: " + conversation.getUsername2());
         logger.info("With the initial message: " + conversation.getMessage());
         chatService.startConversation(conversation);
+        logger.info("A conversation between " + conversation.getUsername1() + " and " + conversation.getUsername2() + " was created");
+
         return ResponseEntity.ok().build();
     }
 
@@ -45,6 +47,7 @@ public class ChatController {
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> saveMessage(@ParameterObject @RequestBody MessageDTO message) {
         chatService.addMessage(message);
+        logger.info("A message was sent from " + message.username());
         return ResponseEntity.ok().build();
     }
 
@@ -57,15 +60,11 @@ public class ChatController {
     })
     @ResponseBody
     public ResponseEntity<Object> loadConversations(@ParameterObject @RequestBody String username) {
-        try {
-            //TODO: just check authentication token
-            logger.info("User trying to load conversation : " + username);
-            List<ConversationLoadDTO> conversations = chatService.loadAllConversations(username.substring(0, username.length()-1));
-            logger.info("Sending list of conversations: " + conversations);
-            return ResponseEntity.ok(conversations);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        logger.info("All conversations with " +username + " is being loaded");
+        List<ConversationLoadDTO> conversations = chatService.loadAllConversations(username);
+        logger.info("All conversations with " +username + " was loaded");
+
+        return ResponseEntity.ok(conversations);
     }
 
     @PostMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)

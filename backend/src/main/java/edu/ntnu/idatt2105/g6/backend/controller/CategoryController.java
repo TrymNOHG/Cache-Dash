@@ -32,6 +32,7 @@ public class CategoryController {
     public ResponseEntity<Object> save(@ParameterObject @RequestBody CategoryEditDTO category) {
         logger.info("Attempting to add new category");
         categoryService.addCategory(category);
+        logger.info(category.subCategory() +" was added");
         return ResponseEntity.ok().build();
     }
 
@@ -39,6 +40,9 @@ public class CategoryController {
     @Operation(summary = "Delete a category")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody CategoryEditDTO category) {
+        logger.info("Attempting to delete category");
+        //TODO add func
+        logger.info(category.subCategory() +" was deleted");
         return ResponseEntity.ok().build();
     }
 
@@ -51,8 +55,10 @@ public class CategoryController {
                             schema = @Schema(implementation = CategoryDTO.class)) })}
     )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestParam Long categoryId) {
+    public ResponseEntity<CategoryDTO> loadAllCategories(@ParameterObject @RequestBody Long categoryId) {
+        logger.info("Attempting to load all categories");
         CategoryDTO mainCategory = categoryService.loadSubCategories(categoryId);
+        logger.info("All categories were loaded");
         return ResponseEntity.ok(mainCategory);
     }
 

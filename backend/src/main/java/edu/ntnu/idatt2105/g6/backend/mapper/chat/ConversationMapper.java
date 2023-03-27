@@ -9,9 +9,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+/**
+
+ ConversationMapper class provides static methods for mapping between {@link Conversation}, {@link ConversationDTO},
+ and {@link ConversationLoadDTO} objects.
+ */
 @Service
 public class ConversationMapper {
 
+    /**
+
+     Converts two user objects to a new {@link Conversation} object.
+
+     @param user1 the first user in the conversation
+     @param user2 the second user in the conversation
+     @return a new Conversation object with the two users and an empty message list
+     */
     public static Conversation toConversation(User user1, User user2){
         return Conversation
                 .builder()
@@ -21,6 +34,12 @@ public class ConversationMapper {
                 .build();
     }
 
+    /**
+     Converts a {@link Conversation} object to a {@link ConversationLoadDTO} object.
+
+     @param conversation the conversation object to convert
+     @return a new ConversationLoadDTO object with the conversation ID, messages, and usernames of the two users
+     */
     public static ConversationLoadDTO loadConversation(Conversation conversation){
         return ConversationLoadDTO
                 .builder()

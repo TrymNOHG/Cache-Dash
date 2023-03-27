@@ -22,6 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ This service class handles the business logic for bookmark-related operations.
+ It implements the IBookmarkService interface.
+
+ */
 @Service
 @RequiredArgsConstructor
 public class BookmarkService implements IBookmarkService{
@@ -30,6 +35,13 @@ public class BookmarkService implements IBookmarkService{
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Adds a bookmark to an item for a user.
+     *
+     * @param bookmarkDTO A DTO containing the itemId and username for the bookmark.
+     * @throws ItemNotFoundException Thrown when the item is not found in the database.
+     * @throws UserNotFoundException Thrown when the user is not found in the database.
+     */
     @Transactional
     @Override
     public void addBookmark(BookmarkDTO bookmarkDTO) {
@@ -39,6 +51,15 @@ public class BookmarkService implements IBookmarkService{
         bookmarkRepository.save(bookmark);
     }
 
+    /**
+     * Deletes a bookmark for a specific item and user.
+     *
+     * @param bookmarkDeletionDTO A DTO containing the itemId, actingUser, and username for the bookmark.
+     * @throws BookmarkNotFoundException Thrown when the bookmark is not found in the database.
+     * @throws ItemNotFoundException Thrown when the item is not found in the database.
+     * @throws UserNotFoundException Thrown when the user is not found in the database.
+     * @throws UnauthorizedException Thrown when the acting user is not authorized to delete the bookmark.
+     */
     @Transactional
     @Override
     public void deleteBookmark(BookmarkDeletionDTO bookmarkDeletionDTO) {
@@ -53,6 +74,14 @@ public class BookmarkService implements IBookmarkService{
         else throw new UnauthorizedException(actingUser.getUsername());
     }
 
+    /**
+     * Deletes all bookmarks for a given user.
+     *
+     * @param userDeletionDTO DTO containing the username of the user requesting the deletion and the username of the user whose bookmarks are to be deleted.
+     * @throws UnauthorizedException if the acting user is not an admin and is not deleting their own bookmarks.
+     * @throws UserNotFoundException if either the acting user or the user to be deleted is not found.
+     * @throws BookmarkNotFoundException if no bookmarks are found for the given user.
+     */
     @Transactional
     @Override
     public void deleteAllBookmarks(UserDeletionDTO userDeletionDTO) {
@@ -65,6 +94,15 @@ public class BookmarkService implements IBookmarkService{
         else throw new UnauthorizedException(actingUser.getUsername());
     }
 
+    /**
+     * Loads all bookmarks for a given user.
+     *
+     * @param userDeletionDTO DTO containing the username of the user requesting the bookmarks and the username of the user whose bookmarks are to be loaded.
+     * @return a DTO containing a list of bookmarked items for the given user.
+     * @throws UnauthorizedException if the acting user is not an admin and is not loading their own bookmarks.
+     * @throws UserNotFoundException if either the acting user or the user to be loaded is not found.
+     * @throws BookmarkNotFoundException if no bookmarks are found for the given user.
+     */
     @Override
     public BookmarkLoadDTO loadBookmarks(UserDeletionDTO userDeletionDTO) {
         User actingUser = userRepository.findByUsername(userDeletionDTO.username()).orElseThrow(() -> new UserNotFoundException(userDeletionDTO.username()));

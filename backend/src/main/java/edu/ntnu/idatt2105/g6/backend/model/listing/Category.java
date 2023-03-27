@@ -26,21 +26,33 @@ import java.util.Set;
 @Table(name = "categories")
 public class Category {
 
+    /**
+     The ID of the category.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long categoryId;
 
+    /**
+     The name of the sub-category.
+     */
     @Column(name = "sub_category")
     @NonNull
     private String subCategory;
 
-    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    /**
+     The set of sub-categories under this category.
+     */
+    @OneToMany(mappedBy = "mainCategory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private Set<Category> subCategories = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /**
+     The parent category of this category. If this is a root category, this field will be null.
+     */
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "main_category_id", referencedColumnName = "category_id", nullable = true)
     @ToString.Exclude
     private Category mainCategory;

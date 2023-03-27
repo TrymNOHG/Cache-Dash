@@ -2,6 +2,7 @@ package edu.ntnu.idatt2105.g6.backend.service;
 
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserCreateDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserDeletionDTO;
+import edu.ntnu.idatt2105.g6.backend.dto.users.UserLoadDTO;
 import edu.ntnu.idatt2105.g6.backend.dto.users.UserUpdateDTO;
 import edu.ntnu.idatt2105.g6.backend.exception.UnauthorizedException;
 import edu.ntnu.idatt2105.g6.backend.exception.exists.UserExistsException;
@@ -154,6 +155,68 @@ public class UserServiceIntegrationTest {
             assertDoesNotThrow(() -> {
                 userService.deleteUser(userDeletionDTO);
             });
+        }
+    }
+
+    @Nested
+    @SpringBootTest
+    class LoadByUsername{
+        @Autowired
+        AuthenticationService authenticationService;
+
+        @Autowired
+        UserService userService;
+
+        @Autowired
+        UserRepository userRepository;
+
+        @Test
+        public void loadByUsername_loads_correct_user(){
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.USER)
+                    .build();
+
+            userRepository.save(user);
+
+            User returnUser = userService.loadByUsername("Test");
+
+            assertEquals(user, returnUser);
+        }
+    }
+
+    @Nested
+    @SpringBootTest
+    class LoadUserDTOByUsername{
+        @Autowired
+        AuthenticationService authenticationService;
+
+        @Autowired
+        UserService userService;
+
+        @Autowired
+        UserRepository userRepository;
+
+        @Test
+        public void loadUserDTOByUsername_loads_correct_userDTO(){
+            User user = User
+                    .builder()
+                    .username("Test")
+                    .password("123")
+                    .fullName("Test test")
+                    .email("test@gamil.com")
+                    .role(Role.USER)
+                    .build();
+
+            userRepository.save(user);
+
+            UserLoadDTO returnUserDTO = userService.loadUserDTOByUsername("Test");
+
+            assertEquals("Test", returnUserDTO.username());
         }
     }
 

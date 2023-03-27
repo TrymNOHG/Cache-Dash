@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ntnu.idatt2105.g6.backend.dto.listing.*;
 import edu.ntnu.idatt2105.g6.backend.service.listing.CategoryService;
 import edu.ntnu.idatt2105.g6.backend.service.listing.ItemService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,10 +30,10 @@ public class ItemController {
 
     private final ItemService itemService;
     private final CategoryService categoryService;
-
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     @PostMapping(value="/user/create", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE})
+    @Operation(summary = "Create a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> create(@ParameterObject @RequestPart("listingDTO") String listingDTO,
                                          @ParameterObject @RequestPart("images") List<MultipartFile> images) throws JsonProcessingException {
@@ -57,10 +58,13 @@ public class ItemController {
     }
 
     @PostMapping("/user/delete")
+    @Operation(summary = "Delete a listing")
 //    @ExceptionHandler(UserNotFoundException.class)
     //TODO: make this take in token or something
     public ResponseEntity<Object> delete(@ParameterObject @RequestBody ListingDeletionDTO listing) {
+        logger.info(listing.toString() + " is being deleted!");
         itemService.deleteListing(listing);
+        logger.info(listing.toString() + " was deleted!");
         return ResponseEntity.ok().build();
     }
 
@@ -75,6 +79,7 @@ public class ItemController {
 
     //TODO: maybe just add user id to the path?
     @GetMapping("/user/load")
+    @Operation(summary = "Load all listings by user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading items of a given user",
                     content = { @Content(mediaType = "application/json",
@@ -82,37 +87,28 @@ public class ItemController {
             )
 //    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> loadAllByUser(@ParameterObject @RequestParam String username) {
-        logger.info("This user is trying to get his items: " + username);
+        logger.info("All listings by "+ username + " is being loaded!");
         List<ListingLoadDTO> items = itemService.loadAllListingsByUsername(username);
-        logger.info("This user get his items: " + items);
-
+        logger.info("All listings by "+ username + " were loaded");
         return ResponseEntity.ok(items);
     }
 
     @GetMapping("/load")
+    @Operation(summary = "Load all listings")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading all items",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListingLoadDTO.class)) })}
     )
 //    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> loadAllByUser() {
+    public ResponseEntity<Object> loadAll() {
+        logger.info("All listings are being loaded!");
         itemService.loadAllListings();
+        logger.info("All listings were loaded!");
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/category/{categoryId}/load")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Loading items of a given user",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
-    )
-//    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<List<ListingLoadDTO>> loadAllItemsByCategoryId(@ParameterObject @PathVariable Long categoryId) {
-        logger.info("Looking for items under category Id: " + categoryId);
-        List<ListingLoadDTO> listings = itemService.loadAllListingsByCategoryId(categoryId);
-        logger.info("Items found: " + listings);
-        return ResponseEntity.ok(listings);
-    }
+
+
 
 }
