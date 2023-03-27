@@ -14,7 +14,6 @@
               @click="changeConversation(conversation.talkingBuddy)"
           >
             {{ conversation.talkingBuddy }}
-            <div class="delete-button" @click="deleteConversation()">X</div>
           </li>
         </ul>
         <div v-else class="new-conversation">
