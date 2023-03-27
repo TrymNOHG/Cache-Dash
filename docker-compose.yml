@@ -6,7 +6,7 @@ services:
     build:
       context: ./backend
       target:  backApp
-    image: e-commerce/front
+    image: e-commerce/back
     container_name: e-backend
     ports:
       - 8080:8080

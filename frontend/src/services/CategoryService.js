@@ -32,3 +32,7 @@ export const loadAllCategories = async (categoryId) => {
 export const loadMainCategories = async () => {
     return axios.get(`${BASE_USER_URL}/load/main`)
 }
+
+export const getCategoryById = async(categoryId) => {
+    return axios.get(`${BASE_USER_URL}/load/${categoryId}`)
+}

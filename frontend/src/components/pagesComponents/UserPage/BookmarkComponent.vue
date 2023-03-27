@@ -5,7 +5,9 @@
     <li v-for="item in items" :key="item.id" class="list-item">
       <img :src='store.convertImageBackToUrl(item.thumbnail)' alt="Thumbnail of item" width="100" height="100"/>
       <span class="text">{{ item.briefDesc }}</span>
-      <button class="listing-button" @click="$router.push('/')">Go to</button>
+      <router-link :to="{name : 'itemView', params : { name: getCatId(item.itemId), id: item.itemId}}" class="link">
+       <button class="listing-button">Go to</button>
+      </router-link>
       <div class="delete-button" @click="deleteItem(item)">X</div>
     </li>
   </ul>
@@ -22,6 +24,9 @@ const store = useItemStore();
 
 <script>
 import {deleteListing, loadListingByUser} from "@/services/ItemService";
+import { getCategoryById } from  "@/services/CategoryService";
+import {loadBookmarks} from "@/services/BookmarkService";
+import {ref} from "vue";
 
 export default {
   name: "BookmarkComponent",
@@ -50,7 +55,16 @@ export default {
       await this.reloadItems();
     },
 
-  }
+    async getCatId(itemId) {
+      await getCategoryById(itemId).then(response => {
+        return response
+      }).catch(error => {
+        console.warn(error)
+      })
+    }
+
+  },
+
 }
 </script>
 

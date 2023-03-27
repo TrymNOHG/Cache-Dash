@@ -373,7 +373,7 @@ public class BookmarkServiceIntegrationTest {
             bookmarkService.addBookmark(bookmarkDTO2);
             UserDeletionDTO userDeletionDTO = new UserDeletionDTO("Test", "Test");
 
-            BookmarkLoadDTO bookmarkLoadDTO = bookmarkService.loadBookmarks(userDeletionDTO);
+            BookmarkLoadDTO bookmarkLoadDTO = bookmarkService.loadBookmarks(userDeletionDTO.username());
 
             assertEquals(2, bookmarkLoadDTO.bookmarkedItems().size());
 
