@@ -76,10 +76,10 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/category/:name/item/:id',
+            path: '/category/:name/item?id=:id',
             name: 'itemView',
             component: itemView,
-            props: true
+            props: route => ({ item: route.params.item }),
         },
         {
             path: '/chat',
