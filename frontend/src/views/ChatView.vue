@@ -1,7 +1,7 @@
 <template>
   <div class="page-layout">
-    <div class="sidebar">
-      <div class="choose-grid">
+    <div class="sidebar" style="overflow-y: auto">
+      <div class="choose-grid" >
         <div class="message-header">
           <div @click="this.addNewConversation(false)" class="choose">Conversations</div>
           <div @click="this.addNewConversation(true)" class="choose">New Conversation</div>
@@ -9,12 +9,11 @@
         <ul v-if="!newConversationBoolean" class="conversationList">
           <li class="conversation"
               v-for="conversation in conversations"
-              :value="conversation.username2"
-              :key="conversation.conversationId"
-              @click="changeConversation(conversation.username2)"
+              :value="conversation.talkingBuddy"
+              :key="conversation.id"
+              @click="changeConversation(conversation.talkingBuddy)"
           >
-            <!--<div class="remove" @click="removeConversation(conversation.conversationId)">X</div>-->
-            {{ conversation.username2 }}
+            {{ conversation.talkingBuddy }}
           </li>
         </ul>
         <div v-else class="new-conversation">
@@ -30,13 +29,18 @@
         </div>
       </div>
     </div>
-    <div class="chat-window" v-if="currentConversation !== null">
+
+
+    <div class="chat-window" v-if="currentConversation !== null" style="overflow-y: auto">
       <div v-for="message in currentConversation.messages" :key="message.id" class="message">
-        <div class="message-sender">{{ currentConversation.username2 }}</div>
+        <div v-if="message.username === currentConversation.user" class="message-sender">{{ currentConversation.user }}</div>
+        <div v-else style="font-weight: bold;">{{currentConversation.talkingBuddy}}</div>
         <div class="message-body">{{ message.message }}</div>
       </div>
+
+
       <div class="message-input">
-        <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
+        <input v-model="newMessage" @click="sendMessage" placeholder="Type your message...">
         <button @click="sendMessage({
         conversationId: currentConversation.conversationId,
         username: this.store.getUser.data.username,
@@ -50,7 +54,7 @@
 
 <script>
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
-import {loadConversations, newChat, sendMessage} from "@/services/ChatService";
+import {deleteConversationId, loadConversations, newChat, sendMessage} from "@/services/ChatService";
 import {useLoggedInStore} from "@/store/store";
 import {ref} from 'vue';
 
@@ -60,19 +64,50 @@ export default {
   setup(){
     const store = useLoggedInStore();
     const conversations = ref([]);
-
+    let conversation= {
+      conversationId: null,
+      user: '',
+      talkingBuddy: '',
+      messages: [],
+    }
     store.fetchUser()
+    const user = store.getUser.data;
 
-    loadConversations(store.getUser.data.username)
+    loadConversations(user.username)
         .then(response => {
-          conversations.value = response.data;
+          console.log(response.data)
+          changeConversations(response.data);
         }).catch(err => {
       console.log(err)
     });
 
+    function changeConversations(convos){
+      for (let i = 0; i < convos.length; i++) {
+        if (user.username === convos[i].username1){
+          conversation = {
+            conversationId: convos[i].conversationId,
+            user: convos[i].username1,
+            talkingBuddy: convos[i].username2,
+            messages: convos[i].messages,
+          }
+          conversations.value.push(conversation)
+        } else {
+          conversation = {
+            conversationId: convos[i].conversationId,
+            talkingBuddy: convos[i].username1,
+            user: convos[i].username2,
+            messages: convos[i].messages,
+          }
+          conversations.value.push(conversation)
+        }
+      }
+      console.log(conversations)
+    }
+
     return{
       store,
-      conversations
+      user,
+      conversations,
     }
   },
 
@@ -87,11 +122,14 @@ export default {
       },
       newMessage: '',
       currentConversation: null,
-      reciver: '',
+      tempConversations: [],
     };
   },
+
   methods: {
+
     sendMessage(MessageObject) {
+      let tempConversation = null
       sendMessage({
         conversationId: MessageObject.conversationId,
         username: MessageObject.username,
@@ -100,7 +138,22 @@ export default {
           .then(() => {
             loadConversations(this.store.getUser.data.username)
                 .then(response => {
-                  this.currentConversation = response.data.find(conversation => conversation.conversationId === MessageObject.conversationId);
+                  tempConversation = response.data.find(conversation => conversation.conversationId === MessageObject.conversationId);
+                    if (this.user.username === tempConversation.username1){
+                      this.currentConversation = {
+                        conversationId: tempConversation.conversationId,
+                        user: tempConversation.username1,
+                        talkingBuddy: tempConversation.username2,
+                        messages: tempConversation.messages,
+                      }
+                    } else {
+                      this.currentConversation = {
+                        conversationId: tempConversation.conversationId,
+                        talkingBuddy: tempConversation.username1,
+                        user: tempConversation.username2,
+                        messages: tempConversation.messages,
+                      }
+                  }
                 })
                 .catch(err => {
                   console.log(err);
@@ -112,9 +165,9 @@ export default {
       },
 
     changeConversation(username) {
-      for (let i = 0; i < this.conversationList.length; i++) {
-        if (this.conversationList[i].username2 === username) {
-          this.currentConversation = this.conversationList[i];
+      for (let i = 0; i < this.conversations.length; i++) {
+        if (this.conversations[i].talkingBuddy === username) {
+          this.currentConversation = this.conversations[i];
           break;
         }
       }
@@ -122,6 +175,34 @@ export default {
 
     addNewConversation(bool) {
       this.newConversationBoolean = bool;
+    },
+
+    changeConversations(convos){
+      let conversation= {
+        conversationId: null,
+        user: '',
+        talkingBuddy: '',
+        messages: [],
+      }
+      for (let i = 0; i < convos.length; i++) {
+        if (this.user.username === convos[i].username1){
+          conversation = {
+            conversationId: convos[i].conversationId,
+            user: convos[i].username1,
+            talkingBuddy: convos[i].username2,
+            messages: convos[i].messages,
+          }
+          this.tempConversations.push(conversation)
+        } else {
+          conversation = {
+            conversationId: convos[i].conversationId,
+            talkingBuddy: convos[i].username1,
+            user: convos[i].username2,
+            messages: convos[i].messages,
+          }
+          this.tempConversations.push(conversation)
+        }
+      }
     },
 
     async newConversation(username) {
@@ -134,26 +215,32 @@ export default {
         this.addNewConversation(false);
         this.error.errorBool = false;
 
-        const conversationsResponse = await loadConversations(this.store.getUser.data.username);
-        this.conversations = conversationsResponse.data;
+        loadConversations(this.user.username)
+            .then(response => {
+              console.log(response.data)
+              this.changeConversations(response.data);
+            }).catch(err => {
+          console.log(err)
+        });
+
+        this.conversations = this.tempConversations;
+
       } catch (e) {
         this.error.errorBool = true;
         this.error.errorMessage = e;
       }
     },
 
-    /*
-    async removeConversation(conversationId){
-      console.log(conversationId)
-      await deleteConversationId({
-        conversationId: conversationId
-      });
-    }
 
-     */
+    async deleteConversation(){
+      await deleteConversationId({
+        conversationId: this.currentConversation.conversationId
+      });
+    },
+
   },
   computed: {
-    conversationList() {
+    async conversationList() {
       return this.conversations;
     }
   }
@@ -162,24 +249,54 @@ export default {
 
 <style>
 
-.remove {
-  color: black;
-  background-color: #d3d3d6;
-  width: 25px;
-  height: 25px;
-  float: right;
-  solid-color: black;
-  border-radius: 2px;
-
+.page-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
 
-.remove:hover{
-  background-color: #a8a8ab;
+.chat-window{
+  max-height: 500px;
 }
-
 
 label {
   font-weight: bold;
+}
+
+.delete-button{
+  background-color: lightgray;
+  color: black;
+  width: 25px;
+  height: 25px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  color: black;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+  -4px -4px 8px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.delete-button:hover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: lightgray;
+  color: black;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+  -4px -4px 8px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
 }
 
 .new-conversation {
@@ -225,19 +342,19 @@ button:hover{
 
 .choose-grid{
   display: grid;
-  grid-template-rows: 1fr 10fr;
+  grid-template-rows: 1fr 5fr;
 }
 
 .page-layout{
   display: grid;
   grid-template-columns: 2fr 5fr;
+  max-height: 100%;
 }
 
 .chat-window {
   border-left: #818b96 solid 2px;
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 1rem;
   overflow-y: scroll;
 }
@@ -312,5 +429,30 @@ li{
 
 li:hover{
   background-color: #4c9fdb;
+}
+
+@media (max-width: 768px) {
+  .page-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .sidebar {
+    flex: 0 0 auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .chat-window {
+    flex: auto;
+    margin-top: 20px;
+    height: 100%;
+  }
+
+  .conversationList {
+    max-height: 150px;
+    overflow-y: scroll;
+  }
 }
 </style>
