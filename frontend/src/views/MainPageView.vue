@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <mainpage-search-bar class="search"></mainpage-search-bar>
     <mainpage-category class="category"></mainpage-category>
+    <div></div>
     <MainpageRecentlyAdded class="recAdded"></MainpageRecentlyAdded>
   </div>
 </template>
@@ -20,22 +20,19 @@ export default {
 <style scoped>
 
   .container{
+    align-items: center;
     display: grid;
-    grid-template-columns: 1fr 4fr 4fr 1fr;
-    row-gap: 10px;
-    grid-template-rows: 1fr 3fr 3fr;
+    margin: 0px 50px 50px;
   }
-  .search{
-    grid-column: 2 / 3;
-    grid-row: 1;
-  }
-  .category{
-    grid-column: 2 / 4;
 
+  div{
+    margin: 10px;
   }
-  .recAdded{
-    grid-column: 2 / 4;
-    padding-bottom: 15px;
+
+  @media (max-width: 768px) {
+    .container{
+      margin: 0px;
+    }
   }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="catergory-window">
     <div class="label">
-      <h2>Category</h2>
+      <h3>{{ $t('category') }}</h3>
     </div>
     <div class="category-container">
       <div v-for="category in mainCategories" :key=category.categoryId class="category-list">
@@ -58,7 +58,6 @@ export default {
 
   .category-container {
     background-color: #7EB09B;
-    text-align: left;
   }
 
   .link{
