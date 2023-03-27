@@ -2,12 +2,6 @@
   <div class="filter-window">
     <map-component :chosenCounty="chosenCounty" :itemCoordinates="coordsLit"/>
     <div>
-      <h2>Category</h2>
-      <BasicCheckbox
-          name="Categories"
-          options="categories"/>
-    </div>
-    <div>
       <h2>Search for county</h2>
         <BasicSelect
             class="dropDown"
@@ -98,12 +92,8 @@ export default {
       this.$emit("update:itemCoordinates", newVal)
     },
 
-    // Watch for changes to the items computed property
-    items: function(newItems, oldItems) {
-      // Loop through the new items
+    items: function(newItems) {
       newItems.forEach(item => {
-        // Call the findAddressByLatLng method for each item
-        console.log(item.address)
         this.findAddressByLatLng(item.address);
       });
     }

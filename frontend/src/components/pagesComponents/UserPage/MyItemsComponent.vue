@@ -29,7 +29,7 @@
       </li>
     </ul>
 
-    <div v-if="showModal" class="modal">
+    <div v-if="showChanges" class="modal">
       <div class="modal-content">
         <h3>Update Item</h3>
         <form @submit.prevent="updateItem()">
@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       user: null,
-      showModal: false,
+      showChanges: false,
       updatedItem: {
         briefDesc: "",
         fullDesc: "",
@@ -135,7 +135,7 @@ export default {
     },
 
     showUpdateModal(item) {
-      this.showModal = true;
+      this.showChanges = true;
       this.updatedItem = { ...item };
     },
 
@@ -162,7 +162,7 @@ export default {
     },
 
     hideUpdateModal() {
-      this.showModal = false;
+      this.showChanges = false;
       this.updatedItem = {
         briefDesc: "",
         fullDesc: "",

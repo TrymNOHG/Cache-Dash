@@ -84,7 +84,6 @@
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import { updateUser } from "@/services/UserService"
-import * as store from "@/services/UserService";
 import {useItemStore, useLoggedInStore} from "@/store/store";
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
@@ -120,14 +119,12 @@ export default {
   methods: {
     editUser(){
       if(this.edit === true){
-        //TODO: add exception handling for already existing username
 
         const completeUserDTO = this.userToFormData(this.user)
 
         console.log(completeUserDTO);
 
         updateUser(completeUserDTO).then((response) => {
-          //TODO: is there a new token generated?
           console.log('Response', response);
         }).catch((error) => {
           console.warn(error);
@@ -145,6 +142,12 @@ export default {
       this.showModal = true;
     },
 
+    /**
+     * This method was use from a webpage about picture uploading
+     * https://levelup.gitconnected.com/how-to-preview-images-before-uploading-them-in-vue-4964803adb64
+     * this is the link with the provaded code
+     * @returns {Promise<void>}
+     */
     async whenSelected() {
       const input = this.$refs.fileInput
       const files = input.files
