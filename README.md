@@ -1,4 +1,5 @@
 # Getting Started
+1. Connect to the eduroam wifi eiter directly or through a vpn
 
 ## Alternative 1 - Docker Desktop
 
