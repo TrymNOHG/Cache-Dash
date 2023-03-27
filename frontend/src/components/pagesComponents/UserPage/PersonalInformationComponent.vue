@@ -61,6 +61,21 @@
 
       <div class="edit-button">
         <button id="edit-info" @click="editUser()" >{{ button_name }}</button>
+        <button id="edit-info" @click="editPassword()" >{{ password_button }}</button>
+      </div>
+    </div>
+
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <h3>Change Password</h3>
+        <form @submit.prevent="saveNewPassword()">
+          <label>Old Password:</label>
+          <basic-input type="text" v-model="updatedPassword.oldPassword"/><br>
+          <label>New Password:</label>
+          <basic-input type="text" v-model="updatedPassword.newPassword"/><br>
+          <button type="submit">Update Item</button>
+          <span class="close" @click="hideUpdateModal()">X</span>
+        </form>
       </div>
     </div>
   </div>
@@ -94,6 +109,12 @@ export default {
     return{
       edit: false,
       button_name: "Edit user information",
+      password_button: "ChangePassword",
+      showModal: false,
+      updatedPassword: {
+        oldPassword: '',
+        newPassword: '',
+      }
     }
   },
   methods: {
@@ -119,6 +140,11 @@ export default {
       }
     },
 
+    editPassword() {
+      this.password_button = 'Save New Password'
+      this.showModal = true;
+    },
+
     async whenSelected() {
       const input = this.$refs.fileInput
       const files = input.files
@@ -130,6 +156,10 @@ export default {
         reader.readAsDataURL(files[0])
         this.$emit('input', files[0])
       }
+    },
+
+    hideUpdateModal() {
+      this.showModal = false;
     },
 
     userToFormData(user){
@@ -150,6 +180,20 @@ export default {
       completeUserDTO.append('profilePicture', user.picture)
 
       return completeUserDTO;
+    },
+
+    saveNewPassword() {
+      console.log(this.updatedPassword.newPassword)
+      console.log(this.updatedPassword.oldPassword)
+
+      //TODO: OLD PASSWORD MÅ SJEKKES OM STEMMER, IF JAZZ, SETTE NEW PASSWORD
+      //Trymmær skriv kode her!
+
+      //TODO: PÅ SLUTTEN MÅ DU RESETTE VERIENE
+      this.updatedPassword = {
+        oldPassword: '',
+        newPassword: ''
+      }
     }
   }
 }
@@ -232,5 +276,79 @@ img{
     color: white !important;
   }
 
+.modal {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15%;
+  width: 80%;
+  height: 80%;
+
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+
+  font-size: 15px;
+  font-weight: bold;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.close:hover{
+  background-color: lightgray;
+  color: black;
+  width: 25px;
+  height: 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input, textarea {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.modal button {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+  -4px -4px 8px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+  transform: translate(0, -2px);
+  background-color: #FFD700;
+  align-self: center;
+  color: black;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.modal button:hover {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5),
+  -4px -4px 8px rgba(255, 255, 255, 0.5),
+  inset 1px 1px 2px rgba(0, 0, 0, 0.2),
+  inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+  transform: translate(0, -2px);
+  color: white !important;
+  background-color: #4c9fdb;
+}
 
 </style>

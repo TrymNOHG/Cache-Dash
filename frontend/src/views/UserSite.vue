@@ -5,9 +5,9 @@
       <div class="link" @click="whatToShow(true)">Archive</div>
     </div>
     <div class="userInformation-window">
+      <personal-information/>
       <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="nonArchivedItems" />
       <user-archive v-else style="overflow-y:auto" :items="archivedItems"/>
-      <personal-information/>
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
 
     // filter out archived items
     const nonArchivedItems = computed(() => {
-      return userItems.value.filter(item => item.listingStatus === 'ACTIVE' );
+      return userItems.value.filter(item => item.listingStatus !== 'ARCHIVED' );
     });
 
     // filter out non-archived items
