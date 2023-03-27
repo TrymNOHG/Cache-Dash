@@ -1,9 +1,13 @@
 <template>
   <div class="map">
-    <l-map ref="map" v-model:zoom="zoom" :center="[65.589353,13.501048]">
+    <l-map
+        ref="map"
+        :zoom="zoom"
+        :center="[65.589353,13.501048]">
       <l-tile-layer
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          :url="url"
           layer-type="base"
+          :attribution="attribution"
           name="OpenStreetMap"
       ></l-tile-layer>
       <l-polygon
@@ -43,6 +47,8 @@ export default {
   data() {
     return {
       zoom: 4,
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
       coordinatesToShow: [],
       polygonCoordinates: []
     };
@@ -58,7 +64,6 @@ export default {
     },
 
     itemCoordinates: async function(allItems){
-      console.log("hallo")
       this.coordinatesToShow = this.itemCoordinates;
     }
   },
@@ -68,7 +73,7 @@ export default {
   },
 
   methods: {
-    loadCounty() {
+    async loadCounty() {
       this.coordinatesToShow = [];
       fylker.features.forEach((feature) => {
         if (feature.properties.navn[0].navn === this.chosenCounty) {
@@ -78,12 +83,12 @@ export default {
       });
     },
 
-    loadAll(){
+    async loadAll(){
       this.coordinatesToShow = this.itemCoordinates;
       this.polygonCoordinates = [];
     },
 
-    showMarkersInPolygon() {
+    async showMarkersInPolygon() {
       for (let i = 0; i < this.itemCoordinates.length; i++) {
         if (booleanPointInPolygon(this.itemCoordinates[i], polygon([this.polygonCoordinates]))){
           this.coordinatesToShow.push(this.itemCoordinates[i])

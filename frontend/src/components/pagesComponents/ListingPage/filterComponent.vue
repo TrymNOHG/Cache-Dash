@@ -98,12 +98,8 @@ export default {
       this.$emit("update:itemCoordinates", newVal)
     },
 
-    // Watch for changes to the items computed property
-    items: function(newItems, oldItems) {
-      // Loop through the new items
+    items: function(newItems) {
       newItems.forEach(item => {
-        // Call the findAddressByLatLng method for each item
-        console.log(item.address)
         this.findAddressByLatLng(item.address);
       });
     }

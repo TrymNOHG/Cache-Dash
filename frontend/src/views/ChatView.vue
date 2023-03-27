@@ -1,5 +1,6 @@
 <template>
   <div class="page-layout">
+
     <div class="sidebar">
       <div class="choose-grid">
         <div class="message-header">
@@ -9,12 +10,11 @@
         <ul v-if="!newConversationBoolean" class="conversationList">
           <li class="conversation"
               v-for="conversation in conversations"
-              :value="conversation.username2"
-              :key="conversation.conversationId"
-              @click="changeConversation(conversation.username2)"
+              :value="conversation.talkingBuddy"
+              :key="conversation.id"
+              @click="changeConversation(conversation.talkingBuddy)"
           >
-            <!--<div class="remove" @click="removeConversation(conversation.conversationId)">X</div>-->
-            {{ conversation.username2 }}
+            {{ conversation.talkingBuddy }}
           </li>
         </ul>
         <div v-else class="new-conversation">
@@ -30,13 +30,18 @@
         </div>
       </div>
     </div>
+
+
     <div class="chat-window" v-if="currentConversation !== null">
       <div v-for="message in currentConversation.messages" :key="message.id" class="message">
-        <div class="message-sender">{{ currentConversation.username2 }}</div>
+        <div v-if="message.username === currentConversation.user" class="message-sender">{{ currentConversation.user }}</div>
+        <div v-else style="font-weight: bold;">{{currentConversation.talkingBuddy}}</div>
         <div class="message-body">{{ message.message }}</div>
       </div>
+
+
       <div class="message-input">
-        <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
+        <input v-model="newMessage" @click="sendMessage" placeholder="Type your message...">
         <button @click="sendMessage({
         conversationId: currentConversation.conversationId,
         username: this.store.getUser.data.username,
@@ -60,19 +65,50 @@ export default {
   setup(){
     const store = useLoggedInStore();
     const conversations = ref([]);
-
+    let conversation= {
+      conversationId: null,
+      user: '',
+      talkingBuddy: '',
+      messages: [],
+    }
     store.fetchUser()
+    const user = store.getUser.data;
 
-    loadConversations(store.getUser.data.username)
+    loadConversations(user.username)
         .then(response => {
-          conversations.value = response.data;
+          console.log(response.data)
+          changeConversations(response.data);
         }).catch(err => {
       console.log(err)
     });
 
+    function changeConversations(convos){
+      for (let i = 0; i < convos.length; i++) {
+        if (user.username === convos[i].username1){
+          conversation = {
+            conversationId: convos[i].conversationId,
+            user: convos[i].username1,
+            talkingBuddy: convos[i].username2,
+            messages: convos[i].messages,
+          }
+          conversations.value.push(conversation)
+        } else {
+          conversation = {
+            conversationId: convos[i].conversationId,
+            talkingBuddy: convos[i].username1,
+            user: convos[i].username2,
+            messages: convos[i].messages,
+          }
+          conversations.value.push(conversation)
+        }
+      }
+      console.log(conversations)
+    }
+
     return{
       store,
-      conversations
+      user,
+      conversations,
     }
   },
 
@@ -87,11 +123,22 @@ export default {
       },
       newMessage: '',
       currentConversation: null,
-      reciver: '',
     };
   },
+
   methods: {
+
     sendMessage(MessageObject) {
+      let conversation= {
+        conversationId: null,
+        user: '',
+        talkingBuddy: '',
+        messages: [],
+      }
+
+      let tempConversation = null
+
+
       sendMessage({
         conversationId: MessageObject.conversationId,
         username: MessageObject.username,
@@ -100,7 +147,22 @@ export default {
           .then(() => {
             loadConversations(this.store.getUser.data.username)
                 .then(response => {
-                  this.currentConversation = response.data.find(conversation => conversation.conversationId === MessageObject.conversationId);
+                  tempConversation = response.data.find(conversation => conversation.conversationId === MessageObject.conversationId);
+                    if (this.user.username === tempConversation.username1){
+                      this.currentConversation = {
+                        conversationId: tempConversation.conversationId,
+                        user: tempConversation.username1,
+                        talkingBuddy: tempConversation.username2,
+                        messages: tempConversation.messages,
+                      }
+                    } else {
+                      this.currentConversation = {
+                        conversationId: tempConversation.conversationId,
+                        talkingBuddy: tempConversation.username1,
+                        user: tempConversation.username2,
+                        messages: tempConversation.messages,
+                      }
+                  }
                 })
                 .catch(err => {
                   console.log(err);
@@ -112,9 +174,9 @@ export default {
       },
 
     changeConversation(username) {
-      for (let i = 0; i < this.conversationList.length; i++) {
-        if (this.conversationList[i].username2 === username) {
-          this.currentConversation = this.conversationList[i];
+      for (let i = 0; i < this.conversations.length; i++) {
+        if (this.conversations[i].talkingBuddy === username) {
+          this.currentConversation = this.conversations[i];
           break;
         }
       }
@@ -153,7 +215,7 @@ export default {
      */
   },
   computed: {
-    conversationList() {
+    async conversationList() {
       return this.conversations;
     }
   }
