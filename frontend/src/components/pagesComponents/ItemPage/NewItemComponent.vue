@@ -167,11 +167,6 @@ export default {
         completeListingDTO.append('images', imageStore.imageToSend[i])
       }
 
-      // const keyInfoListString = keyInfoList.value.split(" ")
-      // for(const word in keyInfoListString) {
-      //   completeListingDTO.append('keyInfoList', word)
-      // }
-
       await userStore.fetchUser()
 
       console.log(completeListingDTO)
