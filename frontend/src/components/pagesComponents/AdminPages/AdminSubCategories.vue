@@ -5,7 +5,7 @@
       <div class="parent-category">
         <label> {{ parentCategory }}</label>
       </div>
-      <div>
+      <div class="listing">
         <ul>
           <li v-for="category in this.currentMainCategories" :key="category.categoryId " class="category-list" @click="changeCategory(category.categoryId)"> {{ category.categoryName }} </li>
         </ul>
@@ -47,9 +47,6 @@ export default {
       await this.store.fetchSubCategoriesByMainId(parentId).then(() => {
         this.categories = this.store.getSubCategories
         //this.categories.push(this.store.getSubCategories);
-        for (let i = 0; i < this.categories.length; i++) {
-          console.log("Dette er categories: " + this.categories.at(i).categoryName)
-        }
 
       })
     },
@@ -75,7 +72,15 @@ export default {
 }
 </script>
 
-<style scoped>
+
+<style>
+
+li{
+
+}
+ul{
+  display: grid;
+}
   .sub-categories-window{
     display: grid;
     grid-template-rows: 2fr 1fr;
@@ -83,10 +88,18 @@ export default {
   }
   .sub-categories-representation{
     display: grid;
+    grid-gap: 5px;
   }
   .parent-category{
     border: black solid 1px;
     background-color: white;
-    width: 80%;
+    margin: 10px;
+    height: 100%;
+
+  }
+  .listing{
+    background-color: white;
+    border: black solid 2px;
+    margin: 10px;
   }
 </style>
