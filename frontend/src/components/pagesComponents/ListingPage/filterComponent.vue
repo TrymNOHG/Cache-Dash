@@ -1,6 +1,6 @@
 <template>
   <div class="filter-window">
-    <map-component :chosenCounty="chosenCounty" />
+    <map-component :chosenCounty="chosenCounty" :itemCoordinates="coordsLit"/>
     <div>
       <h2>Category</h2>
       <BasicCheckbox
@@ -9,13 +9,13 @@
     </div>
     <div>
       <h2>Search for county</h2>
-<!--        <BasicSelect-->
-<!--            class="dropDown"-->
-<!--            :options="countyStore.allCounties"-->
-<!--            v-model="chosenCounty"-->
-<!--            @change="updateCounty(); updateItemCoordinates();"-->
-<!--            label="Choose a county"-->
-<!--          />-->
+        <BasicSelect
+            class="dropDown"
+            :options="countyStore.allCounties"
+            v-model="chosenCounty"
+            @change="updateCounty(); updateItemCoordinates();"
+            label="Choose a county"
+          />
     </div>
   </div>
 </template>
@@ -48,9 +48,10 @@ export default {
     return{
       chosenCounty: '',
       categories:[],
-
+      coordsLit: [],
     }
   },
+
   setup(props){
     const countyStore = useCountyStore();
     const store = useItemStore();
@@ -62,8 +63,9 @@ export default {
 
 
     return{
+      countyStore,
       store,
-      items,
+      items
     }
   },
 
@@ -76,13 +78,13 @@ export default {
       this.$emit("update:itemCoordinates", this.itemCoordinates)
     },
 
-    findAddressByLatLng() {
-      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(this.address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
+    findAddressByLatLng(address) {
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=pk.eyJ1IjoidG9tYWJlciIsImEiOiJjbGZsYmw0Ym0wMDNqM3BvMXNlZ213bXlvIn0.XAO9MuoT6FoiYXnbznnJqg`;
       fetch(url)
           .then(response => response.json())
           .then(data => {
-            this.latitude = data.features[0].center[1];
-            this.longitude = data.features[0].center[0];
+            this.coordsLit.push([data.features[0].center[1], data.features[0].center[0]])
+            console.log(this.coordsLit)
           })
           .catch(error => console.error(error));
     }
@@ -94,6 +96,16 @@ export default {
 
     itemCoordinates: function (newVal) {
       this.$emit("update:itemCoordinates", newVal)
+    },
+
+    // Watch for changes to the items computed property
+    items: function(newItems, oldItems) {
+      // Loop through the new items
+      newItems.forEach(item => {
+        // Call the findAddressByLatLng method for each item
+        console.log(item.address)
+        this.findAddressByLatLng(item.address);
+      });
     }
   },
 }

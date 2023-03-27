@@ -1,13 +1,21 @@
 <template>
   <div class="userSite-window">
     <div class="buttons">
-      <div class="link" @click="whatToShow(false)">Items</div>
-      <div class="link" @click="whatToShow(true)">Archive</div>
+      <div class="link" @click="whatToShow(1)">Items</div>
+      <div class="link" @click="whatToShow(2)">Archive</div>
+      <div class="link" @click="whatToShow(3)">Bookmarks</div>
     </div>
     <div class="userInformation-window">
       <personal-information/>
-      <my-items v-if="!pageDisplay" style="overflow-y:auto" :items="nonArchivedItems" />
-      <user-archive v-else style="overflow-y:auto" :items="archivedItems"/>
+      <div v-if="pageDisplay === 1">
+        <my-items style="overflow-y:auto" :items="nonArchivedItems" />
+      </div>
+      <div v-else-if="pageDisplay === 2">
+        <user-archive style="overflow-y:auto" :items="archivedItems"/>
+      </div>
+      <div v-else-if="pageDisplay === 3">
+        <bookmark-component :items="bookmarkedItems"/>
+      </div>
     </div>
   </div>
 </template>
@@ -19,11 +27,12 @@ import UserArchive from "@/components/pagesComponents/UserPage/UserArchive.vue";
 import {useLoggedInStore} from "@/store/store";
 import {loadListingByUser} from "@/services/ItemService";
 import { ref, computed } from 'vue';
+import BookmarkComponent from "@/components/pagesComponents/UserPage/BookmarkComponent.vue";
 
 
 export default {
   name: "myProfile",
-  components: {UserArchive, MyItems, PersonalInformation},
+  components: {BookmarkComponent, UserArchive, MyItems, PersonalInformation},
 
 
   setup() {
@@ -54,24 +63,30 @@ export default {
       return userItems.value.filter(item => item.listingStatus === 'ARCHIVED');
     });
 
+    // filter out bookmarked items
+    const bookmarkedItems = computed(() => {
+      return userItems.value.filter();
+    });
+
     return {
       store,
       user,
       userItems,
       nonArchivedItems,
-      archivedItems
+      archivedItems,
+      bookmarkedItems
     };
   },
 
   data() {
     return {
-      pageDisplay: false,
+      pageDisplay: 1,
     }
   },
 
   methods: {
-    whatToShow(bool) {
-      this.pageDisplay = bool;
+    whatToShow(numb) {
+      this.pageDisplay = numb;
     },
   },
 };
