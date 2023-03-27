@@ -1,20 +1,19 @@
 <template>
   <!-- template based on https://www.w3schools.com/howto/howto_js_slideshow.asp -->
-  <div class="container">
-    <div v-for="(picture,index) in pictures" :picture="picture" key="listingView.id" class="slide">
-      <div class="picture">
-        <img id="ItemPreview" src="" alt="picture">>
-        <div class="numPictures"> {{`${index}/${pictures.length}`}} </div>
+  <div class="container" v-if="pictures">
+    <div class="slides">
+      <div v-for="(picture, index) in pictures" v-bind:key="index">
+        <img v-bind:src="picture" alt="Slide">
       </div>
     </div>
     <IconArrow
         class="prev"
-        onclick="changeSlides(-1)"
+        v-on:click="changeSlides(-1)"
         direction="left"
     />
     <IconArrow
         class="next"
-        onclick="changeSlides(1)"
+        v-on:click="changeSlides(1)"
         direction="right"
     />
   </div>
@@ -22,9 +21,8 @@
 
 <script>
 import IconArrow from "@/components/icons/IconArrow.vue";
-import {useRoute} from "vue-router";
 import {ref} from "vue";
-import {loadListingByItemId} from "@/services/ItemService";
+import {loadImagesByItemId} from "@/services/ItemService";
 
 export default {
   name: "imageCarousel",
@@ -35,23 +33,31 @@ export default {
       required: true
     },
   },
+  methods: {
+    convertImageBackToUrl(image) {
+      return `data:image/png;base64,${image}`;
+    },
+    changeSlides(n) {
+      this.slideIndex = (this.slideIndex + n) % this.pictures.length
+      this.currentPicture = this.pictures[this.slideIndex];
+    }
+  },
   setup(props) {
-    const item = ref(null)
+    const pictures = ref(null)
 
-    loadListingByItemId(props.itemId).then(response => {
-      const {itemId, username, briefDesc, fullDesc,
-        address, county, categoryId, price,
-        listingStatus, thumbnail, keyInfoList} = response.data
-
-      item.value = {itemId, username, briefDesc, fullDesc,
-        address, county, categoryId, price,
-        listingStatus, thumbnail, keyInfoList}
+    loadImagesByItemId(props.itemId).then(response => {
+      const listOfDecodedPictures = []
+      for(let i = 0; i < response.data.pictures; i++) {
+        listOfDecodedPictures.push(this.convertImageBackToUrl(response.data.pictures[i]))
+      }
+      pictures.value = listOfDecodedPictures
+      console.log("yo" + listOfDecodedPictures[0]) //TODO: fix pictures
     }).catch(error => {
       console.log('error: ', error)
     })
 
     return {
-      item
+      pictures
     }
 
   },
@@ -61,13 +67,6 @@ export default {
       currentPicture: null
     }
   },
-  methods: {
-
-    changeSlides(n) {
-      this.slideIndex = (this.slideIndex + n) % this.pictures.length
-      this.currentPicture = this.pictures[this.slideIndex];
-    }
-  }
 }
 </script>
 
@@ -110,7 +109,5 @@ export default {
   width: 100%;
   text-align: center;
 }
-
-
 
 </style>

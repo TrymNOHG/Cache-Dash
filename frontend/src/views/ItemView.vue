@@ -2,7 +2,7 @@
   <div v-if="item" class="item-window">
     <ImageCarousel class="image-carousel" :itemId="item.itemId"/>
     <ItemDescription class="item-description" :item="item"/>
-    <SellerInformation class="seller-information"/>
+    <SellerInformation class="seller-information" :username="item.username"/>
     <div class="map"></div>
   </div>
 </template>

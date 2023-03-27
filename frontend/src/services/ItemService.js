@@ -49,7 +49,8 @@ export const loadListingByItemId = async(itemId) => {
     return await axios.get(`${BASE_LISTING_URL}/load/${itemId}`)
 }
 
+
 export const loadImagesByItemId = async(itemId) => {
-    return await axios.get(`${BASE_LISTING_URL}/load/${itemId}`)
+    return await axios.get(`${BASE_LISTING_URL}/load/pictures/${itemId}`)
 }
 

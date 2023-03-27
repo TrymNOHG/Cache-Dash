@@ -7,13 +7,16 @@ import edu.ntnu.idatt2105.g6.backend.exception.not_found.ItemNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.NotFoundException;
 import edu.ntnu.idatt2105.g6.backend.exception.not_found.UserNotFoundException;
 import edu.ntnu.idatt2105.g6.backend.mapper.listing.ListingMapper;
+import edu.ntnu.idatt2105.g6.backend.mapper.listing.PictureMapper;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Category;
 import edu.ntnu.idatt2105.g6.backend.model.listing.Item;
 import edu.ntnu.idatt2105.g6.backend.model.listing.ListingStatus;
+import edu.ntnu.idatt2105.g6.backend.model.listing.PictureGallery;
 import edu.ntnu.idatt2105.g6.backend.model.users.Role;
 import edu.ntnu.idatt2105.g6.backend.model.users.User;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.CategoryRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.listing.ItemRepository;
+import edu.ntnu.idatt2105.g6.backend.repo.listing.PictureGalleryRepository;
 import edu.ntnu.idatt2105.g6.backend.repo.users.UserRepository;
 import edu.ntnu.idatt2105.g6.backend.specification.ItemSpecifications;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +44,7 @@ public class ItemService implements IItemService{
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final Logger logger = LoggerFactory.getLogger(ItemService.class);
+    private final PictureGalleryRepository pictureGalleryRepository;
 
     /**
      * Load a single listing based on the provided item ID.
@@ -134,17 +138,23 @@ public class ItemService implements IItemService{
         logger.info("User creating new listing: " + listing.getUsername());
         User user = userRepository.findByUsername(listing.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(listing.getUsername()));
-        logger.info("User creating new listing: " + user);
         Category category = categoryRepository.findById(listing.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFound(listing.getCategoryId()));
+
         logger.info("Category of item: " + category);
         Item item = ListingMapper.toItem(user, category, listing);
         item.setStatus(ListingStatus.ACTIVE);
-        itemRepository.save(item);
 
-        //TODO: save the pictures to picture gallery
 
+
+        Item savedItem = itemRepository.save(item);
         logger.info("The listing has been saved!");
+
+        logger.info("Saving the pictures to gallery...");
+        listing.getPictures().forEach(picture -> {
+            pictureGalleryRepository.save(PictureMapper.toPictureGallery(picture, savedItem));
+        });
+
     }
 
     /**

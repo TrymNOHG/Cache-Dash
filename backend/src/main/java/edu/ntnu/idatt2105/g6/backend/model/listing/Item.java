@@ -96,6 +96,11 @@ public class Item {
     @ToString.Exclude
     private byte[] thumbnail;
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
+    private List<PictureGallery> pictures;
+
     /**
      * The current status of this item.
      */

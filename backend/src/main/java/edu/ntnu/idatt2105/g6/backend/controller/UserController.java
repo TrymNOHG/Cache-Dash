@@ -99,5 +99,19 @@ public class UserController {
         return ResponseEntity.ok(userLoadDTO);
     }
 
+    @GetMapping("/load/{username}")
+    @Operation(summary = "Load user using current session token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loading user by username",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserLoadDTO.class)) })}
+    )
+    public ResponseEntity<Object> load(@ParameterObject @PathVariable String username) {
+        logger.info("Attempting to load user:  " + username);
+        UserLoadDTO userLoadDTO = userService.loadUserDTOByUsername(username);
+        logger.info("User has been loaded!");
+        return ResponseEntity.ok(userLoadDTO);
+    }
+
 
 }

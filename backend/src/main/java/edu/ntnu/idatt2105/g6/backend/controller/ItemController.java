@@ -37,7 +37,7 @@ public class ItemController {
     @Operation(summary = "Create a listing")
     public ResponseEntity<Object> create(@ParameterObject @RequestPart("listingDTO") String listingDTO,
                                          @ParameterObject @RequestPart("images") List<MultipartFile> images) throws JsonProcessingException {
-        //TODO: add exception handling in this method, remove throws exception
+        logger.info("User wants to create a new listing!");
         ObjectMapper objectMapper = new ObjectMapper();
         ListingDTO listing = objectMapper.readValue(listingDTO, ListingDTO.class);
 //        listing.setKeyInfoList(keyInfoList); //TODO: in service convert back to actual keyInfo while saving to db, remember transactional
@@ -48,10 +48,9 @@ public class ItemController {
                 throw new RuntimeException(e);
             }
         }).toList();
+        listing.setThumbnail(byteImages.get(0));
         listing.setPictures(byteImages);
-        System.out.println(listing);
-//        listing.getPictures().add(thumbnail.getBytes());
-        logger.info("A new listing is being created by: " + listing.toString());
+        logger.info("A new listing is being created by: " + listing);
         itemService.addListing(listing);
         logger.info("New listing has been added!");
         return ResponseEntity.ok().build();
