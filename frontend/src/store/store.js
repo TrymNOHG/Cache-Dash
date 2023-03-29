@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getUser } from "@/services/UserService"
-import {addCategory, loadAllCategories, loadMainCategories, loadSubCategories} from "@/services/CategoryService";
+import {loadAllCategories, loadMainCategories} from "@/services/CategoryService";
 import {loadListingsByCategoryId} from "@/services/ItemService";
 import { ref, computed, watch } from "vue"
 
@@ -99,8 +99,52 @@ export const useItemStore = defineStore('item', {
                     //TODO: handle error
                 })
         },
+        nonSyncFetchItemsByCategoryId(categoryId) {
+            loadListingsByCategoryId(categoryId)
+                .then(response => {
+                    this.items = [];
+
+                    for(let {itemId, username, briefDesc, fullDesc,
+                        address, county, categoryId, price,
+                        listingStatus, thumbnail, keyInfoList} of response.data){
+
+                        thumbnail = this.convertImageBackToUrl(thumbnail);
+
+                        this.items.push({itemId, username, briefDesc, fullDesc,
+                            address, county, categoryId, price,
+                            listingStatus, thumbnail, keyInfoList})
+                    }
+
+                    this.currentCategoryId = categoryId
+                }).catch(error => {
+                    console.warn('error', error)
+                    //TODO: handle error
+                })
+        },
         convertImageBackToUrl(image) {
             return `data:image/png;base64,${image}`;
+        },
+        filterItemsBySearchTerm(searchTerm, categoryId){
+            filterByFullDesc(searchTerm, categoryId)
+                .then(response => {
+                    this.items = [];
+
+                    for(let {itemId, username, briefDesc, fullDesc,
+                        address, county, categoryId, price,
+                        listingStatus, thumbnail, keyInfoList} of response.data){
+
+                        thumbnail = this.convertImageBackToUrl(thumbnail);
+
+                        this.items.push({itemId, username, briefDesc, fullDesc,
+                            address, county, categoryId, price,
+                            listingStatus, thumbnail, keyInfoList})
+                    }
+
+                    this.currentCategoryId = categoryId
+                }).catch(error => {
+                    console.warn('error', error)
+                    //TODO: handle error
+                })
         }
     }
 });

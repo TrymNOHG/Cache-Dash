@@ -237,6 +237,19 @@ public class ItemService implements IItemService{
 
     }
 
+    @Transactional
+    public List<ListingLoadDTO> filterBySearchAndCat(String searchTerm, Long categoryId) {
+        List<Item> listings = itemRepository.findItemsByFullDescContainsIgnoreCase(searchTerm)
+                .orElseThrow(() -> null);
+
+        List<ListingLoadDTO> filteredListings = listings.stream()
+                .filter(item -> Objects.equals(item.getCategory().getCategoryId(), categoryId))
+                .map(ListingMapper::toListing).toList();
+
+        return filteredListings;
+    }
+
+
     /**
      * Checks if a user is authorized to perform a certain action on an item.
      *

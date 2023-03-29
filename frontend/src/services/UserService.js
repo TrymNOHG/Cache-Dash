@@ -26,9 +26,18 @@ export const loadUserByUsername = async (username) => {
 
 export const updateUser = async (userUpdateDTO) => {
     console.log(userUpdateDTO)
-    return axios.put(`${BASE_USER_URL}/update`, userUpdateDTO, {
+    return axios.put(`${BASE_USER_URL}/update/user`, userUpdateDTO, {
         headers: {
-            'Content-Type': 'multipart/form-data',
+            // 'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${await SessionToken()}`
+        },
+    });
+}
+
+export const updateUserPassword = async (userPasswordUpdateDTO) => {
+    console.log(userPasswordUpdateDTO)
+    return axios.put(`${BASE_USER_URL}/update/password`, userPasswordUpdateDTO, {
+        headers: {
             Authorization: `Bearer ${await SessionToken()}`
         },
     });

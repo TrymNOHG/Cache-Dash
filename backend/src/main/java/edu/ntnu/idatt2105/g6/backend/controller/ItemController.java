@@ -131,6 +131,20 @@ public class ItemController {
         return ResponseEntity.ok(listing);
     }
 
+    @GetMapping("/load/filter")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Load item by item Id",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListingLoadDTO.class)) })}
+    )
+    public ResponseEntity<List<ListingLoadDTO>> loadItemById(@RequestParam(name = "term") String searchTerm,
+                                                             @RequestParam(name = "categoryId") Long categoryId) {
+        logger.info("Looking for item with category Id: " + categoryId + " and similar to " + searchTerm);
+        List<ListingLoadDTO> listings = itemService.filterBySearchAndCat(searchTerm, categoryId);
+        logger.info("Items found: " + listings);
+        return ResponseEntity.ok(listings);
+    }
+
 
 
 }

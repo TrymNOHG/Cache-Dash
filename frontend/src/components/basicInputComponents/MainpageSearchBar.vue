@@ -8,6 +8,8 @@
              class="searchInput"
              @keydown.enter
              type="text"
+             v-model="searchTerm"
+             @input="onInput"
       >
     </div>
   </div>
@@ -15,10 +17,18 @@
 
 <script>
 export default {
-  name: "mainpageSearchBar"
-
-}
-
+  name: "mainpageSearchBar",
+  data() {
+    return {
+      searchTerm: "",
+    };
+  },
+  methods: {
+    onInput() {
+      this.$emit("search-term-updated", this.searchTerm);
+    },
+  },
+};
 </script>
 
 <style scoped>

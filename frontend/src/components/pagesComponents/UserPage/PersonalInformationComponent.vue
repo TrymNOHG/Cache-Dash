@@ -51,13 +51,13 @@
         <label v-else>{{ user.phone }}</label>
       </div>
 
-      <div class="profile-picture-window">
-        <div class="base-image-input" v-if="user.picture" :style="{ 'background-image': `url(${user.picture})` }">
-          <img :src="user.picture ? user.picture : ''" alt="Profile picture" />
-          <span v-if="!user.picture" class="placeholder">Choose an Image</span>
-        </div>
-        <input v-if="edit" class="input-image" ref="fileInput" type="file" @input="whenSelected"/>
-      </div>
+<!--      <div class="profile-picture-window">-->
+<!--        <div class="base-image-input" v-if="user.picture" :style="{ 'background-image': `url(${user.picture})` }">-->
+<!--          <img :src="user.picture ? user.picture : ''" alt="Profile picture" />-->
+<!--          <span v-if="!user.picture" class="placeholder">Choose an Image</span>-->
+<!--        </div>-->
+<!--        <input v-if="edit" class="input-image" ref="fileInput" type="file" @input="whenSelected"/>-->
+<!--      </div>-->
 
       <div class="edit-button">
         <button id="edit-info" @click="editUser()" >{{ button_name }}</button>
@@ -84,6 +84,7 @@
 <script>
 import BasicCheckbox from "@/components/basicInputComponents/BasicCheckbox.vue";
 import { updateUser } from "@/services/UserService"
+import * as store from "@/services/UserService";
 import {useItemStore, useLoggedInStore} from "@/store/store";
 import BasicInput from "@/components/basicInputComponents/BasicInput.vue";
 import Dateinput from "@/components/basicInputComponents/Dateinput.vue";
@@ -93,10 +94,10 @@ export default {
 
   setup(){
     const store = useLoggedInStore()
-    const itemStore = useItemStore();
+    // const itemStore = useItemStore();
     store.fetchUser();
     const user = store.getUser.data
-    user.picture = itemStore.convertImageBackToUrl(user.picture);
+    // user.picture = itemStore.convertImageBackToUrl(user.picture);
 
     return {
       store,
@@ -176,23 +177,29 @@ export default {
         'role' : user.role
       }
 
-      console.log("name:" +  userDTO.username)
-      const completeUserDTO = new FormData();
-      completeUserDTO.append('userUpdateDTO', JSON.stringify(userDTO))
-      console.log('User picture: ' + user.picture)
-      completeUserDTO.append('profilePicture', user.picture)
+      // console.log("name:" +  userDTO.username)
+      // const completeUserDTO = new FormData();
+      // completeUserDTO.append('userUpdateDTO', JSON.stringify(userDTO))
+      // console.log('User picture: ' + user.picture)
+      // completeUserDTO.set('profilePicture', user.picture)
 
-      return completeUserDTO;
+      return userDTO;
     },
 
     saveNewPassword() {
-      console.log(this.updatedPassword.newPassword)
-      console.log(this.updatedPassword.oldPassword)
 
-      //TODO: OLD PASSWORD MÅ SJEKKES OM STEMMER, IF JAZZ, SETTE NEW PASSWORD
-      //Trymmær skriv kode her!
+      const userPasswordUpdateDTO = {
+        oldPassword: this.updatedPassword.oldPassword,
+        newPassword: this.updatedPassword.newPassword
+      }
 
-      //TODO: PÅ SLUTTEN MÅ DU RESETTE VERIENE
+      updateUserPassword(userPasswordUpdateDTO).then(response => {
+        alert("Password has successfully been changed")
+      }).catch(error => {
+        alert("Something went wrong. Try writing old password again or logging out and in.")
+      })
+
+
       this.updatedPassword = {
         oldPassword: '',
         newPassword: ''

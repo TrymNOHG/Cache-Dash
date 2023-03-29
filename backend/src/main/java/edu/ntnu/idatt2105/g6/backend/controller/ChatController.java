@@ -65,7 +65,7 @@ public class ChatController {
         return ResponseEntity.ok(conversations);
     }
 
-    @PostMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/delete")
     @Operation(summary = "Load conversation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loading conversations",

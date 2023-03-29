@@ -129,6 +129,14 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
     Optional<List<Item>> findItemsByUser_UserIdAndStatus(Long userId ,ListingStatus status);
 //    Optional<List<Item>> findItemsByPrice(double lowerBound, double upperBound); //Test what this does
 
+    /**
+     * Finds a list of items whose full description contains the given word.
+     *
+     * @param word the word to search for
+     * @return an Optional containing the list of items whose full description contains the given word, or an empty Optional if no such items exist
+     */
+    Optional<List<Item>> findItemsByFullDescContainsIgnoreCase(String word);
+
 
 
 
