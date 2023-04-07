@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: edu.ntnu.idatt2105.g6.backend.service.AuthServiceIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.7 s - in edu.ntnu.idatt2105.g6.backend.service.AuthServiceIntegrationTest

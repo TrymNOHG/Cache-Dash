@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: edu.ntnu.idatt2105.g6.backend.controller.ChatControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.553 s - in edu.ntnu.idatt2105.g6.backend.controller.ChatControllerTest

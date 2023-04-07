@@ -1,0 +1,21 @@
+logging:
+  level:
+    root: INFO
+
+server.port: 8080
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /swagger
+    operations-sorter: method
+  packages-to-scan: edu.ntnu.idatt2105.g6.backend.controller
+
+
+
+
+
+spring:
+  profiles:
+    active: dev
+
